@@ -15,3 +15,11 @@ export function get_trend(query) {
     params: query
   })
 }
+
+export function get_radar(query) {
+  return request({
+    url: '/dashboard-radar/',
+    method: 'get',
+    params: query
+  })
+}

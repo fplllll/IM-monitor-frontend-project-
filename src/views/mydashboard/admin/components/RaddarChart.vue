@@ -6,6 +6,7 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
+import { get_radar } from '@/api/IM'
 
 const animationDuration = 3000
 
@@ -26,7 +27,8 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      chartData: []
     }
   },
   mounted() {
@@ -47,6 +49,29 @@ export default {
     this.chart = null
   },
   methods: {
+    fetchData() {
+      get_radar().then(response => {
+        const data = response.data
+        this.chart.setOption({
+          series: [{
+            data: [
+              {
+                value: [data[0].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
+                name: 'Motor#1'
+              },
+              {
+                value: [data[1].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
+                name: 'Motor#2'
+              },
+              {
+                value: [data[2].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
+                name: 'Motor#3'
+              }
+            ]
+          }]
+        })
+      })
+    },
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
 
@@ -72,18 +97,18 @@ export default {
             }
           },
           indicator: [
-            { name: 'Sales', max: 10000 },
-            { name: 'Administration', max: 20000 },
-            { name: 'Information Techology', max: 20000 },
-            { name: 'Customer Support', max: 20000 },
-            { name: 'Development', max: 20000 },
-            { name: 'Marketing', max: 20000 }
+            { name: 'U-RMS', max: 0.2 },
+            { name: 'V-RMS', max: 0.2 },
+            { name: 'W-RMS', max: 0.2 },
+            { name: 'Negative sequence', max: 0.001 },
+            { name: 'Positice sequence', max: 0.001 },
+            { name: 'Power frequency', max: 40 }
           ]
         },
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Allocated Budget', 'Expected Spending', 'Actual Spending']
+          data: ['Motor#1', 'Motor#2', 'Motor#3']
         },
         series: [{
           type: 'radar',
@@ -97,23 +122,11 @@ export default {
               opacity: 1
             }
           },
-          data: [
-            {
-              value: [5000, 7000, 12000, 11000, 15000, 14000],
-              name: 'Allocated Budget'
-            },
-            {
-              value: [4000, 9000, 15000, 15000, 13000, 11000],
-              name: 'Expected Spending'
-            },
-            {
-              value: [5500, 11000, 12000, 15000, 12000, 12000],
-              name: 'Actual Spending'
-            }
-          ],
+          data: [],
           animationDuration: animationDuration
         }]
       })
+      this.fetchData()
     }
   }
 }

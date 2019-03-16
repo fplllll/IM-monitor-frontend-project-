@@ -95,6 +95,7 @@ export default {
         this.lineChartData.time = response.data[0].trend.time
       })
     }
+
   }
 }
 </script>

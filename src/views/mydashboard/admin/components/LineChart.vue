@@ -116,13 +116,13 @@ export default {
             type: 'slider',
             show: true,
             xAxisIndex: [0],
-            start: 0,
-            end: 10
+            start: 80,
+            end: 100
           },
           {
             type: 'inside',
             xAxisIndex: [0],
-            start: 1,
+            start: 80,
             end: 100
           }
         ],
@@ -133,10 +133,10 @@ export default {
           }
         },
         legend: {
-          data: ['motor1', 'motor2', 'motor3']
+          data: ['Motor#1', 'Motor#2', 'Motor#3']
         },
         series: [{
-          name: 'motor1', itemStyle: {
+          name: 'Motor#1', itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -152,7 +152,7 @@ export default {
           animationEasing: 'cubicInOut'
         },
         {
-          name: 'motor2',
+          name: 'Motor#2',
           smooth: true,
           type: 'line',
           itemStyle: {
@@ -172,7 +172,7 @@ export default {
           animationEasing: 'quadraticOut'
         },
         {
-          name: 'motor3',
+          name: 'Motor#3',
           smooth: true,
           type: 'line',
           itemStyle: {
