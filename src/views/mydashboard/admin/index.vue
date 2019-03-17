@@ -6,7 +6,7 @@
     <panel-group @handleSetLineChartData="handleSetLineChartData"/>
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart :chart-data="lineChartData"/>
+      <line-chart/>
     </el-row>
 
     <el-row :gutter="32">
@@ -52,7 +52,6 @@ import BarChart from './components/BarChart'
 import TransactionTable from './components/TransactionTable'
 import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
-import { get_trend } from '@/api/IM'
 
 const lineChartData = {
   trend: {
@@ -80,20 +79,9 @@ export default {
       lineChartData: lineChartData.trend
     }
   },
-  created() {
-    this.fetchtrendData()
-  },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]
-    },
-    fetchtrendData() {
-      get_trend().then(response => {
-        this.lineChartData.motor1 = response.data[0].trend.trend
-        this.lineChartData.motor2 = response.data[1].trend.trend
-        this.lineChartData.motor3 = response.data[2].trend.trend
-        this.lineChartData.time = response.data[0].trend.time
-      })
     }
 
   }

@@ -6,6 +6,7 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
+import { get_trend } from '@/api/IM'
 
 export default {
   props: {
@@ -24,16 +25,14 @@ export default {
     autoResize: {
       type: Boolean,
       default: true
-    },
-    chartData: {
-      type: Object,
-      required: true
     }
+
   },
   data() {
     return {
       chart: null,
-      sidebarElm: null
+      sidebarElm: null,
+      chartData: []
     }
   },
   watch: {
@@ -78,7 +77,10 @@ export default {
         this.__resizeHandler()
       }
     },
-    setOptions(chartData) {
+    setOptions() {
+    },
+    initChart() {
+      this.chart = echarts.init(this.$el, 'macarons')
       this.chart.setOption({
 
         xAxis: {
@@ -87,7 +89,7 @@ export default {
           axisTick: {
             show: false
           },
-          data: chartData.time
+          data: []
         },
         grid: {
           left: 10,
@@ -135,68 +137,77 @@ export default {
         legend: {
           data: ['Motor#1', 'Motor#2', 'Motor#3']
         },
-        series: [{
-          name: 'Motor#1', itemStyle: {
-            normal: {
-              color: '#FF005A',
-              lineStyle: {
-                color: '#FF005A',
-                width: 2
-              }
-            }
-          },
-          smooth: true,
-          type: 'line',
-          data: chartData.motor1,
-          animationDuration: 2800,
-          animationEasing: 'cubicInOut'
-        },
-        {
-          name: 'Motor#2',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#3888fa',
-              lineStyle: {
-                color: '#3888fa',
-                width: 2
-              },
-              areaStyle: {
-                color: '#f3f8ff'
-              }
-            }
-          },
-          data: chartData.motor2,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        },
-        {
-          name: 'Motor#3',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#26fa24',
-              lineStyle: {
-                color: '#26fa24',
-                width: 2
-              },
-              areaStyle: {
-                color: '#f3f8ff'
-              }
-            }
-          },
-          data: chartData.motor3,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        }
-        ]
+        series: []
       })
+      this.chart.showLoading()
+      this.fetchData()
+      this.chart.hideLoading()
     },
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-      this.setOptions(this.chartData)
+    fetchData() {
+      get_trend().then(response => {
+        const data = response.data
+        this.chart.setOption({
+          xAxis: {
+            data: data[0].trend.time
+          },
+          series: [{
+            name: 'Motor#1', itemStyle: {
+              normal: {
+                color: '#FF005A',
+                lineStyle: {
+                  color: '#FF005A',
+                  width: 2
+                }
+              }
+            },
+            smooth: true,
+            type: 'line',
+            data: data[0].trend.trend,
+            animationDuration: 2800,
+            animationEasing: 'cubicInOut'
+          },
+          {
+            name: 'Motor#2',
+            smooth: true,
+            type: 'line',
+            itemStyle: {
+              normal: {
+                color: '#3888fa',
+                lineStyle: {
+                  color: '#3888fa',
+                  width: 2
+                },
+                areaStyle: {
+                  color: '#f3f8ff'
+                }
+              }
+            },
+            data: data[1].trend.trend,
+            animationDuration: 2800,
+            animationEasing: 'quadraticOut'
+          },
+          {
+            name: 'Motor#3',
+            smooth: true,
+            type: 'line',
+            itemStyle: {
+              normal: {
+                color: '#26fa24',
+                lineStyle: {
+                  color: '#26fa24',
+                  width: 2
+                },
+                areaStyle: {
+                  color: '#f3f8ff'
+                }
+              }
+            },
+            data: data[2].trend.trend,
+            animationDuration: 2800,
+            animationEasing: 'quadraticOut'
+          }]
+        })
+      })
     }
   }
 }

@@ -49,35 +49,12 @@ export default {
     this.chart = null
   },
   methods: {
-    fetchData() {
-      get_radar().then(response => {
-        const data = response.data
-        this.chart.setOption({
-          series: [{
-            data: [
-              {
-                value: [data[0].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
-                name: 'Motor#1'
-              },
-              {
-                value: [data[1].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
-                name: 'Motor#2'
-              },
-              {
-                value: [data[2].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
-                name: 'Motor#3'
-              }
-            ]
-          }]
-        })
-      })
-    },
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-
       this.chart.setOption({
         tooltip: {
-          trigger: 'axis',
+          trigger: 'item',
+          position: 'right',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           }
@@ -127,7 +104,31 @@ export default {
         }]
       })
       this.fetchData()
+    },
+    fetchData() {
+      get_radar().then(response => {
+        const data = response.data
+        this.chart.setOption({
+          series: [{
+            data: [
+              {
+                value: [data[0].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
+                name: 'Motor#1'
+              },
+              {
+                value: [data[1].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
+                name: 'Motor#2'
+              },
+              {
+                value: [data[2].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
+                name: 'Motor#3'
+              }
+            ]
+          }]
+        })
+      })
     }
+
   }
 }
 </script>
