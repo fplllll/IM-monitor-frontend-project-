@@ -6,6 +6,7 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
+import { get_warninglog } from '@/api/IM'
 
 export default {
   props: {
@@ -56,7 +57,7 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+          data: ['Motor#1', 'Motor#2', 'Motor#3']
         },
         calculable: true,
         series: [
@@ -66,17 +67,24 @@ export default {
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
-            data: [
-              { value: 320, name: 'Industries' },
-              { value: 240, name: 'Technology' },
-              { value: 149, name: 'Forex' },
-              { value: 100, name: 'Gold' },
-              { value: 59, name: 'Forecasts' }
-            ],
+            data: [],
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }
         ]
+      })
+      this.dumpdata()
+    },
+    dumpdata() {
+      Promise.all([get_warninglog(1), get_warninglog(2), get_warninglog(3)]).then(value => {
+        this.chart.setOption({
+          series: {
+            data: [{ value: value[0].data.length, name: 'Motor#1' },
+              { value: value[1].data.length, name: 'Motor#2' },
+              { value: value[2].data.length, name: 'Motor#3' }
+            ]
+          }
+        })
       })
     }
   }

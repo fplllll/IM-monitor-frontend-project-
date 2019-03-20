@@ -1,37 +1,49 @@
 <template>
   <el-table :data="list" style="width: 100%;padding-top: 15px;">
-    <el-table-column label="Order_No" min-width="200">
+    <el-table-column label="Description" min-width="180">
       <template slot-scope="scope">
-        {{ scope.row.order_no | orderNoFilter }}
+        {{ scope.row.description | orderNoFilter }}
       </template>
     </el-table-column>
-    <el-table-column label="Price" width="195" align="center">
+    <el-table-column label="Motor" width="100" align="center">
       <template slot-scope="scope">
-        ¥{{ scope.row.price | toThousandFilter }}
+        {{ scope.row.motor.name }}
       </template>
     </el-table-column>
-    <el-table-column label="Status" width="100" align="center">
+    <el-table-column label="Found time" width="180" align="center">
       <template slot-scope="scope">
-        <el-tag :type="scope.row.status | statusFilter"> {{ scope.row.status }}</el-tag>
+        {{ scope.row.c_day | dateTimeFilter }}
+      </template>
+    </el-table-column>
+    <el-table-column label="Severity" width="100" align="center">
+      <template slot-scope="scope">
+        <el-tag :type="scope.row.severity | tagFilter"> {{ scope.row.severity | statusFilter }}</el-tag>
       </template>
     </el-table-column>
   </el-table>
 </template>
 
 <script>
-import { fetchList } from '@/api/transaction'
+import { get_warninglog } from '@/api/IM'
 
 export default {
   filters: {
+    tagFilter(status) {
+      const statustagMap = {
+        0: 'success',
+        1: 'danger'
+      }
+      return statustagMap[status]
+    },
     statusFilter(status) {
       const statusMap = {
-        success: 'success',
-        pending: 'danger'
+        0: 'Attention',
+        1: 'Serious'
       }
       return statusMap[status]
     },
     orderNoFilter(str) {
-      return str.substring(0, 30)
+      return str.substring(0, 60) + '...'
     }
   },
   data() {
@@ -44,8 +56,8 @@ export default {
   },
   methods: {
     fetchData() {
-      fetchList().then(response => {
-        this.list = response.data.items.slice(0, 8)
+      get_warninglog().then(response => {
+        this.list = response.data.slice(0, 6)
       })
     }
   }

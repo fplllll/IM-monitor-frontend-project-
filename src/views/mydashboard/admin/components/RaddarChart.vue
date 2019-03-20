@@ -56,7 +56,7 @@ export default {
           trigger: 'item',
           position: 'right',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+            type: 'line' // 默认为直线，可选为：'line' | 'shadow'
           }
         },
         radar: {
@@ -77,9 +77,9 @@ export default {
             { name: 'U-RMS', max: 0.2 },
             { name: 'V-RMS', max: 0.2 },
             { name: 'W-RMS', max: 0.2 },
-            { name: 'Negative sequence', max: 0.001 },
-            { name: 'Positice sequence', max: 0.001 },
-            { name: 'Power frequency', max: 40 }
+            { name: 'Negative sequence', max: 0.1 },
+            { name: 'Positice\nsequence', max: 0.1 },
+            { name: 'Power\nfrequency', max: 40 }
           ]
         },
         legend: {

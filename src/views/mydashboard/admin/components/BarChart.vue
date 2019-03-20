@@ -6,6 +6,7 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
+import { get_indexbar } from '@/api/IM'
 
 const animationDuration = 6000
 
@@ -51,6 +52,15 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
 
       this.chart.setOption({
+        // title: {
+        //   text: 'Motor Component statistic',
+        //   left: 'center',
+        //   textStyle: {
+        //     fontSize: 14,
+        //     fontFamily: 'Arial',
+        //     color: '#000000'
+        //   }
+        // },
         tooltip: {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -58,7 +68,7 @@ export default {
           }
         },
         grid: {
-          top: 10,
+          top: 30,
           left: '2%',
           right: '2%',
           bottom: '3%',
@@ -66,7 +76,7 @@ export default {
         },
         xAxis: [{
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: ['Motor#1', 'Motor#2', 'Motor#3'],
           axisTick: {
             alignWithLabel: true
           }
@@ -75,30 +85,40 @@ export default {
           type: 'value',
           axisTick: {
             show: false
-          }
+          },
+          max: '10'
         }],
-        series: [{
-          name: 'pageA',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [79, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageB',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [80, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageC',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [30, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }]
+        series: []
+      })
+      this.fetchData()
+    },
+    fetchData() {
+      get_indexbar().then(response => {
+        const data = response.data
+        this.chart.setOption({
+          series: [{
+            name: 'rotor',
+            type: 'bar',
+            stack: 'vistors',
+            barWidth: '40%',
+            data: [data[0].rotor, data[1].rotor, data[2].rotor],
+            animationDuration
+          }, {
+            name: 'stator',
+            type: 'bar',
+            stack: 'vistors',
+            barWidth: '40%',
+            data: [data[0].stator, data[1].stator, data[2].stator],
+            animationDuration
+          }, {
+            name: 'bearing',
+            type: 'bar',
+            stack: 'vistors',
+            barWidth: '40%',
+            data: [data[0].bearing, data[1].bearing, data[2].bearing],
+            animationDuration
+          }]
+        })
       })
     }
   }
