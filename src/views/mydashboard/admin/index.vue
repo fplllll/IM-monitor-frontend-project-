@@ -1,46 +1,50 @@
 <template>
   <div class="dashboard-editor-container">
-
     <github-corner style="position: absolute; top: 0px; border: 0; right: 0;"/>
 
-    <panel-group @handleSetLineChartData="handleSetLineChartData"/>
+    <panel-group :panel-group-data="panelGroupData"/>
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart/>
+      <line-chart :line-chart-data="lineChartData"/>
     </el-row>
 
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <raddar-chart/>
+          <raddar-chart :radar-chart-data="radarChartData"/>
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <pie-chart/>
+          <pie-chart :pie-chart-data="pieChartData"/>
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <bar-chart/>
+          <bar-chart :bar-chart-data="barChartData"/>
         </div>
       </el-col>
     </el-row>
 
     <el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <transaction-table/>
+        <transaction-table :table-data="tableData"/>
       </el-col>
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <WarningCalendar/>
+        <WarningCalendar :calendar-data="warningCalendar" :top-waring-data="topWarningDay"/>
       </el-col>
     </el-row>
     <el-row :gutter="8">
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <todo-list/>
-      </el-col>
+      <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">-->
+      <!--<todo-list/>-->
+      <!--</el-col>-->
       <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
         <box-card/>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="18">
+        <div class="chart-wrapper">
+          <TreemapChart/>
+        </div>
       </el-col>
 
     </el-row>
@@ -59,14 +63,8 @@ import TransactionTable from './components/TransactionTable'
 import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
 import WarningCalendar from './components/WarningCalendar'
-
-const lineChartData = {
-  trend: {
-    motor1: [],
-    motor2: [],
-    motor3: []
-  }
-}
+import TreemapChart from './components/TreemapChart'
+import { get_trend, get_statunum, get_radar, get_warninglog, get_indexbar, get_warningcalendar, get_tablestatu, get_treemap } from '@/api/IM'
 
 export default {
   name: 'DashboardAdmin',
@@ -80,18 +78,71 @@ export default {
     TransactionTable,
     TodoList,
     BoxCard,
-    WarningCalendar
+    WarningCalendar,
+    TreemapChart
   },
   data() {
     return {
-      lineChartData: lineChartData.trend
+      lineChartData: [],
+      panelGroupData: {},
+      radarChartData: [],
+      pieChartData: [],
+      barChartData: [],
+      tableData: [],
+      warningCalendar: [],
+      topWarningDay: [],
+      serverStatuData: {},
+      TreeChartData: {}
     }
   },
+  created() {
+    this.fetchData()
+  },
   methods: {
-    handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type]
+    fetchData() {
+      get_trend().then(response => {
+        this.lineChartData = response.data
+      })
+      get_statunum().then(response => {
+        this.panelGroupData = response.data
+      })
+      setTimeout(() => {
+        get_radar().then(response => {
+          this.radarChartData = response.data
+        })
+      }, 500)
+      setTimeout(() => {
+        Promise.all([get_warninglog(1), get_warninglog(2), get_warninglog(3)]).then(value => {
+          this.pieChartData = [
+            { value: value[0].data.length, name: 'Motor#1' },
+            { value: value[1].data.length, name: 'Motor#2' },
+            { value: value[2].data.length, name: 'Motor#3' }
+          ]
+        })
+      }, 1000)
+      setTimeout(() => {
+        get_indexbar().then(response => {
+          this.barChartData = response.data
+        })
+      }, 1500)
+      setTimeout(() => {
+        get_warninglog().then(response => {
+          this.tableData = response.data.slice(0, 6)
+        })
+        get_warningcalendar().then(response => {
+          this.warningCalendar = response.data
+          this.topWarningDay = this.warningCalendar.sort(function(a, b) { return b[1] - a[1] }).slice(0, 5)
+        })
+      }, 2500)
+      setTimeout(() => {
+        get_tablestatu().then(response => {
+          this.serverStatuData = response.data
+        })
+        get_treemap().then(response => {
+          this.TreeChartData = response.data
+        })
+      }, 3000)
     }
-
   }
 }
 </script>

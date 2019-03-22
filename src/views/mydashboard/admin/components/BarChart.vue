@@ -6,9 +6,8 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
-import { get_indexbar } from '@/api/IM'
 
-const animationDuration = 6000
+const animationDuration = 8000
 
 export default {
   props: {
@@ -23,6 +22,10 @@ export default {
     height: {
       type: String,
       default: '300px'
+    },
+    barChartData: {
+      type: Array,
+      required: true
     }
   },
   data() {
@@ -30,8 +33,13 @@ export default {
       chart: null
     }
   },
+  watch: {
+    'barChartData'() {
+      this.setChart()
+    }
+  },
   mounted() {
-    this.initChart()
+    this.chart = echarts.init(this.$el, 'macarons')
     this.__resizeHandler = debounce(() => {
       if (this.chart) {
         this.chart.resize()
@@ -48,19 +56,8 @@ export default {
     this.chart = null
   },
   methods: {
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-
+    setChart() {
       this.chart.setOption({
-        // title: {
-        //   text: 'Motor Component statistic',
-        //   left: 'center',
-        //   textStyle: {
-        //     fontSize: 14,
-        //     fontFamily: 'Arial',
-        //     color: '#000000'
-        //   }
-        // },
         tooltip: {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -88,37 +85,28 @@ export default {
           },
           max: '10'
         }],
-        series: []
-      })
-      this.fetchData()
-    },
-    fetchData() {
-      get_indexbar().then(response => {
-        const data = response.data
-        this.chart.setOption({
-          series: [{
-            name: 'rotor',
-            type: 'bar',
-            stack: 'vistors',
-            barWidth: '40%',
-            data: [data[0].rotor, data[1].rotor, data[2].rotor],
-            animationDuration
-          }, {
-            name: 'stator',
-            type: 'bar',
-            stack: 'vistors',
-            barWidth: '40%',
-            data: [data[0].stator, data[1].stator, data[2].stator],
-            animationDuration
-          }, {
-            name: 'bearing',
-            type: 'bar',
-            stack: 'vistors',
-            barWidth: '40%',
-            data: [data[0].bearing, data[1].bearing, data[2].bearing],
-            animationDuration
-          }]
-        })
+        series: [{
+          name: 'rotor',
+          type: 'bar',
+          stack: 'vistors',
+          barWidth: '40%',
+          data: [this.barChartData[0].rotor, this.barChartData[1].rotor, this.barChartData[2].rotor],
+          animationDuration
+        }, {
+          name: 'stator',
+          type: 'bar',
+          stack: 'vistors',
+          barWidth: '40%',
+          data: [this.barChartData[0].stator, this.barChartData[1].stator, this.barChartData[2].stator],
+          animationDuration
+        }, {
+          name: 'bearing',
+          type: 'bar',
+          stack: 'vistors',
+          barWidth: '40%',
+          data: [this.barChartData[0].bearing, this.barChartData[1].bearing, this.barChartData[2].bearing],
+          animationDuration
+        }]
       })
     }
   }

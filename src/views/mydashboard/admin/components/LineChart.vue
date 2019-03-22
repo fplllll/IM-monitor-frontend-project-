@@ -6,7 +6,6 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
-import { get_trend } from '@/api/IM'
 
 export default {
   props: {
@@ -25,26 +24,26 @@ export default {
     autoResize: {
       type: Boolean,
       default: true
+    },
+    lineChartData: {
+      type: Array,
+      required: true
     }
 
   },
   data() {
     return {
       chart: null,
-      sidebarElm: null,
-      chartData: []
+      sidebarElm: null
     }
   },
   watch: {
-    chartData: {
-      deep: true,
-      handler(val) {
-        this.setOptions(val)
-      }
+    'lineChartData'() {
+      this.setChart()
     }
   },
   mounted() {
-    this.initChart()
+    this.chart = echarts.init(this.$el, 'macarons')
     if (this.autoResize) {
       this.__resizeHandler = debounce(() => {
         if (this.chart) {
@@ -77,10 +76,7 @@ export default {
         this.__resizeHandler()
       }
     },
-    setOptions() {
-    },
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
+    setChart() {
       this.chart.setOption({
 
         xAxis: {
@@ -89,7 +85,7 @@ export default {
           axisTick: {
             show: false
           },
-          data: []
+          data: this.lineChartData[0].trend.time
         },
         grid: {
           left: 10,
@@ -120,12 +116,6 @@ export default {
             xAxisIndex: [0],
             start: 80,
             end: 100
-          },
-          {
-            type: 'inside',
-            xAxisIndex: [0],
-            start: 80,
-            end: 100
           }
         ],
 
@@ -137,76 +127,62 @@ export default {
         legend: {
           data: ['Motor#1', 'Motor#2', 'Motor#3']
         },
-        series: []
-      })
-      this.chart.showLoading()
-      this.fetchData()
-      this.chart.hideLoading()
-    },
-    fetchData() {
-      get_trend().then(response => {
-        const data = response.data
-        this.chart.setOption({
-          xAxis: {
-            data: data[0].trend.time
-          },
-          series: [{
-            name: 'Motor#1', itemStyle: {
-              normal: {
+        series: [{
+          name: 'Motor#1', itemStyle: {
+            normal: {
+              color: '#FF005A',
+              lineStyle: {
                 color: '#FF005A',
-                lineStyle: {
-                  color: '#FF005A',
-                  width: 2
-                }
+                width: 2
               }
-            },
-            smooth: true,
-            type: 'line',
-            data: data[0].trend.trend,
-            animationDuration: 2800,
-            animationEasing: 'cubicInOut'
+            }
           },
-          {
-            name: 'Motor#2',
-            smooth: true,
-            type: 'line',
-            itemStyle: {
-              normal: {
+          smooth: true,
+          type: 'line',
+          data: this.lineChartData[0].trend.trend,
+          animationDuration: 2800,
+          animationEasing: 'cubicInOut'
+        },
+        {
+          name: 'Motor#2',
+          smooth: true,
+          type: 'line',
+          itemStyle: {
+            normal: {
+              color: '#3888fa',
+              lineStyle: {
                 color: '#3888fa',
-                lineStyle: {
-                  color: '#3888fa',
-                  width: 2
-                },
-                areaStyle: {
-                  color: '#f3f8ff'
-                }
+                width: 2
+              },
+              areaStyle: {
+                color: '#f3f8ff'
               }
-            },
-            data: data[1].trend.trend,
-            animationDuration: 2800,
-            animationEasing: 'quadraticOut'
+            }
           },
-          {
-            name: 'Motor#3',
-            smooth: true,
-            type: 'line',
-            itemStyle: {
-              normal: {
+          data: this.lineChartData[1].trend.trend,
+          animationDuration: 2800,
+          animationEasing: 'quadraticOut'
+        },
+        {
+          name: 'Motor#3',
+          smooth: true,
+          type: 'line',
+          itemStyle: {
+            normal: {
+              color: '#26fa24',
+              lineStyle: {
                 color: '#26fa24',
-                lineStyle: {
-                  color: '#26fa24',
-                  width: 2
-                },
-                areaStyle: {
-                  color: '#f3f8ff'
-                }
+                width: 2
+              },
+              areaStyle: {
+                color: '#f3f8ff'
               }
-            },
-            data: data[2].trend.trend,
-            animationDuration: 2800,
-            animationEasing: 'quadraticOut'
-          }]
-        })
+            }
+          },
+          data: this.lineChartData[2].trend.trend,
+          animationDuration: 2800,
+          animationEasing: 'quadraticOut'
+        }]
       })
     }
   }

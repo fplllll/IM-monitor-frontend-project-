@@ -6,7 +6,6 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
-import { get_warningcalendar } from '@/api/IM'
 
 export default {
   props: {
@@ -21,6 +20,18 @@ export default {
     height: {
       type: String,
       default: '350px'
+    },
+    autoResize: {
+      type: Boolean,
+      default: true
+    },
+    calendarData: {
+      type: Array,
+      required: true
+    },
+    topWaringData: {
+      type: Array,
+      required: true
     }
   },
   data() {
@@ -28,14 +39,21 @@ export default {
       chart: null
     }
   },
+  watch: {
+    'calendarData'() {
+      this.setChart()
+    }
+  },
   mounted() {
-    this.initChart()
-    this.__resizeHandler = debounce(() => {
-      if (this.chart) {
-        this.chart.resize()
-      }
-    }, 100)
-    window.addEventListener('resize', this.__resizeHandler)
+    this.chart = echarts.init(this.$el, 'macarons')
+    if (this.autoResize) {
+      this.__resizeHandler = debounce(() => {
+        if (this.chart) {
+          this.chart.resize()
+        }
+      }, 100)
+      window.addEventListener('resize', this.__resizeHandler)
+    }
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -46,21 +64,18 @@ export default {
     this.chart = null
   },
   methods: {
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-
+    setChart() {
       this.chart.setOption({
         backgroundColor: '#ffffff',
 
         title: {
           top: '30%',
           text: 'Warning\n\nCalendar',
-          right: 10,
+          right: '3%',
           textStyle: {
-            color: '#909399',
-            fontFamily: 'Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif',
+            fontFamily: 'Helvetica Neue',
             fontWeight: 'bold',
-            fontSize: 20
+            fontSize: 18
           },
           textAlign: 'center'
         },
@@ -68,16 +83,17 @@ export default {
           trigger: 'item'
         },
         legend: {
-          top: '60%',
-          right: 10,
+          top: '55%',
+          right: '6%',
           data: ['Warning count', 'Top 5'],
           textStyle: {
-            color: '#000000'
-          }
+            fontFamily: 'Helvetica Neue'
+          },
+          orient: 'vertical'
         },
         calendar: [{
           top: 25,
-          left: '10%',
+          right: '25%',
           range: ['2019-01-01', '2019-06-30'],
           splitLine: {
             show: true,
@@ -102,7 +118,7 @@ export default {
           }
         }, {
           top: 200,
-          left: '10%',
+          right: '25%',
           range: ['2019-07-01', '2019-12-31'],
           splitLine: {
             show: true,
@@ -126,96 +142,82 @@ export default {
             }
           }
         }],
-        series: []
-      })
-      this.fetchData()
-    },
-    fetchData() {
-      get_warningcalendar().then(response => {
-        const data = response.data
-        this.chart.setOption({
-          series: [
-            {
-              name: 'Warning count',
-              type: 'scatter',
-              coordinateSystem: 'calendar',
-              data: data,
-              symbolSize: function(val) {
-                return val[1] * 2
-              },
-              itemStyle: {
-                normal: {
-                  color: '#f4e925'
-                }
+        series: [
+          {
+            name: 'Warning count',
+            type: 'scatter',
+            coordinateSystem: 'calendar',
+            data: this.calendarData,
+            symbolSize: function(val) {
+              return val[1] * 10
+            },
+            itemStyle: {
+              normal: {
+                color: '#e2f426'
               }
-            },
-            {
-              name: 'Warning count',
-              type: 'scatter',
-              coordinateSystem: 'calendar',
-              calendarIndex: 1,
-              data: data,
-              symbolSize: function(val) {
-                return val[1] * 2
-              },
-              itemStyle: {
-                normal: {
-                  color: '#f4e925'
-                }
-              }
-            },
-            {
-              name: 'Top 5',
-              type: 'effectScatter',
-              coordinateSystem: 'calendar',
-              calendarIndex: 1,
-              data: data.sort(function(a, b) {
-                return b[1] - a[1]
-              }).slice(0, 5),
-              symbolSize: function(val) {
-                return val[1] * 10
-              },
-              showEffectOn: 'render',
-              rippleEffect: {
-                brushType: 'stroke'
-              },
-              hoverAnimation: true,
-              itemStyle: {
-                normal: {
-                  color: '#f45440',
-                  shadowBlur: 10,
-                  shadowColor: '#333'
-                }
-              },
-              zlevel: 1
-            },
-            {
-              name: 'Top 5',
-              type: 'effectScatter',
-              coordinateSystem: 'calendar',
-              data: data.sort(function(a, b) {
-                return b[1] - a[1]
-              }).slice(0, 5),
-              symbolSize: function(val) {
-                return val[1] * 10
-              },
-              showEffectOn: 'render',
-              rippleEffect: {
-                brushType: 'stroke'
-              },
-              hoverAnimation: true,
-              itemStyle: {
-                normal: {
-                  color: '#f45440',
-                  shadowBlur: 10,
-                  shadowColor: '#333'
-                }
-              },
-              zlevel: 1
             }
-          ]
-
-        })
+          },
+          {
+            name: 'Warning count',
+            type: 'scatter',
+            coordinateSystem: 'calendar',
+            calendarIndex: 1,
+            data: this.calendarData,
+            symbolSize: function(val) {
+              return val[1] * 10
+            },
+            itemStyle: {
+              normal: {
+                color: '#e2f426'
+              }
+            }
+          },
+          {
+            name: 'Top 5',
+            type: 'effectScatter',
+            coordinateSystem: 'calendar',
+            calendarIndex: 1,
+            data: this.topWaringData,
+            symbolSize: function(val) {
+              return val[1] * 10
+            },
+            showEffectOn: 'render',
+            rippleEffect: {
+              brushType: 'stroke'
+            },
+            hoverAnimation: true,
+            itemStyle: {
+              normal: {
+                color: '#f45440',
+                shadowBlur: 10,
+                shadowColor: '#333'
+              }
+            },
+            zlevel: 1
+          },
+          {
+            name: 'Top 5',
+            type: 'effectScatter',
+            coordinateSystem: 'calendar',
+            data: this.topWaringData,
+            symbolSize: function(val) {
+              return val[1] * 10
+            },
+            showEffectOn: 'render',
+            rippleEffect: {
+              brushType: 'stroke'
+            },
+            hoverAnimation: true,
+            itemStyle: {
+              normal: {
+                color: '#f45440',
+                shadowBlur: 10,
+                shadowColor: '#333'
+              }
+            },
+            zlevel: 1
+          }
+        ]
       })
     }
   }

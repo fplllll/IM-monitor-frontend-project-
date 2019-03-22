@@ -6,9 +6,8 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
-import { get_radar } from '@/api/IM'
 
-const animationDuration = 3000
+const animationDuration = 12000
 
 export default {
   props: {
@@ -23,16 +22,24 @@ export default {
     height: {
       type: String,
       default: '300px'
+    },
+    radarChartData: {
+      type: Array,
+      required: true
     }
   },
   data() {
     return {
-      chart: null,
-      chartData: []
+      chart: null
+    }
+  },
+  watch: {
+    'radarChartData'() {
+      this.setChart()
     }
   },
   mounted() {
-    this.initChart()
+    this.chart = echarts.init(this.$el, 'macarons')
     this.__resizeHandler = debounce(() => {
       if (this.chart) {
         this.chart.resize()
@@ -49,12 +56,11 @@ export default {
     this.chart = null
   },
   methods: {
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
+    setChart() {
       this.chart.setOption({
         tooltip: {
           trigger: 'item',
-          position: 'right',
+          position: 'inside',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
             type: 'line' // 默认为直线，可选为：'line' | 'shadow'
           }
@@ -78,7 +84,7 @@ export default {
             { name: 'V-RMS', max: 0.2 },
             { name: 'W-RMS', max: 0.2 },
             { name: 'Negative sequence', max: 0.1 },
-            { name: 'Positice\nsequence', max: 0.1 },
+            { name: 'Positice\nsequence', max: 0.2 },
             { name: 'Power\nfrequency', max: 40 }
           ]
         },
@@ -99,36 +105,24 @@ export default {
               opacity: 1
             }
           },
-          data: [],
+          data: [
+            {
+              value: [this.radarChartData[2].rmsfeatures.urms, this.radarChartData[2].rmsfeatures.vrms, this.radarChartData[2].rmsfeatures.wrms, this.radarChartData[2].symfeatures.ns, this.radarChartData[2].symfeatures.ps, this.radarChartData[2].psf.psf],
+              name: 'Motor#3'
+            },
+            {
+              value: [this.radarChartData[1].rmsfeatures.urms, this.radarChartData[1].rmsfeatures.vrms, this.radarChartData[1].rmsfeatures.wrms, this.radarChartData[1].symfeatures.ns, this.radarChartData[1].symfeatures.ps, this.radarChartData[1].psf.psf],
+              name: 'Motor#2'
+            },
+            {
+              value: [this.radarChartData[0].rmsfeatures.urms, this.radarChartData[0].rmsfeatures.vrms, this.radarChartData[0].rmsfeatures.wrms, this.radarChartData[0].symfeatures.ns, this.radarChartData[0].symfeatures.ps, this.radarChartData[0].psf.psf],
+              name: 'Motor#1'
+            }
+          ],
           animationDuration: animationDuration
         }]
       })
-      this.fetchData()
-    },
-    fetchData() {
-      get_radar().then(response => {
-        const data = response.data
-        this.chart.setOption({
-          series: [{
-            data: [
-              {
-                value: [data[0].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
-                name: 'Motor#1'
-              },
-              {
-                value: [data[1].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
-                name: 'Motor#2'
-              },
-              {
-                value: [data[2].rmsfeatures.urms, data[0].rmsfeatures.vrms, data[0].rmsfeatures.wrms, data[0].symfeatures.ns, data[0].symfeatures.ps, data[0].psf.psf],
-                name: 'Motor#3'
-              }
-            ]
-          }]
-        })
-      })
     }
-
   }
 }
 </script>

@@ -1,26 +1,26 @@
 <template>
   <el-card class="box-card-component" style="margin-left:8px;">
     <div slot="header" class="box-card-header">
-      <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">
+      <img src="https://fpimages.withfloats.com/actual/5c1e2114c2bb000001beb5e9.jpg">
     </div>
     <div style="position:relative;">
       <pan-thumb :image="avatar" class="panThumb"/>
-      <mallki class-name="mallki-text" text="vue-element-admin"/>
+      <mallki class-name="mallki-text" text="Induction Motor Monitoring"/>
       <div style="padding-top:35px;" class="progress-item">
-        <span>Vue</span>
-        <el-progress :percentage="70"/>
+        <span>Table Count</span>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="progressdata.count"/>
       </div>
       <div class="progress-item">
-        <span>JavaScript</span>
-        <el-progress :percentage="18"/>
+        <span>Table volume</span>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="progressdata.volume" color="rgba(142, 113, 199, 0.7)"/>
       </div>
       <div class="progress-item">
-        <span>Css</span>
-        <el-progress :percentage="12"/>
+        <span>CPU usage</span>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="progressdata.cpu" status="success"/>
       </div>
       <div class="progress-item">
-        <span>ESLint</span>
-        <el-progress :percentage="100" status="success"/>
+        <span>Memory usage</span>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="progressdata.memory" status="exception"/>
       </div>
     </div>
   </el-card>
@@ -30,6 +30,7 @@
 import { mapGetters } from 'vuex'
 import PanThumb from '@/components/PanThumb'
 import Mallki from '@/components/TextHoverEffect/Mallki'
+import { get_tablestatu } from '@/api/IM'
 
 export default {
   components: { PanThumb, Mallki },
@@ -48,6 +49,12 @@ export default {
       statisticsData: {
         article_count: 1024,
         pageviews_count: 1024
+      },
+      progressdata: {
+        volume: 0,
+        count: 0,
+        cpu: 0,
+        memory: 0
       }
     }
   },
@@ -57,6 +64,20 @@ export default {
       'avatar',
       'roles'
     ])
+  },
+  created() {
+    this.fetchData()
+  },
+  methods: {
+    fetchData() {
+      get_tablestatu().then(response => {
+        // var fomater = value => { value.toFixed(2) }
+        this.progressdata.volume = Number((Number(response.data.table_volume.replace(/MB/, '')) / 2048 * 100).toFixed(1))
+        this.progressdata.count = Number((response.data.table_count / 4096 * 100).toFixed(1))
+        this.progressdata.cpu = response.data.cpu_statu
+        this.progressdata.memory = response.data.memory_statu
+      })
+    }
   }
 }
 </script>

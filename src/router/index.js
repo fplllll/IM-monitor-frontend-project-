@@ -65,20 +65,20 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '',
+    path: '/dashboard',
     component: Layout,
     redirect: 'dashboard',
     children: [
       {
-        path: 'dashboard',
+        path: 'index',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', noCache: true, affix: true }
+        meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
       }
     ]
   },
   {
-    path: '/mydashaboard',
+    path: '',
     component: Layout,
     redirect: 'mydashboard',
     children: [
@@ -86,7 +86,20 @@ export const constantRouterMap = [
         path: 'mydashboard',
         component: () => import('@/views/mydashboard/index'),
         name: 'myDashboard',
-        meta: { title: 'mydashboard', icon: 'dashboard', noCache: true, affix: true }
+        meta: { title: 'My Dashboard', icon: 'dashboard', noCache: true, affix: true }
+      }
+    ]
+  },
+  {
+    path: '/table',
+    component: Layout,
+    redirect: '/table/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/eqtable/custom/index'),
+        name: 'Equipment Table',
+        meta: { title: 'Equipment Table', icon: 'table', noCache: true }
       }
     ]
   },

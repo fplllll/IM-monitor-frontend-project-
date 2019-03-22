@@ -7,7 +7,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">Excellent motor</div>
-          <count-to :start-val="0" :end-val="statu_num['Excellent']" :duration="3000" class="card-panel-num"/>
+          <count-to :start-val="0" :end-val="panelGroupData['Excellent']" :duration="3000" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
@@ -18,7 +18,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">Good motor</div>
-          <count-to :start-val="0" :end-val="statu_num['Good']" :duration="3000" class="card-panel-num"/>
+          <count-to :start-val="0" :end-val="panelGroupData['Good']" :duration="3000" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
@@ -29,7 +29,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">Moderate motor</div>
-          <count-to :start-val="0" :end-val="statu_num['Moderate']" :duration="3200" class="card-panel-num"/>
+          <count-to :start-val="0" :end-val="panelGroupData['Moderate']" :duration="3200" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
@@ -40,7 +40,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">Poor motor</div>
-          <count-to :start-val="0" :end-val="statu_num['Poor']" :duration="3600" class="card-panel-num"/>
+          <count-to :start-val="0" :end-val="panelGroupData['Poor']" :duration="3600" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
@@ -60,35 +60,20 @@
 
 <script>
 import CountTo from 'vue-count-to'
-import { get_statunum } from '@/api/IM'
 
 export default {
   components: {
     CountTo
   },
-  data() {
-    return {
-      statu_num: {
-        Excellent: 0,
-        Good: 0,
-        Moderate: 0,
-        Poor: 0,
-        Offline: 0
-      }
+  props: {
+    panelGroupData: {
+      type: Object,
+      required: true
     }
-  },
-  created() {
-    this.fetchData()
   },
   methods: {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
-    },
-    fetchData() {
-      this.listLoading = true
-      get_statunum().then(response => {
-        this.statu_num = response.data
-      })
     }
   }
 

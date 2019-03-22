@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="list" style="width: 100%;padding-top: 15px;">
+  <el-table :data="tableData" style="width: 100%;padding-top: 15px;">
     <el-table-column label="Description" min-width="180">
       <template slot-scope="scope">
         {{ scope.row.description | orderNoFilter }}
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { get_warninglog } from '@/api/IM'
 
 export default {
   filters: {
@@ -46,19 +45,10 @@ export default {
       return str.substring(0, 60) + '...'
     }
   },
-  data() {
-    return {
-      list: null
-    }
-  },
-  created() {
-    this.fetchData()
-  },
-  methods: {
-    fetchData() {
-      get_warninglog().then(response => {
-        this.list = response.data.slice(0, 6)
-      })
+  props: {
+    tableData: {
+      type: Array,
+      required: true
     }
   }
 }

@@ -10,7 +10,7 @@ export function get_statunum(query) {
 
 export function get_trend(query) {
   return request({
-    url: '/trend/',
+    url: '/index-trend/',
     method: 'get',
     params: query
   })
@@ -18,7 +18,7 @@ export function get_trend(query) {
 
 export function get_radar(query) {
   return request({
-    url: '/dashboard-radar/',
+    url: '/index-radar/',
     method: 'get',
     params: query
   })
@@ -34,7 +34,7 @@ export function get_indexbar(query) {
 
 export function get_warningcalendar(query) {
   return request({
-    url: '/warningcalendar/',
+    url: '/index-calendar/',
     method: 'get',
     params: query
   })
@@ -53,3 +53,20 @@ export function get_warninglog(motorid, query) {
     params: query
   })
 }
+
+export function get_tablestatu(query) {
+  return request({
+    url: '/index-serverstatu/',
+    method: 'get',
+    params: query
+  })
+}
+
+export function get_treemap(query) {
+  return request({
+    url: '/index-treemap/',
+    method: 'get',
+    params: query
+  })
+}
+

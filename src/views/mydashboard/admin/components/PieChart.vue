@@ -6,7 +6,6 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
-import { get_warninglog } from '@/api/IM'
 
 export default {
   props: {
@@ -21,6 +20,10 @@ export default {
     height: {
       type: String,
       default: '300px'
+    },
+    pieChartData: {
+      type: Array,
+      required: true
     }
   },
   data() {
@@ -28,8 +31,13 @@ export default {
       chart: null
     }
   },
+  watch: {
+    'pieChartData'() {
+      this.setChart()
+    }
+  },
   mounted() {
-    this.initChart()
+    this.chart = echarts.init(this.$el, 'macarons')
     this.__resizeHandler = debounce(() => {
       if (this.chart) {
         this.chart.resize()
@@ -46,13 +54,24 @@ export default {
     this.chart = null
   },
   methods: {
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-
+    setChart() {
       this.chart.setOption({
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        toolbox: {
+          show: true,
+          feature: {
+
+            dataView: { show: true, readOnly: false },
+            magicType: {
+              show: true,
+              type: ['pie', 'funnel']
+            },
+            restore: { show: true },
+            saveAsImage: { show: true }
+          }
         },
         legend: {
           left: 'center',
@@ -62,29 +81,17 @@ export default {
         calculable: true,
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: 'Warning Numbers',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
-            data: [],
+            data: this.pieChartData,
             animationEasing: 'cubicInOut',
-            animationDuration: 2600
+            animationDuration: 2400
+
           }
         ]
-      })
-      this.dumpdata()
-    },
-    dumpdata() {
-      Promise.all([get_warninglog(1), get_warninglog(2), get_warninglog(3)]).then(value => {
-        this.chart.setOption({
-          series: {
-            data: [{ value: value[0].data.length, name: 'Motor#1' },
-              { value: value[1].data.length, name: 'Motor#2' },
-              { value: value[2].data.length, name: 'Motor#3' }
-            ]
-          }
-        })
       })
     }
   }

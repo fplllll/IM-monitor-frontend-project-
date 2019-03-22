@@ -10,7 +10,9 @@ import adminDashboard from './admin'
 
 export default {
   name: 'Dashboard',
-  components: { adminDashboard },
+  components: {
+    adminDashboard
+  },
   data() {
     return {
       currentRole: 'adminDashboard'
