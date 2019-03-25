@@ -91,14 +91,14 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: '/table',
+    path: '/mytable',
     component: Layout,
-    redirect: '/table/index',
+    redirect: '/mytable/index',
     children: [
       {
         path: 'index',
         component: () => import('@/views/eqtable/custom/index'),
-        name: 'Equipment Table',
+        name: 'EquipmentTable',
         meta: { title: 'Equipment Table', icon: 'table', noCache: true }
       }
     ]

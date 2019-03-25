@@ -70,3 +70,10 @@ export function get_treemap(query) {
   })
 }
 
+export function get_motors(query) {
+  return request({
+    url: '/motors/',
+    method: 'get',
+    params: query
+  })
+}

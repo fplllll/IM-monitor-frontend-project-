@@ -1,7 +1,8 @@
 <template>
-  <el-table :data="tableData" :row-style="showRow" v-bind="$attrs" v-on="$listeners">
+  <el-table :data="tableData" :row-style="showRow" :row-class-name="tableRowClassName" v-bind="$attrs" v-on="$listeners" >
     <slot name="selection" />
     <slot name="pre-column" />
+
     <el-table-column
       v-for="item in columns"
       :key="item.key"
@@ -34,7 +35,7 @@
               @change="handleCheckAllChange(scope.row)"
             />
           </template>
-          {{ scope.row[item.key] }}
+          {{ scope.row[item.key] || 'Not recorded' }}
         </slot>
       </template>
     </el-table-column>
@@ -160,6 +161,14 @@ export default {
           resolve(this.data)
         }
       })
+    },
+    tableRowClassName({ row, rowIndex }) {
+      if (row._level === 0) {
+        return 'warning-row'
+      } else if (row._level === 1) {
+        return 'success-row'
+      }
+      return ''
     }
   }
 }
@@ -187,4 +196,12 @@ export default {
     cursor: pointer;
     color: #2196f3;
   }
+  .el-table .warning-row {
+     background: #edfaff;
+   }
+
+  .el-table .success-row {
+    background: #ffffff;
+  }
+
 </style>

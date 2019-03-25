@@ -44,7 +44,8 @@
 
 <script>
 import treeTable from './components'
-import data from './data'
+import { get_motors } from '@/api/IM'
+
 export default {
   name: 'TreeTableDemo',
   components: { treeTable },
@@ -78,7 +79,7 @@ export default {
           key: 'operation'
         }
       ],
-      data: data
+      data: []
     }
   },
   watch: {
@@ -93,6 +94,9 @@ export default {
       }
       this.reset()
     }
+  },
+  created() {
+    this.fetchData()
   },
   methods: {
     reset() {
@@ -111,6 +115,11 @@ export default {
         dangerouslyUseHTMLString: true,
         message: message,
         type: 'success'
+      })
+    },
+    fetchData() {
+      get_motors().then(response => {
+        this.data = response.data
       })
     }
   }
