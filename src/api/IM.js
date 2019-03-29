@@ -72,8 +72,24 @@ export function get_treemap(query) {
 
 export function get_motors(query) {
   return request({
-    url: '/motors/',
+    url: `/motors/`,
     method: 'get',
     params: query
+  })
+}
+
+export function patch_repair_time(eqtype, id, data) {
+  return request({
+    url: `/${eqtype}/${id}/`,
+    method: 'patch',
+    data
+  })
+}
+
+export function get_motor_realtime(id) {
+  return request({
+    url: `/motors/realtime/${id}/`,
+    method: 'get'
+
   })
 }

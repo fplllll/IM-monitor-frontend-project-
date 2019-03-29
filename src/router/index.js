@@ -97,7 +97,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/eqtable/custom/index'),
+        component: () => import('@/views/eqtable/index'),
         name: 'EquipmentTable',
         meta: { title: 'Equipment Table', icon: 'table', noCache: true }
       }
@@ -220,7 +220,19 @@ export const asyncRouterMap = [
       }
     ]
   },
-
+  {
+    path: '/motor',
+    component: Layout,
+    children: [
+      {
+        path: 'realtime/:id(\\d+)',
+        component: () => import('@/views/realtime/index'),
+        name: 'MotorRealTime',
+        meta: { title: 'Motor Real Time', noCache: true }
+      }
+    ],
+    hidden: true
+  },
   {
     path: '/tab',
     component: Layout,

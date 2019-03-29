@@ -8,19 +8,19 @@
       <mallki class-name="mallki-text" text="Induction Motor Monitoring"/>
       <div style="padding-top:35px;" class="progress-item">
         <span>Table Count</span>
-        <el-progress :text-inside="true" :stroke-width="18" :percentage="progressdata.count"/>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="normalized_count"/>
       </div>
       <div class="progress-item">
         <span>Table volume</span>
-        <el-progress :text-inside="true" :stroke-width="18" :percentage="progressdata.volume" color="rgba(142, 113, 199, 0.7)"/>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="normalized_volume" color="rgba(142, 113, 199, 0.7)"/>
       </div>
       <div class="progress-item">
         <span>CPU usage</span>
-        <el-progress :text-inside="true" :stroke-width="18" :percentage="progressdata.cpu" status="success"/>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="serverStatuData.cpu_statu" status="success"/>
       </div>
       <div class="progress-item">
         <span>Memory usage</span>
-        <el-progress :text-inside="true" :stroke-width="18" :percentage="progressdata.memory" status="exception"/>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="serverStatuData.memory_statu" status="exception"/>
       </div>
     </div>
   </el-card>
@@ -30,11 +30,9 @@
 import { mapGetters } from 'vuex'
 import PanThumb from '@/components/PanThumb'
 import Mallki from '@/components/TextHoverEffect/Mallki'
-import { get_tablestatu } from '@/api/IM'
 
 export default {
   components: { PanThumb, Mallki },
-
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -44,18 +42,10 @@ export default {
       return statusMap[status]
     }
   },
-  data() {
-    return {
-      statisticsData: {
-        article_count: 1024,
-        pageviews_count: 1024
-      },
-      progressdata: {
-        volume: 0,
-        count: 0,
-        cpu: 0,
-        memory: 0
-      }
+  props: {
+    serverStatuData: {
+      type: Object,
+      required: true
     }
   },
   computed: {
@@ -63,20 +53,18 @@ export default {
       'name',
       'avatar',
       'roles'
-    ])
-  },
-  created() {
-    this.fetchData()
-  },
-  methods: {
-    fetchData() {
-      get_tablestatu().then(response => {
-        // var fomater = value => { value.toFixed(2) }
-        this.progressdata.volume = Number((Number(response.data.table_volume.replace(/MB/, '')) / 2048 * 100).toFixed(1))
-        this.progressdata.count = Number((response.data.table_count / 4096 * 100).toFixed(1))
-        this.progressdata.cpu = response.data.cpu_statu
-        this.progressdata.memory = response.data.memory_statu
-      })
+    ]),
+    normalized_count: function() {
+      // `this` 指向 vm 实例
+      return Number((this.serverStatuData.table_count / 4096 * 100).toFixed(1))
+    },
+    normalized_volume: function() {
+      // `this` 指向 vm 实例
+      if (this.serverStatuData.table_volume) {
+        return Number((Number(this.serverStatuData.table_volume.replace(/MB/, '')) / 2048 * 100).toFixed(1))
+      } else {
+        return 0
+      }
     }
   }
 }

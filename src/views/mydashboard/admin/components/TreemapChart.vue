@@ -6,7 +6,6 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
-import { get_treemap } from '@/api/IM'
 
 const animationDuration = 3000
 
@@ -23,21 +22,21 @@ export default {
     height: {
       type: String,
       default: '445px'
+    },
+    treeChartData: {
+      type: Object,
+      required: true
     }
   },
   data() {
     return {
-      chart: null,
-      chartData: []
+      chart: null
     }
   },
   watch: {
-    'chartData'() {
+    'treeChartData'() {
       this.setChart()
     }
-  },
-  created() {
-    this.fetchData()
   },
   mounted() {
     this.chart = echarts.init(this.$el, 'macarons')
@@ -76,7 +75,7 @@ export default {
         series: [
           {
             type: 'tree',
-            data: [this.chartData],
+            data: [this.treeChartData],
 
             top: '10%',
             left: '20%',
@@ -129,11 +128,6 @@ export default {
           }
         ],
         animationDuration: animationDuration
-      })
-    },
-    fetchData() {
-      get_treemap().then(response => {
-        this.chartData = response.data
       })
     }
   }

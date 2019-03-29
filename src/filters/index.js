@@ -59,3 +59,19 @@ export function dateTimeFilter(val) {
   } else return 'Not Recorded Yet'
 }
 
+export function statuTxtFilter(status) {
+  const statusMap = {
+    0: 'Excellent',
+    1: 'Good',
+    2: 'Moderate',
+    3: 'Poor',
+    4: 'Offline'
+  }
+  return statusMap[status]
+}
+
+export function stringFilter(str) {
+  if (str) {
+    return str
+  } else return '0'
+}

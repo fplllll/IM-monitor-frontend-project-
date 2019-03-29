@@ -39,11 +39,11 @@
       <!--<todo-list/>-->
       <!--</el-col>-->
       <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <box-card/>
+        <box-card :server-statu-data="serverStatuData"/>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="18">
         <div class="chart-wrapper">
-          <TreemapChart/>
+          <TreemapChart :tree-chart-data="TreeChartData"/>
         </div>
       </el-col>
 
@@ -84,7 +84,7 @@ export default {
   data() {
     return {
       lineChartData: [],
-      panelGroupData: {},
+      panelGroupData: { Excellent: 0, Good: 0, Moderate: 0, Poor: 0 },
       radarChartData: [],
       pieChartData: [],
       barChartData: [],
@@ -100,48 +100,59 @@ export default {
   },
   methods: {
     fetchData() {
-      get_trend().then(response => {
-        this.lineChartData = response.data
-      })
-      get_statunum().then(response => {
-        this.panelGroupData = response.data
-      })
+      // get_trend().then(response => {
+      //   this.lineChartData = response.data
+      // })
+      // get_statunum().then(response => {
+      //   this.panelGroupData = response.data
+      // })
+      // setTimeout(() => {
+      //   get_radar().then(response => {
+      //     this.radarChartData = response.data
+      //   })
+      // }, 500)
       setTimeout(() => {
-        get_radar().then(response => {
-          this.radarChartData = response.data
-        })
-      }, 500)
-      setTimeout(() => {
-        Promise.all([get_warninglog(1), get_warninglog(2), get_warninglog(3)]).then(value => {
+        Promise.all([get_trend(), get_statunum(), get_radar(), get_warninglog(1), get_warninglog(2), get_warninglog(3), get_indexbar(), get_warninglog(), get_warningcalendar(), get_tablestatu(), get_treemap()]).then(value => {
+          this.lineChartData = value[0].data
+          this.panelGroupData = value[1].data
+          this.radarChartData = value[2].data
+
           this.pieChartData = [
-            { value: value[0].data.length, name: 'Motor#1' },
-            { value: value[1].data.length, name: 'Motor#2' },
-            { value: value[2].data.length, name: 'Motor#3' }
+            { value: value[3].data.length, name: 'Motor#1' },
+            { value: value[4].data.length, name: 'Motor#2' },
+            { value: value[5].data.length, name: 'Motor#3' }
           ]
-        })
-      }, 1000)
-      setTimeout(() => {
-        get_indexbar().then(response => {
-          this.barChartData = response.data
-        })
-      }, 1500)
-      setTimeout(() => {
-        get_warninglog().then(response => {
-          this.tableData = response.data.slice(0, 6)
-        })
-        get_warningcalendar().then(response => {
-          this.warningCalendar = response.data
+          this.barChartData = value[6].data
+          this.tableData = value[7].data.slice(0, 6)
+          this.warningCalendar = value[8].data
           this.topWarningDay = this.warningCalendar.sort(function(a, b) { return b[1] - a[1] }).slice(0, 5)
+          this.serverStatuData = value[9].data
+          this.TreeChartData = value[10].data
+          document.body.removeChild(document.getElementById('Loading'))
         })
-      }, 2500)
-      setTimeout(() => {
-        get_tablestatu().then(response => {
-          this.serverStatuData = response.data
-        })
-        get_treemap().then(response => {
-          this.TreeChartData = response.data
-        })
-      }, 3000)
+      }, 0)
+      // setTimeout(() => {
+      //   get_indexbar().then(response => {
+      //     this.barChartData = response.data
+      //   })
+      // }, 1500)
+      // setTimeout(() => {
+      //   get_warninglog().then(response => {
+      //     this.tableData = response.data.slice(0, 6)
+      //   })
+      //   get_warningcalendar().then(response => {
+      //     this.warningCalendar = response.data
+      //     this.topWarningDay = this.warningCalendar.sort(function(a, b) { return b[1] - a[1] }).slice(0, 5)
+      //   })
+      // }, 2500)
+      // setTimeout(() => {
+      //   get_tablestatu().then(response => {
+      //     this.serverStatuData = response.data
+      //   })
+      //   get_treemap().then(response => {
+      //     this.TreeChartData = response.data
+      //   })
+      // }, 3000)
     }
   }
 }
