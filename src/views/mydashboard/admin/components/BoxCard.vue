@@ -56,7 +56,11 @@ export default {
     ]),
     normalized_count: function() {
       // `this` 指向 vm 实例
-      return Number((this.serverStatuData.table_count / 4096 * 100).toFixed(1))
+      if (this.serverStatuData.table_count) {
+        return Number((this.serverStatuData.table_count / 4096 * 100).toFixed(1))
+      } else {
+        return 0
+      }
     },
     normalized_volume: function() {
       // `this` 指向 vm 实例

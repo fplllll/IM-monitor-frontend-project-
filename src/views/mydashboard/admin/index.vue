@@ -128,7 +128,6 @@ export default {
           this.topWarningDay = this.warningCalendar.sort(function(a, b) { return b[1] - a[1] }).slice(0, 5)
           this.serverStatuData = value[9].data
           this.TreeChartData = value[10].data
-          document.body.removeChild(document.getElementById('Loading'))
         })
       }, 0)
       // setTimeout(() => {

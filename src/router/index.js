@@ -65,19 +65,6 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '/dashboard',
-    component: Layout,
-    redirect: 'dashboard',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
-      }
-    ]
-  },
-  {
     path: '',
     component: Layout,
     redirect: 'mydashboard',
@@ -104,6 +91,21 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/motor',
+    component: Layout,
+    redirect: '/motor/realtime/1',
+    meta: { title: 'Motor Real Time', icon: 'real-time', noCache: true },
+    children: [
+      {
+        path: 'realtime/:id(\\d+)',
+        component: () => import('@/views/realtime/index'),
+        name: 'MotorRealTime',
+        meta: { title: 'Motor Real Time', icon: 'real-time', noCache: true },
+        hidden: true
+      }
+    ]
+  },
+  {
     path: '/documentation',
     component: Layout,
     redirect: '/documentation/index',
@@ -113,6 +115,19 @@ export const constantRouterMap = [
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
         meta: { title: 'documentation', icon: 'documentation', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/dashboard',
+    component: Layout,
+    redirect: 'dashboard',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/dashboard/index'),
+        name: 'Dashboard',
+        meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
       }
     ]
   },
@@ -219,19 +234,6 @@ export const asyncRouterMap = [
         meta: { title: 'articleList', icon: 'list' }
       }
     ]
-  },
-  {
-    path: '/motor',
-    component: Layout,
-    children: [
-      {
-        path: 'realtime/:id(\\d+)',
-        component: () => import('@/views/realtime/index'),
-        name: 'MotorRealTime',
-        meta: { title: 'Motor Real Time', noCache: true }
-      }
-    ],
-    hidden: true
   },
   {
     path: '/tab',

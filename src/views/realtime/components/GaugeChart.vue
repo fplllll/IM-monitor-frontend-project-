@@ -32,11 +32,8 @@ export default {
     }
   },
   watch: {
-    gaugeData: {
-      deep: true,
-      handler() {
-        this.setChart()
-      }
+    'gaugeData'() {
+      this.setChart()
     }
   },
   mounted() {
@@ -73,14 +70,16 @@ export default {
             name: '转速',
             type: 'gauge',
             center: ['20%', '55%'], // 默认全局居中
-            radius: '70%',
+            radius: '80%',
             min: 0,
-            max: 7,
+            max: 100,
             endAngle: 45,
-            splitNumber: 7,
+            splitNumber: 5,
             axisLine: { // 坐标轴线
               lineStyle: { // 属性lineStyle控制线条样式
-                width: 8
+                width: 8,
+                color: [[1, '#8ffbef']]
+
               }
             },
             axisTick: { // 坐标轴小标记
@@ -99,39 +98,56 @@ export default {
               width: 5
             },
             title: {
-              offsetCenter: [0, '-30%'] // x, y，单位px
+              fontWeight: 'bolder',
+              offsetCenter: [0, '100%']
+
             },
             detail: {
               // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+              fontSize: 18,
               fontWeight: 'bolder'
             },
-            data: [{ value: 1.5, name: 'x1000 r/min' }]
+            data: [
+              { value: this.gaugeData.psf[0].toFixed(2), name: 'Frequency' },
+              { value: this.gaugeData.psf[1], name: 'x1000 r/min' },
+              { value: this.gaugeData.psf[2], name: 'x1000 r/min' }
+            ]
           },
           {
             title: {
               fontWeight: 'bolder',
-              fontSize: 20
+              fontSize: 20,
+              offsetCenter: [0, '80%']
+
             },
             name: 'RPM',
             type: 'gauge',
             min: 0,
             max: 5000,
             radius: '100%',
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: [[1, '#bf81c2']],
+                width: 10
+              }
+            },
             data: [{ value: this.gaugeData.rpm, name: 'RPM' }]
           },
           {
-            name: 'U Phase PSF',
+            name: 'U Phase RMS',
             type: 'gauge',
-            center: ['77%', '50%'], // 默认全局居中
-            radius: '70%',
+            center: ['80%', '50%'], // 默认全局居中
+            radius: '80%',
             min: 0,
-            max: 2,
+            max: 0.3,
             startAngle: 135,
             endAngle: 45,
             splitNumber: 2,
             axisLine: { // 坐标轴线
               lineStyle: { // 属性lineStyle控制线条样式
-                width: 8
+                width: 8,
+                color: [[1, '#ff5e93']]
               }
             },
             axisTick: { // 坐标轴小标记
@@ -143,10 +159,10 @@ export default {
             },
             axisLabel: {
               formatter: function(v) {
-                switch (v + '') {
-                  case '0' : return 'E'
-                  case '1' : return 'Gas'
-                  case '2' : return 'F'
+                switch (v) {
+                  case 0 : return 'Low'
+                  case 0.15 : return 'U-Rms'
+                  case 0.3 : return 'High'
                 }
               }
             },
@@ -160,26 +176,28 @@ export default {
               width: 2
             },
             title: {
-              show: false
+              offsetCenter: [0, '115%'],
+              fontWeight: 'bolder'
             },
             detail: {
               show: false
             },
-            data: [{ value: 0.5, name: 'gas' }]
+            data: [{ value: this.gaugeData.rms[0], name: '3 Phase RMS' }]
           },
           {
-            name: '水表',
+            name: 'V phase RMS',
             type: 'gauge',
-            center: ['77%', '50%'], // 默认全局居中
-            radius: '70%',
+            center: ['80%', '50%'], // 默认全局居中
+            radius: '80%',
             min: 0,
-            max: 2,
+            max: 0.3,
             startAngle: 315,
             endAngle: 225,
             splitNumber: 2,
             axisLine: { // 坐标轴线
               lineStyle: { // 属性lineStyle控制线条样式
-                width: 8
+                width: 8,
+                color: [[1, '#7ac0fa']]
               }
             },
             axisTick: { // 坐标轴小标记
@@ -187,10 +205,10 @@ export default {
             },
             axisLabel: {
               formatter: function(v) {
-                switch (v + '') {
-                  case '0' : return 'H'
-                  case '1' : return 'Water'
-                  case '2' : return 'C'
+                switch (v) {
+                  case 0 : return 'Low'
+                  case 0.15 : return 'V-Rms'
+                  case 0.3 : return 'High'
                 }
               }
             },
@@ -209,7 +227,53 @@ export default {
             detail: {
               show: false
             },
-            data: [{ value: 0.5, name: 'gas' }]
+            data: [{ value: this.gaugeData.rms[1], name: 'V-RMS' }]
+          },
+          {
+            name: 'W phase RMS',
+            type: 'gauge',
+            center: ['80%', '50%'], // 默认全局居中
+            radius: '80%',
+            min: 0,
+            max: 0.3,
+            startAngle: 35,
+            endAngle: -35,
+            splitNumber: 2,
+            axisLine: { // 坐标轴线
+              lineStyle: { // 属性lineStyle控制线条样式
+                width: 8,
+                color: [[1, '#8bfa9e']]
+
+              }
+            },
+            axisTick: { // 坐标轴小标记
+              show: false
+            },
+            axisLabel: {
+              formatter: function(v) {
+                switch (v) {
+                  case 0 : return 'Low'
+                  case 0.15 : return 'W-Rms'
+                  case 0.3 : return 'High'
+                }
+              }
+            },
+            splitLine: { // 分隔线
+              length: 15, // 属性length控制线长
+              lineStyle: { // 属性lineStyle（详见lineStyle）控制线条样式
+                color: 'auto'
+              }
+            },
+            pointer: {
+              width: 2
+            },
+            title: {
+              show: false
+            },
+            detail: {
+              show: false
+            },
+            data: [{ value: this.gaugeData.rms[2], name: 'W-RMS' }]
           }
         ]
       })
@@ -217,3 +281,4 @@ export default {
   }
 }
 </script>
+

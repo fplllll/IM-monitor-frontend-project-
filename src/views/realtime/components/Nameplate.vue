@@ -15,7 +15,7 @@
     </div>
 
     <div class="bottom clearfix">
-      <md-list>
+      <md-list style="font-family: 'Helvetica Neue'">
         <md-subheader style="font-weight:bold;font-size: 25px">
           {{ motor_attribute[0].name | stringFilter }}-{{ motor_attribute[0].sn }}
         </md-subheader>
@@ -49,7 +49,7 @@
 
           <span class="md-list-item-text">Motor Detail</span>
 
-          <md-button class="md-icon-button md-list-action">
+          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(1)">
             <md-icon class="md-primary">chat_bubble</md-icon>
           </md-button>
         </md-list-item>
@@ -61,7 +61,7 @@
 
           <span class="md-list-item-text">Stator Detail</span>
 
-          <md-button class="md-icon-button md-list-action">
+          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(2)">
             <md-icon class="md-primary">chat_bubble</md-icon>
           </md-button>
         </md-list-item>
@@ -73,7 +73,7 @@
 
           <span class="md-list-item-text">Rotor Detail</span>
 
-          <md-button class="md-icon-button md-list-action">
+          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(3)">
             <md-icon class="md-primary">chat_bubble</md-icon>
           </md-button>
         </md-list-item>
@@ -85,7 +85,7 @@
 
           <span class="md-list-item-text">Bearing Detail</span>
 
-          <md-button class="md-icon-button md-list-action">
+          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(4)">
             <md-icon class="md-primary">chat_bubble</md-icon>
           </md-button>
         </md-list-item>
@@ -140,6 +140,36 @@ export default {
       'avatar',
       'roles'
     ])
+  },
+  methods: {
+    retrieveDetail(index) {
+      var detail
+      switch (index) {
+        case 1: detail = this.motor_attribute[0].detail
+          break
+        case 2: detail = this.motor_attribute[0].children[3].detail
+          break
+        case 3: detail = this.motor_attribute[0].children[2].detail
+          break
+        case 4: detail = {
+          DrivenEnd: this.motor_attribute[0].children[1].detail,
+          NonDrivenEnd: this.motor_attribute[0].children[0].detail
+        }
+          break
+        default:
+      }
+      const message = Object.keys(detail)
+        .map(i => {
+          return `<p>${i}: ${JSON.stringify(detail[i])}</p>`
+        })
+        .join('')
+      this.$notify({
+        title: 'Success',
+        dangerouslyUseHTMLString: true,
+        message: message,
+        type: 'success'
+      })
+    }
   }
 }
 </script>
