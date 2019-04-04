@@ -4,6 +4,7 @@
 
 <script>
 import echarts from 'echarts'
+
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
 
@@ -19,13 +20,13 @@ export default {
     },
     height: {
       type: String,
-      default: '350px'
+      default: '200px'
     },
     autoResize: {
       type: Boolean,
       default: true
     },
-    three_phase_data: {
+    zeroSequenceData: {
       type: Object,
       required: true
     }
@@ -38,12 +39,13 @@ export default {
     }
   },
   watch: {
-    'three_phase_data'() {
+    'zeroSequenceData'() {
       this.setChart()
     }
   },
   mounted() {
     this.chart = echarts.init(this.$el, 'macarons')
+    this.setChart()
     if (this.autoResize) {
       this.__resizeHandler = debounce(() => {
         if (this.chart) {
@@ -78,7 +80,7 @@ export default {
     },
     generate_timevector() {
       var data = []
-      for (var i = 0; i < this.three_phase_data.uphase.signal.length; i++) {
+      for (var i = 0; i < this.zeroSequenceData.real.length; i++) {
         data.push((i / 20480).toFixed(2))
       }
       return data
@@ -115,19 +117,22 @@ export default {
         yAxis: {
           axisTick: {
             show: false
-          }
+          },
+          min: -0.3,
+          max: 0.3
         },
         legend: {
-          data: ['U phase', 'V phase', 'W phase']
+          data: ['Real Part', 'Imag Part']
         },
         series: [{
-          name: 'U phase',
+          name: 'Real Part',
           itemStyle: {
             normal: {
-              color: '#FF005A',
+              color: '#000000',
               lineStyle: {
-                color: '#FF005A',
-                width: 2
+                color: '#000000',
+                width: 2,
+                type: 'solid'
               },
               areaStyle: {
                 color: '#fae0dc'
@@ -139,7 +144,7 @@ export default {
           symbol: 'none',
           sampling: 'average',
           type: 'line',
-          data: this.three_phase_data.uphase.signal,
+          data: this.zeroSequenceData.real,
           animationDuration: 4000,
           animationEasing: 'quadraticIn',
           largeThreshold: 2000,
@@ -148,56 +153,31 @@ export default {
 
         },
         {
-          name: 'V phase',
+          name: 'Imag Part',
           smooth: true,
           symbol: 'none',
           sampling: 'average',
-          large: true,
           type: 'line',
           itemStyle: {
             normal: {
-              color: '#3888fa',
+              color: '#000000',
               lineStyle: {
-                color: '#3888fa',
-                width: 2
+                color: '#000000',
+                width: 2,
+                type: 'dashed'
               },
               areaStyle: {
                 color: '#d9f8fa'
               }
             }
           },
-          data: this.three_phase_data.vphase.signal,
+          data: this.zeroSequenceData.imag,
           largeThreshold: 2000,
+          large: true,
           animation: false,
 
           animationDuration: 4000,
           animationEasing: 'quadraticIn'
-
-        },
-        {
-          name: 'W phase',
-          smooth: true,
-          symbol: 'none',
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#26fa24',
-              lineStyle: {
-                color: '#26fa24',
-                width: 2
-              },
-              areaStyle: {
-                color: '#deffdf'
-              }
-            }
-          },
-          data: this.three_phase_data.wphase.signal,
-          animation: false,
-          animationDuration: 4000,
-          largeThreshold: 2000,
-          large: true,
-          animationEasing: 'quadraticIn',
-          sampling: 'average'
 
         }]
       })

@@ -19,13 +19,13 @@ export default {
     },
     height: {
       type: String,
-      default: '350px'
+      default: '442px'
     },
     autoResize: {
       type: Boolean,
       default: true
     },
-    three_phase_data: {
+    harmonic_data: {
       type: Object,
       required: true
     }
@@ -38,8 +38,8 @@ export default {
     }
   },
   watch: {
-    'three_phase_data'() {
-      this.setChart()
+    'harmonic_data'() {
+      this.settlChart()
     }
   },
   mounted() {
@@ -78,16 +78,16 @@ export default {
     },
     generate_timevector() {
       var data = []
-      for (var i = 0; i < this.three_phase_data.uphase.signal.length; i++) {
-        data.push((i / 20480).toFixed(2))
+      for (var i = 0; i < this.harmonic_data.u.length; i++) {
+        data.push((i + 2).toString() + 'th Harmonic')
       }
       return data
     },
-    setChart() {
+    settlChart() {
       this.chart.setOption({
         xAxis: {
           // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          boundaryGap: false,
+          type: 'category',
           axisTick: {
             show: false
           },
@@ -101,12 +101,19 @@ export default {
           containLabel: true
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
         toolbox: {
           show: true,
+          orient: 'horizontal',
+          left: 'right',
           feature: {
-            // magicType: { show: true, type: ['line', 'bar'] },
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar', 'stack', 'tiled'] },
             restore: { show: true },
             saveAsImage: { show: true }
           }
@@ -115,6 +122,11 @@ export default {
         yAxis: {
           axisTick: {
             show: false
+          },
+          axisLabel: {
+            formatter: function(value, index) {
+              return (value * 100).toFixed(2) + '%'
+            }
           }
         },
         legend: {
@@ -138,8 +150,8 @@ export default {
           smooth: true,
           symbol: 'none',
           sampling: 'average',
-          type: 'line',
-          data: this.three_phase_data.uphase.signal,
+          type: 'bar',
+          data: this.harmonic_data.u,
           animationDuration: 4000,
           animationEasing: 'quadraticIn',
           largeThreshold: 2000,
@@ -153,7 +165,7 @@ export default {
           symbol: 'none',
           sampling: 'average',
           large: true,
-          type: 'line',
+          type: 'bar',
           itemStyle: {
             normal: {
               color: '#3888fa',
@@ -166,7 +178,7 @@ export default {
               }
             }
           },
-          data: this.three_phase_data.vphase.signal,
+          data: this.harmonic_data.v,
           largeThreshold: 2000,
           animation: false,
 
@@ -178,7 +190,7 @@ export default {
           name: 'W phase',
           smooth: true,
           symbol: 'none',
-          type: 'line',
+          type: 'bar',
           itemStyle: {
             normal: {
               color: '#26fa24',
@@ -191,7 +203,7 @@ export default {
               }
             }
           },
-          data: this.three_phase_data.wphase.signal,
+          data: this.harmonic_data.w,
           animation: false,
           animationDuration: 4000,
           largeThreshold: 2000,
@@ -203,5 +215,6 @@ export default {
       })
     }
   }
+
 }
 </script>

@@ -4,6 +4,7 @@
 
 <script>
 import echarts from 'echarts'
+
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
 
@@ -15,19 +16,22 @@ export default {
     },
     width: {
       type: String,
-      default: '100%'
+      default: '1100px'
     },
     height: {
       type: String,
-      default: '350px'
+      default: '400px'
     },
     autoResize: {
       type: Boolean,
       default: true
     },
-    three_phase_data: {
+    trendData: {
       type: Object,
-      required: true
+      required: true,
+      default: function() {
+        return {}
+      }
     }
 
   },
@@ -38,7 +42,7 @@ export default {
     }
   },
   watch: {
-    'three_phase_data'() {
+    'trendData'() {
       this.setChart()
     }
   },
@@ -76,22 +80,16 @@ export default {
         this.__resizeHandler()
       }
     },
-    generate_timevector() {
-      var data = []
-      for (var i = 0; i < this.three_phase_data.uphase.signal.length; i++) {
-        data.push((i / 20480).toFixed(2))
-      }
-      return data
-    },
     setChart() {
       this.chart.setOption({
+
         xAxis: {
           // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
           boundaryGap: false,
           axisTick: {
             show: false
           },
-          data: this.generate_timevector()
+          data: this.trendData.x
         },
         grid: {
           left: 10,
@@ -101,16 +99,29 @@ export default {
           containLabel: true
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross'
+          },
+          padding: [5, 10]
         },
         toolbox: {
           show: true,
           feature: {
-            // magicType: { show: true, type: ['line', 'bar'] },
+            magicType: { show: true, type: ['line', 'bar'] },
             restore: { show: true },
             saveAsImage: { show: true }
           }
         },
+        dataZoom: [
+          {
+            type: 'slider',
+            show: true,
+            xAxisIndex: [0],
+            start: 0,
+            end: 100
+          }
+        ],
 
         yAxis: {
           axisTick: {
@@ -118,90 +129,63 @@ export default {
           }
         },
         legend: {
-          data: ['U phase', 'V phase', 'W phase']
+          data: ['U THD', 'V THD', 'W THD']
         },
         series: [{
-          name: 'U phase',
+          name: 'U THD',
           itemStyle: {
             normal: {
-              color: '#FF005A',
               lineStyle: {
-                color: '#FF005A',
                 width: 2
-              },
-              areaStyle: {
-                color: '#fae0dc'
               }
             }
-
           },
+
           smooth: true,
           symbol: 'none',
           sampling: 'average',
-          type: 'line',
-          data: this.three_phase_data.uphase.signal,
-          animationDuration: 4000,
-          animationEasing: 'quadraticIn',
-          largeThreshold: 2000,
-          large: true,
-          animation: false
+          large: true, type: 'line',
+          data: this.trendData.rms,
+          animationDuration: 2800,
+          animationEasing: 'cubicInOut'
+        }, {
+          name: 'V THD',
+          itemStyle: {
+            normal: {
+              lineStyle: {
+                width: 2
+              }
+            }
+          },
 
-        },
-        {
-          name: 'V phase',
           smooth: true,
           symbol: 'none',
           sampling: 'average',
-          large: true,
-          type: 'line',
+          large: true, type: 'line',
+          data: this.trendData.max,
+          animationDuration: 2800,
+          animationEasing: 'cubicInOut'
+        }, {
+          name: 'W THD',
           itemStyle: {
             normal: {
-              color: '#3888fa',
               lineStyle: {
-                color: '#3888fa',
                 width: 2
-              },
-              areaStyle: {
-                color: '#d9f8fa'
               }
             }
           },
-          data: this.three_phase_data.vphase.signal,
-          largeThreshold: 2000,
-          animation: false,
 
-          animationDuration: 4000,
-          animationEasing: 'quadraticIn'
-
-        },
-        {
-          name: 'W phase',
           smooth: true,
           symbol: 'none',
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#26fa24',
-              lineStyle: {
-                color: '#26fa24',
-                width: 2
-              },
-              areaStyle: {
-                color: '#deffdf'
-              }
-            }
-          },
-          data: this.three_phase_data.wphase.signal,
-          animation: false,
-          animationDuration: 4000,
-          largeThreshold: 2000,
-          large: true,
-          animationEasing: 'quadraticIn',
-          sampling: 'average'
-
+          sampling: 'average',
+          large: true, type: 'line',
+          data: this.trendData.min,
+          animationDuration: 2800,
+          animationEasing: 'cubicInOut'
         }]
       })
     }
+
   }
 }
 </script>

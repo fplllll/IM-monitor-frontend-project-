@@ -4,6 +4,7 @@
 
 <script>
 import echarts from 'echarts'
+
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
 
@@ -19,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: '350px'
+      default: '200px'
     },
     autoResize: {
       type: Boolean,
@@ -44,6 +45,7 @@ export default {
   },
   mounted() {
     this.chart = echarts.init(this.$el, 'macarons')
+    this.setChart()
     if (this.autoResize) {
       this.__resizeHandler = debounce(() => {
         if (this.chart) {
@@ -78,7 +80,7 @@ export default {
     },
     generate_timevector() {
       var data = []
-      for (var i = 0; i < this.three_phase_data.uphase.signal.length; i++) {
+      for (var i = 0; i < this.three_phase_data.A.length; i++) {
         data.push((i / 20480).toFixed(2))
       }
       return data
@@ -115,7 +117,9 @@ export default {
         yAxis: {
           axisTick: {
             show: false
-          }
+          },
+          min: -0.3,
+          max: 0.3
         },
         legend: {
           data: ['U phase', 'V phase', 'W phase']
@@ -139,7 +143,7 @@ export default {
           symbol: 'none',
           sampling: 'average',
           type: 'line',
-          data: this.three_phase_data.uphase.signal,
+          data: this.three_phase_data.A,
           animationDuration: 4000,
           animationEasing: 'quadraticIn',
           largeThreshold: 2000,
@@ -152,7 +156,6 @@ export default {
           smooth: true,
           symbol: 'none',
           sampling: 'average',
-          large: true,
           type: 'line',
           itemStyle: {
             normal: {
@@ -166,8 +169,9 @@ export default {
               }
             }
           },
-          data: this.three_phase_data.vphase.signal,
+          data: this.three_phase_data.B,
           largeThreshold: 2000,
+          large: true,
           animation: false,
 
           animationDuration: 4000,
@@ -191,7 +195,7 @@ export default {
               }
             }
           },
-          data: this.three_phase_data.wphase.signal,
+          data: this.three_phase_data.C,
           animation: false,
           animationDuration: 4000,
           largeThreshold: 2000,

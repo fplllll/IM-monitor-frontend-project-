@@ -106,6 +106,58 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/symmetry',
+    component: Layout,
+    redirect: '/symmetry/index/',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/SymmetryAnalysis/index'),
+        name: 'Symmetry Analysis',
+        meta: { title: 'Symmetry Analysis', icon: 'symmentry', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/dq',
+    component: Layout,
+    redirect: '/dq/index/',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/dqAnalysis/index'),
+        name: 'DQZ transform',
+        meta: { title: 'DQZ transform', icon: 'dq', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/trend',
+    component: Layout,
+    redirect: '/trend/index/',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/trend/index'),
+        name: 'Trend Analysis',
+        meta: { title: 'Trend Analysis', icon: 'trend', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/harmonics',
+    component: Layout,
+    redirect: '/harmonics/index/',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/harmonic/index'),
+        name: 'Harmonics Analysis',
+        meta: { title: 'Harmonics Analysis', icon: 'harmonics', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/documentation',
     component: Layout,
     redirect: '/documentation/index',

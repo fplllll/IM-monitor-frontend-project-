@@ -90,6 +90,50 @@ export function get_motor_realtime(id) {
   return request({
     url: `/motors/realtime/${id}/`,
     method: 'get'
+  })
+}
 
+export function get_packs(query) {
+  return request({
+    url: `/packs/`,
+    method: 'get',
+    params: {
+      time_after: query.datarange[0],
+      time_before: query.datarange[1],
+      motor: query.motor
+    }
+  })
+}
+
+export function get_sympack(id) {
+  return request({
+    url: `/packs/${id}/`,
+    method: 'get'
+  })
+}
+
+export function get_dqpack(id) {
+  return request({
+    url: `/dqpacks/${id}/`,
+    method: 'get'
+  })
+}
+
+export function get_feature_trend(query) {
+  return request({
+    url: '/feature-trend/',
+    method: 'get',
+    params: {
+      time_after: query.datarange[0],
+      time_before: query.datarange[1],
+      motor: query.motor
+    }
+  })
+}
+
+export function get_harmonicpack(id) {
+  return request({
+    url: `/harmonics/${id}/`,
+    method: 'get'
   })
 }
