@@ -8,21 +8,25 @@
         <name-plate :motor_attribute="motor_detail" :pack_attribute="{ time: result.time,sampling_rate: result.sampling_rate,id:result.id }" />
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12" :xl="18" >
-        <div class="chart-wrapper">
-          <h3 class="chart-title">DQ Component</h3>
-          <dqChart :dq-chart-data="{ d: result.data.d, q: result.data.q}"/>
-        </div>
+        <el-row>
+          <div class="chart-wrapper">
+            <el-tabs type="border-card" stretch>
+              <el-tab-pane label="U phase Raw Signal and Envelope">
+                <trendChart :trend-data="{raw: result.data.uraw, env: result.data.uenvelope}"/>
+                <spectrum-chart :chart-data="{spectrum : result.data.ufft}"/>
+              </el-tab-pane>
+              <el-tab-pane label="V phase Raw Signal and Envelope">
+                <trendChart :trend-data="{raw: result.data.vraw, env: result.data.venvelope}"/>
+                <spectrum-chart :chart-data="{spectrum : result.data.vfft}"/>
+              </el-tab-pane>
+              <el-tab-pane label="W phase Raw Signal and Envelope">
+                <trendChart :trend-data="{raw: result.data.wraw, env: result.data.wenvelope}"/>
+                <spectrum-chart :chart-data="{spectrum : result.data.wfft}"/>
+              </el-tab-pane>
+            </el-tabs>
+          </div>
+        </el-row>
       </el-col>
-    </el-row>
-    <el-row>
-      <div class="chart-wrapper">
-        <h3 class="chart-title">Original Three Phase Signal</h3>
-        <three-phase :three_phase_data="{ uphase: {signal: result.data.A} , vphase: {signal: result.data.B},wphase: {signal: result.data.C}}"/>
-      </div>
-      <div class="chart-wrapper">
-        <h3 class="chart-title">Envelope</h3>
-        <spectrum-chart :width="'100%'" :chart-data="{ spectrum: envelope}"/>
-      </div>
     </el-row>
 
   </div>
@@ -30,14 +34,15 @@
 
 <script>
 import { get_motors } from '@/api/IM'
-import NamePlate from '../../realtime/components/Nameplate'
-import dqChart from './dqChart'
-import ThreePhase from '../../realtime/components/ThreePhase'
-import SpectrumChart from '../../Envelope Analysis/SpectrumChart'
+import NamePlate from '../realtime/components/Nameplate'
+import trendChart from './trendChart'
+import SpectrumChart from './SpectrumChart'
+
 export default {
   name: 'SymmetryResult',
   components: {
-    NamePlate, dqChart, ThreePhase, SpectrumChart
+    SpectrumChart,
+    NamePlate, trendChart
   },
   props: {
     motorid: {
@@ -54,8 +59,7 @@ export default {
     return {
       id: null,
       motor_detail: [{ name: '' }],
-      pack_detail: { rpm: 0 },
-      envelope: []
+      pack_detail: { rpm: 0 }
     }
   },
   beforeDestroy() {
@@ -68,11 +72,6 @@ export default {
     fetchData() {
       get_motors({ id: this.motorid }).then(response => {
         this.motor_detail = response.data
-        var data = []
-        for (var i = 0; i < this.result.data.q.length; i++) {
-          data.push(Math.sqrt(Math.pow(this.result.data.d[i], 2) + Math.pow(this.result.data.q[i], 2)))
-        }
-        this.envelope = data
       })
     }
   }
@@ -85,7 +84,7 @@ export default {
     background-color: rgb(255, 255, 255);
     .chart-wrapper {
       background: #fff;
-      padding: 16px 16px 0;
+      padding: 0px 16px 0;
       margin-bottom: 16px;
     }
   }

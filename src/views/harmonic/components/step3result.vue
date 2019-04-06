@@ -28,7 +28,7 @@
     <el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" >
         <div class="chart-wrapper">
-          <harmonic-gauge :height="'500px'" :gauge-data="{u: result.data.uthd,v:result.data.vthd,w:result.data.wthd}" />
+          <harmonic-gauge :height="'300px'" :gauge-data="{u: result.data.uthd,v:result.data.vthd,w:result.data.wthd}" />
         </div>
       </el-col>
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" >

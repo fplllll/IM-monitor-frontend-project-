@@ -137,3 +137,10 @@ export function get_harmonicpack(id) {
     method: 'get'
   })
 }
+
+export function get_envelope(id) {
+  return request({
+    url: `/envelope/${id}/`,
+    method: 'get'
+  })
+}

@@ -95,6 +95,7 @@ export default {
           top: 25,
           right: '25%',
           range: ['2019-01-01', '2019-06-30'],
+          cellSize: ['auto', 20],
           splitLine: {
             show: true,
             lineStyle: {
@@ -120,6 +121,7 @@ export default {
           top: 200,
           right: '25%',
           range: ['2019-07-01', '2019-12-31'],
+          cellSize: ['auto', 18],
           splitLine: {
             show: true,
             lineStyle: {

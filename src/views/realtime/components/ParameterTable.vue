@@ -13,19 +13,19 @@
 
       <el-table-column label="Amplitude (A)" align="center" >
         <template slot-scope="scope">
-          <span>{{ scope.row.UA.toFixed(2) }}</span>
+          <span>{{ scope.row.UA.toFixed(2) + 'A' }}</span>
         </template>
       </el-table-column>
 
       <el-table-column label="Frequency (Hz)" align="center" >
         <template slot-scope="scope">
-          <span>{{ scope.row.UW.toFixed(2) }}</span>
+          <span>{{ scope.row.UW.toFixed(2) +'Hz' }}</span>
         </template>
       </el-table-column>
 
       <el-table-column label="Initial Phase (°)" align="center" >
         <template slot-scope="scope">
-          <span>{{ scope.row.UP.toFixed(2) }}</span>
+          <span>{{ scope.row | initalPhaseFormatter }}</span>
         </template>
       </el-table-column>
     </el-table-column>
@@ -59,6 +59,12 @@ export default {
         2: 'Phase W'
       }
       return statusMap[status]
+    },
+    initalPhaseFormatter(row) {
+      const value = row.UP
+      if (row.UA < 0) {
+        return ((((value) / (2 * Math.PI) - Math.floor((value) / (2 * Math.PI))) * 360) - 180).toFixed(2) + '°'
+      } else { return ((value / (2 * Math.PI) - Math.floor(value / (2 * Math.PI))) * 360).toFixed(2) + '°' }
     }
   },
   props: {

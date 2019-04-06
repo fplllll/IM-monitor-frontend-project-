@@ -72,8 +72,8 @@ export const constantRouterMap = [
       {
         path: 'mydashboard',
         component: () => import('@/views/mydashboard/index'),
-        name: 'myDashboard',
-        meta: { title: 'My Dashboard', icon: 'dashboard', noCache: true, affix: true }
+        name: 'Mydashboard',
+        meta: { title: 'myDashboard', icon: 'dashboard', noCache: true, affix: true }
       }
     ]
   },
@@ -86,7 +86,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/eqtable/index'),
         name: 'EquipmentTable',
-        meta: { title: 'Equipment Table', icon: 'table', noCache: true }
+        meta: { title: 'equipmentTable', icon: 'table', noCache: true }
       }
     ]
   },
@@ -94,13 +94,13 @@ export const constantRouterMap = [
     path: '/motor',
     component: Layout,
     redirect: '/motor/realtime/1',
-    meta: { title: 'Motor Real Time', icon: 'real-time', noCache: true },
+    meta: { title: 'motorRealTime', icon: 'real-time', noCache: true },
     children: [
       {
         path: 'realtime/:id(\\d+)',
         component: () => import('@/views/realtime/index'),
         name: 'MotorRealTime',
-        meta: { title: 'Motor Real Time', icon: 'real-time', noCache: true },
+        meta: { title: 'motorRealTime', icon: 'real-time', noCache: true },
         hidden: true
       }
     ]
@@ -154,6 +154,19 @@ export const constantRouterMap = [
         component: () => import('@/views/harmonic/index'),
         name: 'Harmonics Analysis',
         meta: { title: 'Harmonics Analysis', icon: 'harmonics', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/envelope',
+    component: Layout,
+    redirect: '/envelope/index/',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/Envelope Analysis/index'),
+        name: 'Envelope Analysis',
+        meta: { title: 'Envelope Analysis', icon: 'envelope', noCache: true }
       }
     ]
   },

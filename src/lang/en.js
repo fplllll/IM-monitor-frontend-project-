@@ -1,5 +1,8 @@
 export default {
   route: {
+    myDashboard: 'Main Dashboard',
+    equipmentTable: 'Equipment Table',
+    motorRealTime: 'Motor Real Time',
     dashboard: 'Dashboard',
     introduction: 'Introduction',
     documentation: 'Documentation',

@@ -19,7 +19,7 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: '220px'
     },
     gaugeData: {
       type: Object,
@@ -58,13 +58,13 @@ export default {
   methods: {
     setChart() { // 中间
       var center1 = ['50%', '60%']
-      var radius1 = ['60%', '25%', '45%']
+      var radius1 = ['100%', '45%', '75%']
       // 左边
-      var center2 = ['22%', '65%']
-      var radius2 = ['60%', '45%', '45%']
+      var center2 = ['20%', '65%']
+      var radius2 = ['80%', '55%', '55%']
       // 邮编
-      var center3 = ['78%', '65%']
-      var radius3 = ['60%', '45%', '45%']
+      var center3 = ['80%', '65%']
+      var radius3 = ['80%', '55%', '55%']
 
       this.chart.setOption({
         tooltip: {
