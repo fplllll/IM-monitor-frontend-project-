@@ -111,25 +111,31 @@ export default {
       //     this.radarChartData = response.data
       //   })
       // }, 500)
-      setTimeout(() => {
-        Promise.all([get_trend(), get_statunum(), get_radar(), get_warninglog(1), get_warninglog(2), get_warninglog(3), get_indexbar(), get_warninglog(), get_warningcalendar(), get_tablestatu(), get_treemap()]).then(value => {
-          this.lineChartData = value[0].data
-          this.panelGroupData = value[1].data
-          this.radarChartData = value[2].data
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
 
-          this.pieChartData = [
-            { value: value[3].data.length, name: 'Motor#1' },
-            { value: value[4].data.length, name: 'Motor#2' },
-            { value: value[5].data.length, name: 'Motor#3' }
-          ]
-          this.barChartData = value[6].data
-          this.tableData = value[7].data.slice(0, 6)
-          this.warningCalendar = value[8].data
-          this.topWarningDay = this.warningCalendar.sort(function(a, b) { return b[1] - a[1] }).slice(0, 5)
-          this.serverStatuData = value[9].data
-          this.TreeChartData = value[10].data
-        })
-      }, 0)
+      Promise.all([get_trend(), get_statunum(), get_radar(), get_warninglog(1), get_warninglog(2), get_warninglog(3), get_indexbar(), get_warninglog(), get_warningcalendar(), get_tablestatu(), get_treemap()]).then(value => {
+        this.lineChartData = value[0].data
+        this.panelGroupData = value[1].data
+        this.radarChartData = value[2].data
+
+        this.pieChartData = [
+          { value: value[3].data.length, name: 'Motor#1' },
+          { value: value[4].data.length, name: 'Motor#2' },
+          { value: value[5].data.length, name: 'Motor#3' }
+        ]
+        this.barChartData = value[6].data
+        this.tableData = value[7].data.slice(0, 6)
+        this.warningCalendar = value[8].data
+        this.topWarningDay = this.warningCalendar.sort(function(a, b) { return b[1] - a[1] }).slice(0, 5)
+        this.serverStatuData = value[9].data
+        this.TreeChartData = value[10].data
+      })
+      loading.close()
       // setTimeout(() => {
       //   get_indexbar().then(response => {
       //     this.barChartData = response.data

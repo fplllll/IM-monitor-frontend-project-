@@ -9,55 +9,67 @@
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12" :xl="18">
         <el-row>
-          <div class="chart-wrapper">
-            <h3 class="chart-title">Positive Sequence</h3>
-            <sym-three-phase :height="'250px'" :three_phase_data="{ A: result.data.pAp_real,B: result.data.pBp_real,C: result.data.pCp_real}"/>
-          </div>
+          <el-card class="box-card" style="margin-top: 10px">
+            <div class="chart-wrapper">
+              <h3 class="chart-title">Positive Sequence</h3>
+              <sym-three-phase :height="'250px'" :three_phase_data="{ A: result.data.pAp_real,B: result.data.pBp_real,C: result.data.pCp_real}"/>
+            </div>
+          </el-card>
         </el-row>
         <el-row>
-          <div class="chart-wrapper">
-            <h3 class="chart-title">Negative Sequence</h3>
-            <sym-three-phase :height="'250px'" :three_phase_data="{ A: result.data.pAn_real,B: result.data.pBn_real,C: result.data.pCn_real}"/>
-          </div>
+          <el-card class="box-card" style="margin-top: 10px">
+            <div class="chart-wrapper">
+              <h3 class="chart-title">Negative Sequence</h3>
+              <sym-three-phase :height="'250px'" :three_phase_data="{ A: result.data.pAn_real,B: result.data.pBn_real,C: result.data.pCn_real}"/>
+            </div>
+          </el-card>
         </el-row>
         <el-row>
-          <div class="chart-wrapper">
-            <h3 class="chart-title">Zero Sequence</h3>
-            <zero-sequence :height="'250px'" :zero-sequence-data="{ real: result.data.zero_real, imag: result.data.zero_imag}"/>
-          </div>
+          <el-card class="box-card" style="margin-top: 10px">
+            <div class="chart-wrapper">
+              <h3 class="chart-title">Zero Sequence</h3>
+              <zero-sequence :height="'250px'" :zero-sequence-data="{ real: result.data.zero_real, imag: result.data.zero_imag}"/>
+            </div>
+          </el-card>
         </el-row>
       </el-col>
     </el-row>
     <el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 8}" :xl="{span: 8}">
-        <div class="chart-wrapper">
-          <h3 class="chart-title">Uphase Polar Figure</h3>
-          <PolarFigure
-            :ploar-chart-data="{ positive_real : result.data.pAp_real ,
-                                 negative_real: result.data.pAn_real ,
-                                 positive_imag : result.data.pAp_imag ,
-                                 negative_imag: result.data.pAn_imag ,}" />
-        </div>
+        <el-card class="box-card" style="margin-top: 10px">
+          <div class="chart-wrapper">
+            <h3 class="chart-title">Uphase Polar Figure</h3>
+            <PolarFigure
+              :ploar-chart-data="{ positive_real : result.data.pAp_real ,
+                                   negative_real: result.data.pAn_real ,
+                                   positive_imag : result.data.pAp_imag ,
+                                   negative_imag: result.data.pAn_imag ,}" />
+          </div>
+        </el-card>
       </el-col>
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 8}" :xl="{span: 8}">
-        <div class="chart-wrapper">
-          <h3 class="chart-title">Vphase Polar Figure</h3>
-          <PolarFigure
-            :ploar-chart-data="{ positive_real : result.data.pBp_real ,
-                                 negative_real: result.data.pBn_real ,
-                                 positive_imag : result.data.pBp_imag ,
-                                 negative_imag: result.data.pBn_imag ,}" />
-        </div>
+        <el-card class="box-card" style="margin-top: 10px">
+          <div class="chart-wrapper">
+            <h3 class="chart-title">Vphase Polar Figure</h3>
+            <PolarFigure
+              :ploar-chart-data="{ positive_real : result.data.pBp_real ,
+                                   negative_real: result.data.pBn_real ,
+                                   positive_imag : result.data.pBp_imag ,
+                                   negative_imag: result.data.pBn_imag ,}" />
+          </div>
+        </el-card>
       </el-col>
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 8}" :xl="{span: 8}">
-        <div class="chart-wrapper">
-          <h3 class="chart-title">Wphase Polar Figure</h3>
-          <PolarFigure
-            :ploar-chart-data="{ positive_real : result.data.pCp_real ,
-                                 negative_real: result.data.pCn_real ,
-                                 positive_imag : result.data.pCp_imag ,
-                                 negative_imag: result.data.pCn_imag ,}" />
-        </div>
+        <el-card class="box-card" style="margin-top: 10px">
+          <div class="chart-wrapper">
+            <h3 class="chart-title">Wphase Polar Figure</h3>
+            <PolarFigure
+              :ploar-chart-data="{ positive_real : result.data.pCp_real ,
+                                   negative_real: result.data.pCn_real ,
+                                   positive_imag : result.data.pCp_imag ,
+                                   negative_imag: result.data.pCn_imag ,}" />
+          </div>
+        </el-card>
       </el-col>
     </el-row>
 
@@ -113,7 +125,7 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
   .result-container {
     padding: 32px 32px 5px;
-    background-color: rgb(243, 243, 243);
+    background-color: rgb(255, 255, 255);
     .chart-wrapper {
       background: #fff;
       padding: 16px 16px 0;

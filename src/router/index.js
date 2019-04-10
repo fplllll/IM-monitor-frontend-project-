@@ -171,6 +171,19 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/diagnosis',
+    component: Layout,
+    redirect: '/diagnosis/index/',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/diagnosis/index'),
+        name: 'Motor Diagnosis',
+        meta: { title: 'Motor Diagnosis', icon: 'diag', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/documentation',
     component: Layout,
     redirect: '/documentation/index',

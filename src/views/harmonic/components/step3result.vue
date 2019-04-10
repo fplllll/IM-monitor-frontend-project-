@@ -10,29 +10,37 @@
         </el-row>
 
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="12" :xl="18">
+      <el-col :xs="24" :sm="24" :lg="12" :xl="18" >
         <el-row>
-          <div class="chart-wrapper">
-            <h3 class="chart-title">Three Phase Spectrum</h3>
-            <FFTtiemline :three_phase_data="{ uphase: {spec : result.data.ufft} ,vphase: {spec : result.data.vfft},wphase: {spec : result.data.wfft}}"/>
-          </div>
+          <el-card class="box-card">
+            <div class="chart-wrapper">
+              <h3 class="chart-title">Three Phase Spectrum</h3>
+              <FFTtiemline :three_phase_data="{ uphase: {spec : result.data.ufft} ,vphase: {spec : result.data.vfft},wphase: {spec : result.data.wfft}}"/>
+            </div>
+          </el-card>
         </el-row>
         <el-row>
-          <div class="chart-wrapper">
-            <h3 class="chart-title">Harmonics Component</h3>
-            <harmonic-bar :harmonic_data="{ u: result.data.uharmonic ,v: result.data.vharmonic, w: result.data.wharmonic}"/>
-          </div>
+          <el-card class="box-card" style="margin-top: 10px">
+            <div class="chart-wrapper">
+              <h3 class="chart-title">Harmonics Component</h3>
+              <harmonic-bar :harmonic_data="{ u: result.data.uharmonic ,v: result.data.vharmonic, w: result.data.wharmonic}"/>
+            </div>
+          </el-card>
         </el-row>
       </el-col>
     </el-row>
     <el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" >
-        <div class="chart-wrapper">
-          <harmonic-gauge :height="'300px'" :gauge-data="{u: result.data.uthd,v:result.data.vthd,w:result.data.wthd}" />
-        </div>
+        <el-card class="box-card" style="margin-top: 10px">
+          <div class="chart-wrapper">
+            <harmonic-gauge :height="'300px'" :gauge-data="{u: result.data.uthd,v:result.data.vthd,w:result.data.wthd}" />
+          </div>
+        </el-card>
       </el-col>
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" >
-        <HarmonicTable />
+        <el-card class="box-card" style="margin-top: 10px">
+          <HarmonicTable />
+        </el-card>
       </el-col>
     </el-row>
 
@@ -88,7 +96,7 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
   .result-container {
     padding: 32px 32px 32px;
-    background-color: rgb(243, 243, 243);
+    background-color: rgb(255, 255, 255);
     .chart-wrapper {
       background: #fff;
       padding: 16px 16px 0;

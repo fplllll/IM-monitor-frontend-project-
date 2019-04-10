@@ -8,21 +8,30 @@
         <name-plate :motor_attribute="motor_detail" :pack_attribute="{ time: result.time,sampling_rate: result.sampling_rate,id:result.id }" />
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12" :xl="18" >
-        <div class="chart-wrapper">
-          <h3 class="chart-title">DQ Component</h3>
-          <dqChart :dq-chart-data="{ d: result.data.d, q: result.data.q}"/>
-        </div>
+        <el-card class="box-card">
+          <div class="chart-wrapper">
+            <h3 class="chart-title">DQ Component</h3>
+            <dqChart :dq-chart-data="{ d: result.data.d, q: result.data.q}"/>
+          </div>
+        </el-card>
+
       </el-col>
     </el-row>
     <el-row>
-      <div class="chart-wrapper">
-        <h3 class="chart-title">Original Three Phase Signal</h3>
-        <three-phase :three_phase_data="{ uphase: {signal: result.data.A} , vphase: {signal: result.data.B},wphase: {signal: result.data.C}}"/>
-      </div>
-      <div class="chart-wrapper">
-        <h3 class="chart-title">Envelope</h3>
-        <spectrum-chart :width="'100%'" :chart-data="{ spectrum: envelope}"/>
-      </div>
+      <el-card class="box-card" style="margin-top: 10px">
+        <div class="chart-wrapper">
+          <h3 class="chart-title">Original Three Phase Signal</h3>
+          <three-phase :three_phase_data="{ uphase: {signal: result.data.A} , vphase: {signal: result.data.B},wphase: {signal: result.data.C}}"/>
+        </div>
+      </el-card>
+    </el-row>
+    <el-row>
+      <el-card class="box-card" style="margin-top: 10px">
+        <div class="chart-wrapper">
+          <h3 class="chart-title">Envelope</h3>
+          <spectrum-chart :width="'100%'" :chart-data="{ spectrum: envelope}"/>
+        </div>
+      </el-card>
     </el-row>
 
   </div>

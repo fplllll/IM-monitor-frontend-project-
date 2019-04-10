@@ -144,3 +144,10 @@ export function get_envelope(id) {
     method: 'get'
   })
 }
+
+export function get_diagResult(id) {
+  return request({
+    url: `/diagnosis/${id}/`,
+    method: 'get'
+  })
+}
