@@ -151,3 +151,11 @@ export function get_diagResult(id) {
     method: 'get'
   })
 }
+
+export function get_motorCard(query) {
+  return request({
+    url: '/motors/card_view/',
+    method: 'get',
+    params: query
+  })
+}

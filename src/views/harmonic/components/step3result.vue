@@ -14,7 +14,7 @@
         <el-row>
           <el-card class="box-card">
             <div class="chart-wrapper">
-              <h3 class="chart-title">Three Phase Spectrum</h3>
+              <h3 class="chart-title">{{ $t('realTime.threePhaseSpec') }}</h3>
               <FFTtiemline :three_phase_data="{ uphase: {spec : result.data.ufft} ,vphase: {spec : result.data.vfft},wphase: {spec : result.data.wfft}}"/>
             </div>
           </el-card>
@@ -22,7 +22,7 @@
         <el-row>
           <el-card class="box-card" style="margin-top: 10px">
             <div class="chart-wrapper">
-              <h3 class="chart-title">Harmonics Component</h3>
+              <h3 class="chart-title">{{ $t('harmonic.harmonicComp') }}</h3>
               <harmonic-bar :harmonic_data="{ u: result.data.uharmonic ,v: result.data.vharmonic, w: result.data.wharmonic}"/>
             </div>
           </el-card>
@@ -99,7 +99,7 @@ export default {
     background-color: rgb(255, 255, 255);
     .chart-wrapper {
       background: #fff;
-      padding: 16px 16px 0;
+      padding: 0px 16px 0;
       margin-bottom: 16px;
     }
   }

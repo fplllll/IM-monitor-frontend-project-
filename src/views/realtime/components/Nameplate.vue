@@ -22,22 +22,22 @@
         <hr>
         <md-list-item>
           <md-icon>av_timer</md-icon>
-          <span class="md-list-item-text">Updated Time : {{ pack_attribute.time }}</span>
+          <span class="md-list-item-text">{{ $t('realTime.updateTime') }} : {{ pack_attribute.time }}</span>
         </md-list-item>
 
         <md-list-item>
           <md-icon>shutter_speed</md-icon>
-          <span class="md-list-item-text">Sampling Rate : {{ pack_attribute.sampling_rate }}</span>
+          <span class="md-list-item-text">{{ $t('realTime.samplingRate') }} : {{ pack_attribute.sampling_rate }}</span>
         </md-list-item>
 
         <md-list-item>
           <md-icon class="md-size-10" md-src="/src/icons/svg/id.svg" />
-          <span class="md-list-item-text">Signal Pack ID : {{ pack_attribute.id }}</span>
+          <span class="md-list-item-text">{{ $t('realTime.packID') }} : {{ pack_attribute.id }}</span>
         </md-list-item>
 
         <md-list-item>
           <md-icon style="color: #d66732">error</md-icon>
-          <span class="md-list-item-text" style="font-weight: bold; color: #d66732">Statu : {{ motor_attribute[0].statu | statuTxtFilter }}</span>
+          <span class="md-list-item-text" style="font-weight: bold; color: #d66732">{{ $t('realTime.statu') }} : {{ motor_attribute[0].statu | statuTxtFilter }}</span>
         </md-list-item>
 
         <hr>
@@ -47,7 +47,7 @@
             <md-icon class="md-size-10" md-src="/src/icons/svg/motor.svg" />
           </md-avatar>
 
-          <span class="md-list-item-text">Motor Detail</span>
+          <span class="md-list-item-text">{{ $t('realTime.motorDetail') }}</span>
 
           <md-button class="md-icon-button md-list-action" @click="retrieveDetail(1)">
             <md-icon class="md-primary">chat_bubble</md-icon>
@@ -59,7 +59,7 @@
             <md-icon class="md-size-10" md-src="/src/icons/svg/stator.svg" />
           </md-avatar>
 
-          <span class="md-list-item-text">Stator Detail</span>
+          <span class="md-list-item-text">{{ $t('realTime.statorDetail') }}</span>
 
           <md-button class="md-icon-button md-list-action" @click="retrieveDetail(2)">
             <md-icon class="md-primary">chat_bubble</md-icon>
@@ -71,7 +71,7 @@
             <md-icon class="md-size-2x" md-src="/src/icons/svg/rotor.svg" />
           </md-avatar>
 
-          <span class="md-list-item-text">Rotor Detail</span>
+          <span class="md-list-item-text">{{ $t('realTime.rotorDetail') }}</span>
 
           <md-button class="md-icon-button md-list-action" @click="retrieveDetail(3)">
             <md-icon class="md-primary">chat_bubble</md-icon>
@@ -83,7 +83,7 @@
             <md-icon class="md-size-15" md-src="/src/icons/svg/Bearing.svg" />
           </md-avatar>
 
-          <span class="md-list-item-text">Bearing Detail</span>
+          <span class="md-list-item-text">{{ $t('realTime.bearingDetail') }}</span>
 
           <md-button class="md-icon-button md-list-action" @click="retrieveDetail(4)">
             <md-icon class="md-primary">chat_bubble</md-icon>

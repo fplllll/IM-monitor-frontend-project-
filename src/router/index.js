@@ -114,7 +114,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/SymmetryAnalysis/index'),
         name: 'Symmetry Analysis',
-        meta: { title: 'Symmetry Analysis', icon: 'symmentry', noCache: true }
+        meta: { title: 'SymmetryAnalysis', icon: 'symmentry', noCache: true }
       }
     ]
   },
@@ -127,7 +127,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/dqAnalysis/index'),
         name: 'DQZ transform',
-        meta: { title: 'DQZ transform', icon: 'dq', noCache: true }
+        meta: { title: 'DQZtransform', icon: 'dq', noCache: true }
       }
     ]
   },
@@ -140,7 +140,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/trend/index'),
         name: 'Trend Analysis',
-        meta: { title: 'Trend Analysis', icon: 'trend', noCache: true }
+        meta: { title: 'TrendAnalysis', icon: 'trend', noCache: true }
       }
     ]
   },
@@ -153,7 +153,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/harmonic/index'),
         name: 'Harmonics Analysis',
-        meta: { title: 'Harmonics Analysis', icon: 'harmonics', noCache: true }
+        meta: { title: 'HarmonicsAnalysis', icon: 'harmonics', noCache: true }
       }
     ]
   },
@@ -166,7 +166,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/Envelope Analysis/index'),
         name: 'Envelope Analysis',
-        meta: { title: 'Envelope Analysis', icon: 'envelope', noCache: true }
+        meta: { title: 'EnvelopeAnalysis', icon: 'envelope', noCache: true }
       }
     ]
   },
@@ -179,7 +179,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/diagnosis/index'),
         name: 'Motor Diagnosis',
-        meta: { title: 'Motor Diagnosis', icon: 'diag', noCache: true }
+        meta: { title: 'MotorDiagnosis', icon: 'diag', noCache: true }
       }
     ]
   },

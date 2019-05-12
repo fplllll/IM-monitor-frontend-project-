@@ -1,6 +1,6 @@
 <template>
   <div class="result-container">
-    <el-row :gutter="8">
+    <el-row :gutter="50">
       <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">-->
       <!--<todo-list/>-->
       <!--</el-col>-->
@@ -9,28 +9,22 @@
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12" :xl="18" >
         <el-card class="box-card">
-          <div class="chart-wrapper">
-            <h3 class="chart-title">DQ Component</h3>
-            <dqChart :dq-chart-data="{ d: result.data.d, q: result.data.q}"/>
-          </div>
+          <h3 class="chart-title">{{ $t('dqanalysis.dqDQComponent') }}</h3>
+          <dqChart :dq-chart-data="{ d: result.data.d, q: result.data.q}"/>
         </el-card>
 
       </el-col>
     </el-row>
     <el-row>
       <el-card class="box-card" style="margin-top: 10px">
-        <div class="chart-wrapper">
-          <h3 class="chart-title">Original Three Phase Signal</h3>
-          <three-phase :three_phase_data="{ uphase: {signal: result.data.A} , vphase: {signal: result.data.B},wphase: {signal: result.data.C}}"/>
-        </div>
+        <h3 class="chart-title">{{ $t('dqanalysis.threephase') }}</h3>
+        <three-phase :three_phase_data="{ uphase: {signal: result.data.A} , vphase: {signal: result.data.B},wphase: {signal: result.data.C}}"/>
       </el-card>
     </el-row>
     <el-row>
       <el-card class="box-card" style="margin-top: 10px">
-        <div class="chart-wrapper">
-          <h3 class="chart-title">Envelope</h3>
-          <spectrum-chart :width="'100%'" :chart-data="{ spectrum: envelope}"/>
-        </div>
+        <h3 class="chart-title">{{ $t('dqanalysis.envelope') }}</h3>
+        <spectrum-chart :width="'100%'" :chart-data="{ spectrum: envelope}"/>
       </el-card>
     </el-row>
 

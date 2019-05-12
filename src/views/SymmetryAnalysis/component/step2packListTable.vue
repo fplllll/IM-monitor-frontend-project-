@@ -13,25 +13,20 @@
         type="index"/>
 
       <el-table-column
+        :label="$t('symmetry.timeColumn')"
         property="time"
         sortable
-        label="Collected Time"/>
+      />
 
       <el-table-column
+        :label="$t('symmetry.rpmColumn')"
         property="rpm"
-        sortable
-        label="Rotational Speed"/>
-
+        sortable/>
       <el-table-column
-        property="id"
-        label="Index in the database"/>
+        :label="$t('symmetry.dbindexColumn')"
+        property="id"/>
 
     </el-table>
-
-    <div style="margin-top: 20px">
-      <el-button @click="setCurrent(value[1])">选中第二行</el-button>
-      <el-button @click="setCurrent()">取消选择</el-button>
-    </div>
 
     <el-pagination
       :page-size="pagesize"
@@ -42,7 +37,9 @@
       @current-change="handlepgCurrentChange"
       @size-change="handleSizeChange"
     />
-
+    <div style="margin-top: 20px">
+      <el-button @click="setCurrent()">取消选择</el-button>
+    </div>
   </div>
 
 </template>
@@ -94,6 +91,6 @@ export default {
 
 <style scoped>
   .table-container {
-    padding: 32px 32px 32px;
+    padding: 32px 32px 0px;
   }
 </style>

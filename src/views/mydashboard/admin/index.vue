@@ -3,24 +3,43 @@
     <github-corner style="position: absolute; top: 0px; border: 0; right: 0;"/>
 
     <panel-group :panel-group-data="panelGroupData"/>
+    <el-row :gutter="64">
+      <el-col :xs="12" :sm="12" :lg="8">
+        <motor-card :card-data="cardData[0]" />
+      </el-col>
+      <el-col :xs="12" :sm="12" :lg="8">
+        <motor-card :card-data="cardData[1]"/>
+      </el-col>
+      <el-col :xs="12" :sm="12" :lg="8">
+        <motor-card :card-data="cardData[2]"/>
+      </el-col>
+    </el-row>
 
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;margin-top:32px">
+      <span class="card-title"> {{ $t('myDashboard.trend') }} </span>
+      <el-divider style="margin: 5px 0 5px"/>
       <line-chart :line-chart-data="lineChartData"/>
     </el-row>
 
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
+          <span class="card-title"> {{ $t('myDashboard.radarChart') }} </span>
+          <el-divider style="margin: 5px 0 5px"/>
           <raddar-chart :radar-chart-data="radarChartData"/>
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
+          <span class="card-title"> {{ $t('myDashboard.warningBar') }} </span>
+          <el-divider style="margin: 5px 0 5px"/>
           <pie-chart :pie-chart-data="pieChartData"/>
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
+          <span class="card-title"> {{ $t('myDashboard.compsBar') }} </span>
+          <el-divider style="margin: 5px 0 5px"/>
           <bar-chart :bar-chart-data="barChartData"/>
         </div>
       </el-col>
@@ -28,10 +47,18 @@
 
     <el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <transaction-table :table-data="tableData"/>
+        <div class="chart-wrapper">
+          <span class="card-title" style="text-align: center"> {{ $t('myDashboard.warningTable') }} </span>
+          <el-divider style="margin: 5px 0 5px"/>
+          <transaction-table :table-data="tableData"/>
+        </div>
       </el-col>
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <WarningCalendar :calendar-data="warningCalendar" :top-waring-data="topWarningDay"/>
+        <div class="chart-wrapper">
+          <span class="card-title" style="text-align: center"> {{ $t('myDashboard.warningCalendar') }} </span>
+          <el-divider style="margin: 5px 0 5px"/>
+          <WarningCalendar :calendar-data="warningCalendar" :top-waring-data="topWarningDay"/>
+        </div>
       </el-col>
     </el-row>
     <el-row :gutter="8">
@@ -43,6 +70,8 @@
       </el-col>
       <el-col :xs="24" :sm="24" :lg="18">
         <div class="chart-wrapper">
+          <span class="card-title" style="text-align: center"> {{ $t('myDashboard.treeMap') }} </span>
+          <el-divider style="margin: 5px 0 5px"/>
           <TreemapChart :tree-chart-data="TreeChartData"/>
         </div>
       </el-col>
@@ -64,7 +93,8 @@ import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
 import WarningCalendar from './components/WarningCalendar'
 import TreemapChart from './components/TreemapChart'
-import { get_trend, get_statunum, get_radar, get_warninglog, get_indexbar, get_warningcalendar, get_tablestatu, get_treemap } from '@/api/IM'
+import MotorCard from './components/MotorCard'
+import { get_trend, get_statunum, get_radar, get_warninglog, get_indexbar, get_warningcalendar, get_tablestatu, get_treemap, get_motorCard } from '@/api/IM'
 
 export default {
   name: 'DashboardAdmin',
@@ -79,7 +109,7 @@ export default {
     TodoList,
     BoxCard,
     WarningCalendar,
-    TreemapChart
+    TreemapChart, MotorCard
   },
   data() {
     return {
@@ -92,7 +122,8 @@ export default {
       warningCalendar: [],
       topWarningDay: [],
       serverStatuData: {},
-      TreeChartData: {}
+      TreeChartData: {},
+      cardData: []
     }
   },
   created() {
@@ -118,7 +149,9 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
 
-      Promise.all([get_trend(), get_statunum(), get_radar(), get_warninglog(1), get_warninglog(2), get_warninglog(3), get_indexbar(), get_warninglog(), get_warningcalendar(), get_tablestatu(), get_treemap()]).then(value => {
+      Promise.all([get_trend(), get_statunum(), get_radar(), get_warninglog(1), get_warninglog(2),
+        get_warninglog(3), get_indexbar(), get_warninglog(), get_warningcalendar(), get_tablestatu(),
+        get_treemap(), get_motorCard()]).then(value => {
         this.lineChartData = value[0].data
         this.panelGroupData = value[1].data
         this.radarChartData = value[2].data
@@ -134,6 +167,7 @@ export default {
         this.topWarningDay = this.warningCalendar.sort(function(a, b) { return b[1] - a[1] }).slice(0, 5)
         this.serverStatuData = value[9].data
         this.TreeChartData = value[10].data
+        this.cardData = value[11].data
       })
       loading.close()
       // setTimeout(() => {
@@ -172,5 +206,12 @@ export default {
       padding: 16px 16px 0;
       margin-bottom: 32px;
     }
+    .el-divider--horizontal {
+      margin: 5px 0 5px 0;
+    }
+  }
+  .card-divider {
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 </style>

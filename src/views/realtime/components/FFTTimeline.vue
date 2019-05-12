@@ -105,7 +105,7 @@ export default {
             },
             itemStyle: {
               normal: {
-                color: '#04a5f1'
+                color: '#484848'
               }
             },
             checkpointStyle: {
@@ -117,21 +117,25 @@ export default {
               position: -20,
               fontFamily: 'Helvetica Neue',
               fontWeight: 'bold',
-              fontSize: 14
+              fontSize: 14,
+              color: '#484848'
+            },
+            lineStyle: {
+              color: '#484848'
             },
             emphasis: {
               label: {
-                color: '#04a5f1',
+                color: '#484848',
                 fontSize: 18
               },
               checkpointStyle: {
-                color: '#04a5f1'
+                color: '#484848'
               },
               controlStyle: {
-                color: '#04a5f1'
+                color: '#484848'
               },
               itemStyle: {
-                color: '#04a5f1'
+                color: '#484848'
               }
             },
             data: ['U', 'V', 'W']

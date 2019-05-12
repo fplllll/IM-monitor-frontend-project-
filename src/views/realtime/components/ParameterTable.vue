@@ -4,26 +4,26 @@
     :row-class-name="tableRowClassName"
     :height="315"
     style="width: 100%; font-size: 16px;">
-    <el-table-column label="Parameters of each phase" align="center">
+    <el-table-column :label="$t('realTime.tabTitle')" align="center">
       <el-table-column label="Phase" align="center" >
         <template slot-scope="scope">
           <span>{{ scope.$index | indexMapper }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Amplitude (A)" align="center" >
+      <el-table-column :label="$t('realTime.amplitude')" align="center" >
         <template slot-scope="scope">
           <span>{{ scope.row.UA.toFixed(2) + 'A' }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Frequency (Hz)" align="center" >
+      <el-table-column :label="$t('realTime.frequency')" align="center" >
         <template slot-scope="scope">
           <span>{{ scope.row.UW.toFixed(2) +'Hz' }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Initial Phase (°)" align="center" >
+      <el-table-column :label="$t('realTime.initialPhase')" align="center" >
         <template slot-scope="scope">
           <span>{{ scope.row | initalPhaseFormatter }}</span>
         </template>

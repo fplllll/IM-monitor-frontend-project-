@@ -6,7 +6,7 @@
           <svg-icon icon-class="star" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Excellent motor</div>
+          <div class="card-panel-text">{{ $t('myDashboard.statisticsExcellent') }}</div>
           <count-to :start-val="0" :end-val="panelGroupData.Excellent" :duration="3000" class="card-panel-num"/>
         </div>
       </div>
@@ -17,7 +17,7 @@
           <svg-icon icon-class="component" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Good motor</div>
+          <div class="card-panel-text">{{ $t('myDashboard.statisticsGood') }}</div>
           <count-to :start-val="0" :end-val="panelGroupData.Good" :duration="3000" class="card-panel-num"/>
         </div>
       </div>
@@ -28,7 +28,7 @@
           <svg-icon icon-class="example" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Moderate motor</div>
+          <div class="card-panel-text">{{ $t('myDashboard.statisticsModerate') }}</div>
           <count-to :start-val="0" :end-val="panelGroupData.Moderate" :duration="3200" class="card-panel-num"/>
         </div>
       </div>
@@ -39,7 +39,7 @@
           <svg-icon icon-class="attention" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Poor motor</div>
+          <div class="card-panel-text">{{ $t('myDashboard.statisticsPoor') }}</div>
           <count-to :start-val="0" :end-val="panelGroupData.Poor" :duration="3600" class="card-panel-num"/>
         </div>
       </div>

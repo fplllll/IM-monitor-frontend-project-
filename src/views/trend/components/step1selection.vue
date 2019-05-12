@@ -1,6 +1,6 @@
 <template>
   <el-form :model="value" label-width="100px" style="width:600px;" align="left">
-    <el-form-item label="Name">
+    <el-form-item :label="$t('symmetry.formName')">
       <el-radio-group v-model="value.motor" >
         <el-radio
           v-for="item in motorOption"
@@ -9,7 +9,7 @@
         </el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="DateTime">
+    <el-form-item :label="$t('symmetry.dateRange')">
       <el-date-picker
         v-model="value.datarange"
         :picker-options="pickerOptions2"

@@ -1,102 +1,100 @@
 <template>
   <div>
     <div class="app-container">
-      <div style="margin-bottom:20px;">
-        <el-button type="primary" size="small" style="margin:0 0 20px 0;">
-          <a href="https://github.com/PanJiaChen/vue-element-admin/tree/master/src/components/TreeTable" target="_blank">Documentation</a>
-        </el-button>
+      <!--<div style="margin-bottom:20px;">-->
+      <!--<el-button type="primary" size="small" style="margin:0 0 20px 0;">-->
+      <!--<a href="https://github.com/PanJiaChen/vue-element-admin/tree/master/src/components/TreeTable" target="_blank">{{ $t('eqtable.treeMap') }}</a>-->
+      <!--</el-button>-->
 
-        <div class="option-item">
-          <el-tag>Expand All</el-tag>
-          <el-switch
-            v-model="defaultExpandAll"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          />
-        </div>
-      </div>
-      <tree-table
-        ref="TreeTable"
+      <!--&lt;!&ndash;<div class="option-item">&ndash;&gt;-->
+      <!--&lt;!&ndash;<el-tag>Expand All</el-tag>&ndash;&gt;-->
+      <!--&lt;!&ndash;<el-switch&ndash;&gt;-->
+      <!--&lt;!&ndash;v-model="defaultExpandAll"&ndash;&gt;-->
+      <!--&lt;!&ndash;active-color="#13ce66"&ndash;&gt;-->
+      <!--&lt;!&ndash;inactive-color="#ff4949"&ndash;&gt;-->
+      <!--&lt;!&ndash;/>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash; the expand function is not supported when using original tree table provided by element-ui 2.8/&ndash;&gt;-->
+      <!--</div>-->
+
+      <el-table
         :data="tableData"
-        :default-expand-all="defaultExpandAll"
-        :columns="columns"
+        :row-class-name="tableRowClassName"
+        style="width: 100%;margin-bottom: 20px;"
         border
-        default-children="children"
-        @selection-change="selectChange"
-      >
-
-        <template slot="selection">
-          <el-table-column type="selection" align="center" width="55" />
-        </template>
-
-        <template slot="pre-column" slot-scope="{scope}">
-          <el-table-column type="expand" width="55" >
+        row-key="name">
+        <el-table-column :label="$t('eqTable.index')" type="index" width="100" align="center"/>
+        <el-table-column type="selection" align="center" width="55" />
+        <el-table-column type="expand" align="center" width="55" >
+          <template slot-scope="scope">
             <el-tag type="info">
-              Fixing bugs... The expand function can not work for now.
+              {{ scope.row.memo }}
             </el-tag>
-          </el-table-column>
-        </template>
-
-        <template slot="health_indicator" slot-scope="{scope}">
-
-          <el-tooltip :content="scope.row.health_indicator+'Point'" effect="dark" placement="left">
-            <div class="processContainer">
-              <div
-                :style="{ width:(scope.row.health_indicator||0)*1.5 +'px',
-                          background:computeHI(scope),
-                          marginLeft:scope.row._level * 50+'px' }"
-                class="process"
-              >
-                <span style="display:inline-block" />
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('eqTable.name')" prop="name"/>
+        <el-table-column :label="$t('eqTable.sn')" align="center">
+          <template slot-scope="scope">
+            <svg-icon icon-class="sn"/> {{ scope.row.sn || 'Not recorded yet' }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          :label="$t('eqTable.healthIndicator')"
+          width="210">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.health_indicator+'Point'" effect="dark" placement="left">
+              <div class="processContainer">
+                <div
+                  :style="{ width:(scope.row.health_indicator||0)*1.5 +'px',
+                            background:computeHI(scope),
+                            marginLeft:scope.row.children?0:50 +'px' }"
+                  class="process"
+                >
+                  <span style="display:inline-block" />
+                </div>
               </div>
-            </div>
-          </el-tooltip>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column
+          :label="$t('eqTable.admin')"
+          align="center">
+          <template slot-scope="scope">
+            <svg-icon icon-class="user"/>  {{ matchUsername(scope) }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          :label="$t('eqTable.statu')"
+          align="center">
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.statu | statuTagFilter">{{ scope.row.statu | statuTxtFilter }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column
+          :label="$t('eqTable.lrTime')">
+          <template slot-scope="scope">
+            <svg-icon icon-class="time"/>  {{ scope.row.lr_time| dateTimeFilter }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('eqTable.operation')" align="center" width="300">
+          <template slot-scope="scope">
+            <el-button size="mini" type="success" @click="editItem(scope.row)">{{ $t('eqTable.edit') }}</el-button>
+            <el-button type="primary" size="mini" style="margin-left: 0" @click="retrieveDetail(scope)" >{{ $t('eqTable.retrieve') }}</el-button>
+            <router-link :to="'/motor/realtime/'+scope.row.id">
+              <el-button v-if="scope.row.children?true:false" type="danger" size="mini" >{{ $t('eqTable.realTime') }}</el-button>
+            </router-link>
+          </template>
+        </el-table-column>
+      </el-table>
 
-        </template>
-
-        <template slot="admin" slot-scope="{scope}">
-          <svg-icon icon-class="user"/>  {{ matchUsername(scope) }}
-        </template>
-
-        <template slot="statu" slot-scope="{scope}">
-          <el-tag :type="scope.row.statu | statuTagFilter">{{ scope.row.statu | statuTxtFilter }}</el-tag>
-        </template>
-
-        <template slot="lr_time" slot-scope="{scope}">
-          <svg-icon icon-class="time"/>  {{ scope.row.lr_time| dateTimeFilter }}
-        </template>
-
-        <template slot="append" slot-scope="{scope}">
-          <el-button
-            size="mini"
-            type="primary"
-            @click="addMenuItem(scope.row,'brother')"
-          >Append Brother
-          </el-button>
-          <el-button
-            size="mini"
-            type="primary"
-            @click="addMenuItem(scope.row,'children')"
-          >Append Child
-          </el-button>
-        </template>
-
-        <template slot="operation" slot-scope="{scope}">
-          <el-button size="mini" type="success" @click="editItem(scope.row)">Edit</el-button>
-          <el-button type="primary" size="mini" @click="retrieveDetail(scope)">Retrieve</el-button>
-          <router-link :to="'/motor/realtime/'+scope.row.id">
-            <el-button v-if="scope.row._level===1?false:true" type="danger" size="mini" >Real Time</el-button>
-          </router-link>
-        </template>
-      </tree-table>
     </div>
 
-    <el-dialog :visible.sync="dialogFormVisible" title="Edit">
+    <el-dialog :visible.sync="dialogFormVisible" :title="$t('eqTable.dialogTitle')">
       <el-form :model="tempItem" label-width="100px" style="width:600px">
-        <el-form-item label="Name">
+        <el-form-item :label="$t('eqTable.dialogName')">
           <el-input v-model.trim="tempItem.name" placeholder="Name" />
         </el-form-item>
-        <el-form-item label="DateTime">
+        <el-form-item :label="$t('eqTable.dialogLRtime')">
           <el-date-picker
             v-model="tempItem.lr_time"
             :picker-options="pickerOptions1"
@@ -106,8 +104,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="updateItem">Confirm</el-button>
+        <el-button @click="dialogFormVisible = false">{{ $t('eqTable.dialogCancleButton') }}</el-button>
+        <el-button type="primary" @click="updateItem">{{ $t('eqTable.dialogConfirmButton') }}</el-button>
       </span>
     </el-dialog>
 
@@ -115,11 +113,9 @@
 </template>
 
 <script>
-import TreeTable from './components/index'
 import { get_motors, patch_repair_time } from '@/api/IM'
 
 export default {
-  components: { TreeTable },
   filters: {
     statuTxtFilter(status) {
       const statusMap = {
@@ -148,45 +144,6 @@ export default {
       tableData: [],
       tempItem: {},
       dialogFormVisible: false,
-      columns: [
-        {
-          label: 'ID',
-          key: 'id',
-          width: 50
-        },
-        {
-          label: 'Name',
-          key: 'name',
-          align: 'left',
-          expand: true
-        },
-        {
-          label: 'Serial Number',
-          key: 'sn'
-        },
-        {
-          label: 'Last Repair',
-          key: 'lr_time'
-        },
-        {
-          label: 'Health Indicator',
-          key: 'health_indicator'
-        },
-        {
-          label: 'Statu',
-          key: 'statu',
-          width: 120
-        },
-        {
-          label: 'Admin',
-          key: 'admin'
-        },
-        {
-          label: 'Operation',
-          key: 'operation',
-          width: 360
-        }
-      ],
       pickerOptions1: {
         shortcuts: [{
           text: '今天',
@@ -290,7 +247,25 @@ export default {
         message: message,
         type: 'success'
       })
+    },
+    tableRowClassName({ row, rowIndex }) {
+      if (row.children === undefined) {
+        return 'warning-row'
+      } else if (row.children) {
+        return 'success-row'
+      }
+      return ''
     }
   }
 }
 </script>
+
+<style>
+  .el-table .warning-row {
+    background: #ffffff;
+  }
+
+  .el-table .success-row {
+    background: #edfaff;
+  }
+</style>

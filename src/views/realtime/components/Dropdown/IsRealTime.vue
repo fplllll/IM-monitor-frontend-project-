@@ -1,13 +1,13 @@
 <template>
   <el-dropdown :show-timeout="100" trigger="click">
-    <el-button plain>{{ !realtime_disabled?'即时刷新已关闭':'即使刷新' }}
+    <el-button plain>{{ !realtime_disabled?$t('realTime.unrefresh'):$t('realTime.refresh') }}
       <i class="el-icon-caret-bottom el-icon--right"/>
     </el-button>
     <el-dropdown-menu slot="dropdown" class="no-padding">
       <el-dropdown-item>
         <el-radio-group v-model="realtime_disabled" style="padding: 10px;" @change="handleFetchDataEvent">
-          <el-radio :label="true" >即时刷新</el-radio>
-          <el-radio :label="false" >关闭即时刷新</el-radio>
+          <el-radio :label="true" >{{ $t('realTime.refresh') }}</el-radio>
+          <el-radio :label="false" >{{ $t('realTime.unrefresh') }}</el-radio>
         </el-radio-group>
       </el-dropdown-item>
     </el-dropdown-menu>

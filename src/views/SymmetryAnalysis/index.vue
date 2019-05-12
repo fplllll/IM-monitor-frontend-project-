@@ -3,9 +3,9 @@
     <el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 24}" :xl="{span: 24}">
         <el-steps :active="activate" finish-status="success">
-          <el-step title="Select a Motor and Data Range"/>
-          <el-step title="Select a Pack of Signal"/>
-          <el-step title="Symmetry Analysis Result"/>
+          <el-step :title="$t('symmetry.step1')"/>
+          <el-step :title="$t('symmetry.step2')"/>
+          <el-step :title="$t('symmetry.step3')"/>
         </el-steps>
       </el-col>
     </el-row>
@@ -20,9 +20,9 @@
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :xs="{span: 6}" :sm ="{span: 6}" :md="{span: 6}" :lg="{span: 6}" :xl="{span: 6}" align="center">
-        <el-button v-if="!(activate === 0)" type="info" @click="prev">Previous Step</el-button>
-        <el-button v-if="activate === 0" type="primary" @click="fetchData">Get Pack list</el-button>
-        <el-button v-if="activate === 1" type="primary" @click="requestAnalyzing">Request Analyzing</el-button>
+        <el-button v-if="!(activate === 0)" type="info" @click="prev">{{ $t('symmetry.previousBtn') }}</el-button>
+        <el-button v-if="activate === 0" type="primary" @click="fetchData">{{ $t('symmetry.packlistBtn') }}</el-button>
+        <el-button v-if="activate === 1" type="primary" @click="requestAnalyzing">{{ $t('symmetry.analysisBtn') }}</el-button>
       </el-col>
     </el-row>
   </div>

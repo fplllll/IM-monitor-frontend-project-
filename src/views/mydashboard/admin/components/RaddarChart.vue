@@ -85,7 +85,7 @@ export default {
             { name: 'W-RMS', max: 0.2 },
             { name: 'Negative sequence', max: 0.1 },
             { name: 'Positice\nsequence', max: 0.2 },
-            { name: 'Power\nfrequency', max: 40 }
+            { name: 'Power\nfrequency', max: 70 }
           ]
         },
         legend: {
@@ -107,15 +107,15 @@ export default {
           },
           data: [
             {
-              value: [this.radarChartData[2].rmsfeatures.urms, this.radarChartData[2].rmsfeatures.vrms, this.radarChartData[2].rmsfeatures.wrms, this.radarChartData[2].symfeatures.ns, this.radarChartData[2].symfeatures.ps, this.radarChartData[2].psf.psf],
+              value: [this.radarChartData[2].ufeature.rms, this.radarChartData[2].vfeature.rms, this.radarChartData[2].wfeature.rms, this.radarChartData[2].symcomp.n_sequence_rms, this.radarChartData[2].symcomp.p_sequence_rms, this.radarChartData[2].uphase.frequency],
               name: 'Motor#3'
             },
             {
-              value: [this.radarChartData[1].rmsfeatures.urms, this.radarChartData[1].rmsfeatures.vrms, this.radarChartData[1].rmsfeatures.wrms, this.radarChartData[1].symfeatures.ns, this.radarChartData[1].symfeatures.ps, this.radarChartData[1].psf.psf],
+              value: [this.radarChartData[1].ufeature.rms, this.radarChartData[1].vfeature.rms, this.radarChartData[1].wfeature.rms, this.radarChartData[1].symcomp.n_sequence_rms, this.radarChartData[1].symcomp.p_sequence_rms, this.radarChartData[1].uphase.frequency],
               name: 'Motor#2'
             },
             {
-              value: [this.radarChartData[0].rmsfeatures.urms, this.radarChartData[0].rmsfeatures.vrms, this.radarChartData[0].rmsfeatures.wrms, this.radarChartData[0].symfeatures.ns, this.radarChartData[0].symfeatures.ps, this.radarChartData[0].psf.psf],
+              value: [this.radarChartData[0].ufeature.rms, this.radarChartData[0].vfeature.rms, this.radarChartData[0].wfeature.rms, this.radarChartData[0].symcomp.n_sequence_rms, this.radarChartData[0].symcomp.p_sequence_rms, this.radarChartData[0].uphase.frequency],
               name: 'Motor#1'
             }
           ],

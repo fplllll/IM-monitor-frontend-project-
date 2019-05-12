@@ -5,21 +5,21 @@
     </div>
     <div style="position:relative;">
       <pan-thumb :image="avatar" class="panThumb"/>
-      <mallki class-name="mallki-text" text="Induction Motor Monitoring"/>
+      <mallki :text="$t('myDashboard.statuCardTitle')" class-name="mallki-text"/>
       <div style="padding-top:35px;" class="progress-item">
-        <span>Table Count</span>
+        <span>{{ $t('myDashboard.dbTableCount') }}</span>
         <el-progress :text-inside="true" :stroke-width="18" :percentage="normalized_count"/>
       </div>
       <div class="progress-item">
-        <span>Table volume</span>
+        <span>{{ $t('myDashboard.dbTableVolume') }}</span>
         <el-progress :text-inside="true" :stroke-width="18" :percentage="normalized_volume" color="rgba(142, 113, 199, 0.7)"/>
       </div>
       <div class="progress-item">
-        <span>CPU usage</span>
+        <span>{{ $t('myDashboard.cpuUsage') }}</span>
         <el-progress :text-inside="true" :stroke-width="18" :percentage="serverStatuData.cpu_statu" status="success"/>
       </div>
       <div class="progress-item">
-        <span>Memory usage</span>
+        <span>{{ $t('myDashboard.memoryUsage') }}</span>
         <el-progress :text-inside="true" :stroke-width="18" :percentage="serverStatuData.memory_statu" status="exception"/>
       </div>
     </div>

@@ -3,9 +3,9 @@
     <el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 24}" :xl="{span: 24}">
         <el-steps :active="activate" finish-status="success">
-          <el-step title="Select a Motor and Data Range"/>
-          <el-step title="Select a Pack of Signal"/>
-          <el-step title="Symmetry Analysis Result"/>
+          <el-step :title="$t('symmetry.step1')"/>
+          <el-step :title="$t('symmetry.step2')"/>
+          <el-step :title="$t('')"/>
         </el-steps>
       </el-col>
     </el-row>

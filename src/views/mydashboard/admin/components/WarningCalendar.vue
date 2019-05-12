@@ -68,24 +68,24 @@ export default {
       this.chart.setOption({
         backgroundColor: '#ffffff',
 
-        title: {
-          top: '30%',
-          text: 'Warning\n\nCalendar',
-          right: '3%',
-          textStyle: {
-            fontFamily: 'Helvetica Neue',
-            fontWeight: 'bold',
-            fontSize: 18
-          },
-          textAlign: 'center'
-        },
+        // title: {
+        //   top: '30%',
+        //   text: 'Warning\n\nCalendar',
+        //   right: '3%',
+        //   textStyle: {
+        //     fontFamily: 'Helvetica Neue',
+        //     fontWeight: 'bold',
+        //     fontSize: 18
+        //   },
+        //   textAlign: 'center'
+        // },
         tooltip: {
           trigger: 'item'
         },
         legend: {
-          top: '55%',
+          top: '40%',
           right: '6%',
-          data: ['Warning count', 'Top 5'],
+          data: ['Warning Numbers', 'Top 5 Warning Day'],
           textStyle: {
             fontFamily: 'Helvetica Neue'
           },
@@ -146,7 +146,7 @@ export default {
         }],
         series: [
           {
-            name: 'Warning count',
+            name: 'Warning Numbers',
             type: 'scatter',
             coordinateSystem: 'calendar',
             data: this.calendarData,
@@ -160,7 +160,7 @@ export default {
             }
           },
           {
-            name: 'Warning count',
+            name: 'Warning Numbers',
             type: 'scatter',
             coordinateSystem: 'calendar',
             calendarIndex: 1,
@@ -175,7 +175,7 @@ export default {
             }
           },
           {
-            name: 'Top 5',
+            name: 'Top 5 Warning Day',
             type: 'effectScatter',
             coordinateSystem: 'calendar',
             calendarIndex: 1,
@@ -198,7 +198,7 @@ export default {
             zlevel: 1
           },
           {
-            name: 'Top 5',
+            name: 'Top 5 Warning Day',
             type: 'effectScatter',
             coordinateSystem: 'calendar',
             data: this.topWaringData,

@@ -231,7 +231,7 @@ export default {
           },
           data: [{
             name: '',
-            value: this.gaugeData.v
+            value: this.gaugeData.v * 100
           }]
         },
         {
@@ -394,7 +394,7 @@ export default {
           },
           data: [{
             name: '',
-            value: this.gaugeData.u
+            value: this.gaugeData.u * 100
           }]
         },
         {
@@ -557,7 +557,7 @@ export default {
           },
           data: [{
             name: '',
-            value: this.gaugeData.w
+            value: this.gaugeData.w * 100
           }]
         }
         ]

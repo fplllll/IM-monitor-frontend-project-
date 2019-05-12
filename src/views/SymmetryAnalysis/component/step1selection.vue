@@ -1,6 +1,6 @@
 <template>
-  <el-form :model="value" label-width="100px" style="width:600px;" align="left">
-    <el-form-item label="Name">
+  <el-form :model="value" label-width="200px" style="width:600px;" align="left">
+    <el-form-item :label="$t('symmetry.formName')">
       <el-radio-group v-model="value.motor" >
         <el-radio
           v-for="item in motorOption"
@@ -9,7 +9,7 @@
         </el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="DateTime">
+    <el-form-item :label="$t('symmetry.dateRange')">
       <el-date-picker
         v-model="value.datarange"
         :picker-options="pickerOptions2"
@@ -21,11 +21,11 @@
         value-format="yyyy-MM-dd HH:mm:ss"/>
       <br>
       <router-link :to="'/trend/index'">
-        <el-button type="text">Need trend analysis for selecting an Anomaly signal pack?</el-button>
+        <el-button type="text">{{ $t('symmetry.helpText') }}</el-button>
       </router-link>
     </el-form-item>
-    <el-form-item label="Pack ID">
-      <el-input v-model="value.packID" placeholder="Awaiting for input"/>
+    <el-form-item :label="$t('symmetry.formId')">
+      <el-input v-model="value.packID" placeholder="Waiting for input"/>
     </el-form-item>
   </el-form>
 </template>

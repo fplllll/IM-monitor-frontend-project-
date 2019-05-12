@@ -2,10 +2,10 @@
   <div class="motorrealtime-container">
     <sticky :class-name="'sub-navbar '+StickyForm.status">
       <IsRealTime v-model="StickyForm.realtime_disabled" @handleFetchDataEvent="toggleIntervalEvent"/>
-      <Location v-model="StickyForm.location" />
+      <!--<Location v-model="StickyForm.location" />-->
       <MotorID v-model="StickyForm.motor" />
       <router-link :to="'/motor/realtime/'+StickyForm.motor">
-        <el-button v-loading="loading" style="margin-left: 10px;" type="success" >切换</el-button>
+        <el-button v-loading="loading" style="margin-left: 10px;" type="success" >{{ $t('realTime.change') }}</el-button>
       </router-link>
     </sticky>
     <el-row :gutter="8">
@@ -18,11 +18,15 @@
       <el-col :xs="24" :sm="24" :lg="12" :xl="18">
         <el-row>
           <div class="chart-wrapper">
+            <span class="card-title"> {{ $t('realTime.threePhase') }} </span>
+            <el-divider/>
             <three-phase :three_phase_data="threePhaseData"/>
           </div>
         </el-row>
         <el-row>
           <div class="chart-wrapper">
+            <span class="card-title"> {{ $t('realTime.threePhaseSpec') }} </span>
+            <el-divider/>
             <FFTTimeline
               :three_phase_data="threePhaseData"/>
           </div>
@@ -32,6 +36,8 @@
     <el-row :gutter="8">
       <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
+          <span class="card-title"> {{ $t('realTime.gaugeTitle') }} </span>
+          <el-divider/>
           <gauge-chart :gauge-data="gaugeData"/>
         </div>
       </el-col>
@@ -135,6 +141,9 @@ export default {
       background: #fff;
       padding: 16px 16px 0;
       margin-bottom: 32px;
+    }
+    .el-divider--horizontal {
+      margin: 5px 0 5px 0;
     }
   }
 </style>

@@ -1,21 +1,21 @@
 <template>
   <el-table :data="tableData" style="width: 100%;padding-top: 15px;">
-    <el-table-column label="Description" min-width="180">
+    <el-table-column :label="$t('myDashboard.warningTabDescription')" min-width="180">
       <template slot-scope="scope">
         {{ scope.row.description | orderNoFilter }}
       </template>
     </el-table-column>
-    <el-table-column label="Motor" width="100" align="center">
+    <el-table-column :label="$t('myDashboard.warningTabMotorID')" width="100" align="center">
       <template slot-scope="scope">
         {{ scope.row.motor.name }}
       </template>
     </el-table-column>
-    <el-table-column label="Found time" width="180" align="center">
+    <el-table-column :label="$t('myDashboard.warningTabTime')" width="180" align="center">
       <template slot-scope="scope">
         {{ scope.row.c_day | dateTimeFilter }}
       </template>
     </el-table-column>
-    <el-table-column label="Severity" width="100" align="center">
+    <el-table-column :label="$t('myDashboard.warningTabSeverity')" width="100" align="center">
       <template slot-scope="scope">
         <el-tag :type="scope.row.severity | tagFilter"> {{ scope.row.severity | statusFilter }}</el-tag>
       </template>
