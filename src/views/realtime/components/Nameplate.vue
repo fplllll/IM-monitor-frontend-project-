@@ -15,7 +15,7 @@
     </div>
 
     <div class="bottom clearfix">
-      <md-list style="font-family: 'Helvetica Neue'">
+      <md-list style="font-family:Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif">
         <md-subheader style="font-weight:bold;font-size: 25px">
           {{ motor_attribute[0].name | stringFilter }}-{{ motor_attribute[0].sn }}
         </md-subheader>

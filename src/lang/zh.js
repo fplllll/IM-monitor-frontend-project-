@@ -196,6 +196,16 @@ export default {
     OptionalHarmonics: '副谐波成分',
     component: '电机部件'
   },
+  envelope: {
+    figureTitle: '相电流信号及包络线'
+  },
+  diagnosis: {
+    BRB: '转子断条',
+    BRM: '转子轴弯曲',
+    HEALTH: '无故障',
+    RMAM: '轴承故障',
+    resultPrefix: '所分析信号的故障模式为'
+  },
   navbar: {
     logOut: '退出登录',
     dashboard: '首页',

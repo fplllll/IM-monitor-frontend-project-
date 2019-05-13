@@ -282,5 +282,15 @@ export default {
     cum_contribution: 'Cumulate contribution',
     OptionalHarmonics: 'Optional Harmonic Orders',
     component: 'Motor Component'
+  },
+  envelope: {
+    figureTitle: 'phase Raw Signal and Envelope'
+  },
+  diagnosis: {
+    BRB: 'Broken Rotor Bar',
+    BRM: 'Boiled Rotor Shaft',
+    HEALTH: 'No Fault',
+    RMAM: 'Bearing Fault',
+    resultPrefix: 'The fault pattern of the selected signal is'
   }
 }

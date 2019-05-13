@@ -12,10 +12,10 @@
       <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">-->
       <!--<todo-list/>-->
       <!--</el-col>-->
-      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 6}" style="margin-bottom:30px;">
+      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
         <name-plate :motor_attribute="motor_detail" :pack_attribute="pack_detail" />
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="12" :xl="18">
+      <el-col :xs="24" :sm="24" :lg="18" :xl="18">
         <el-row>
           <div class="chart-wrapper">
             <span class="card-title"> {{ $t('realTime.threePhase') }} </span>

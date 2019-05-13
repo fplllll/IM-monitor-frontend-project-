@@ -16,10 +16,10 @@
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :xs="{span: 6}" :sm ="{span: 6}" :md="{span: 6}" :lg="{span: 6}" :xl="{span: 6}" align="center">
-        <el-button v-if="!(activate === 0)" type="info" @click="prev">Previous Step</el-button>
+        <el-button v-if="!(activate === 0)" type="info" @click="prev">{{ $t('symmetry.previousBtn') }}</el-button>
         <div v-if="activate===0">
-          <el-button type="primary" >Get Pack list</el-button> or directly
-          <el-button type="primary" @click="directlyAnalyze">Analyze</el-button> a signal pack.
+          <el-button type="primary" >{{ $t('symmetry.packlistBtn') }}</el-button> {{ $t('symmetry.helptext1') }}
+          <el-button type="primary" @click="directlyAnalyze">{{ $t('symmetry.diranalysisBtn') }}</el-button>
         </div>
       </el-col>
     </el-row>
@@ -30,12 +30,6 @@
 import { get_diagResult } from '@/api/IM'
 import step1selection from '../SymmetryAnalysis/component/step1selection'
 
-const patternMapper = {
-  0: 'Broken Rotor Bar',
-  1: 'Boiled Rotor Shaft',
-  2: 'Health Motor',
-  3: 'Defected Bearing Outter Race'
-}
 const boxMapper = {
   0: 'warning',
   1: 'warning',
@@ -58,7 +52,13 @@ export default {
       },
       packlist: [],
       result: {},
-      packID: 0
+      packID: 0,
+      patternMapper: {
+        0: this.$t('diagnosis.BRB'),
+        1: this.$t('diagnosis.BRM'),
+        2: this.$t('diagnosis.HEALTH'),
+        3: this.$t('diagnosis.RMAM')
+      }
     }
   },
   beforeDestroy() {
@@ -101,7 +101,7 @@ export default {
         get_diagResult(this.motorformData.packID).then(response => {
           const fault_pattern = response.data.result
           this.$message({
-            message: 'The fault pattern of this signal pack is ' + patternMapper[fault_pattern],
+            message: this.$t('diagnosis.resultPrefix') + this.patternMapper[fault_pattern],
             type: boxMapper[fault_pattern]
           })
         })

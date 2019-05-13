@@ -11,15 +11,15 @@
         <el-row>
           <div class="chart-wrapper">
             <el-tabs type="border-card" stretch>
-              <el-tab-pane label="U phase Raw Signal and Envelope">
+              <el-tab-pane :label=" 'U' + $t('envelope.figureTitle')">
                 <trendChart :trend-data="{raw: result.data.uraw, env: result.data.uenvelope}"/>
                 <spectrum-chart :chart-data="{spectrum : result.data.ufft}"/>
               </el-tab-pane>
-              <el-tab-pane label="V phase Raw Signal and Envelope">
+              <el-tab-pane :label=" 'V' + $t('envelope.figureTitle')">
                 <trendChart :trend-data="{raw: result.data.vraw, env: result.data.venvelope}"/>
                 <spectrum-chart :chart-data="{spectrum : result.data.vfft}"/>
               </el-tab-pane>
-              <el-tab-pane label="W phase Raw Signal and Envelope">
+              <el-tab-pane :label=" 'W' + $t('envelope.figureTitle')">
                 <trendChart :trend-data="{raw: result.data.wraw, env: result.data.wenvelope}"/>
                 <spectrum-chart :chart-data="{spectrum : result.data.wfft}"/>
               </el-tab-pane>

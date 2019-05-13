@@ -20,12 +20,12 @@
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :xs="{span: 6}" :sm ="{span: 6}" :md="{span: 6}" :lg="{span: 6}" :xl="{span: 6}" align="center">
-        <el-button v-if="!(activate === 0)" type="info" @click="prev">Previous Step</el-button>
+        <el-button v-if="!(activate === 0)" class="analysis-button" type="info" @click="prev" >{{ $t('symmetry.previousBtn') }}</el-button>
         <div v-if="activate===0">
-          <el-button type="primary" @click="fetchData">Get Pack list</el-button> or directly
-          <el-button type="primary" @click="directlyAnalyze">Analyze</el-button> a signal pack.
+          <el-button type="primary" class="analysis-button" @click="fetchData">{{ $t('symmetry.packlistBtn') }}</el-button> {{ $t('symmetry.helptext1') }}
+          <el-button type="primary" class="analysis-button" @click="directlyAnalyze">{{ $t('symmetry.diranalysisBtn') }}</el-button>
         </div>
-        <el-button v-if="activate === 1" type="primary" @click="requestAnalyzing">Request Analyzing</el-button>
+        <el-button v-if="activate === 1" class="analysis-button" type="primary" @click="requestAnalyzing">{{ $t('symmetry.analysisBtn') }}</el-button>
       </el-col>
     </el-row>
   </div>
@@ -133,4 +133,7 @@ export default {
       margin-bottom:5px;
     }
 
+  .analysis-button {
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  }
 </style>

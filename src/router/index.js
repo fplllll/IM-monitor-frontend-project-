@@ -200,6 +200,7 @@ export const constantRouterMap = [
     path: '/dashboard',
     component: Layout,
     redirect: 'dashboard',
+    hidden: true,
     children: [
       {
         path: 'index',
@@ -213,6 +214,7 @@ export const constantRouterMap = [
     path: '/guide',
     component: Layout,
     redirect: '/guide/index',
+    hidden: true,
     children: [
       {
         path: 'index',
@@ -233,6 +235,7 @@ export default new Router({
 export const asyncRouterMap = [
   {
     path: '/permission',
+    hidden: true,
     component: Layout,
     redirect: '/permission/index',
     alwaysShow: true, // will always show the root menu
@@ -266,6 +269,7 @@ export const asyncRouterMap = [
   {
     path: '/icon',
     component: Layout,
+    hidden: true,
     children: [
       {
         path: 'index',
@@ -277,13 +281,14 @@ export const asyncRouterMap = [
   },
 
   /** When your routing table is too long, you can split it into small modules**/
-  componentsRouter,
-  chartsRouter,
-  nestedRouter,
-  tableRouter,
+  // componentsRouter,
+  // chartsRouter,
+  // nestedRouter,
+  // tableRouter,
 
   {
     path: '/example',
+    hidden: true,
     component: Layout,
     redirect: '/example/list',
     name: 'Example',
@@ -315,6 +320,7 @@ export const asyncRouterMap = [
   },
   {
     path: '/tab',
+    hidden: true,
     component: Layout,
     children: [
       {
@@ -328,6 +334,7 @@ export const asyncRouterMap = [
 
   {
     path: '/error',
+    hidden: true,
     component: Layout,
     redirect: 'noredirect',
     name: 'ErrorPages',
@@ -353,6 +360,7 @@ export const asyncRouterMap = [
 
   {
     path: '/error-log',
+    hidden: true,
     component: Layout,
     redirect: 'noredirect',
     children: [
@@ -367,6 +375,7 @@ export const asyncRouterMap = [
 
   {
     path: '/excel',
+    hidden: true,
     component: Layout,
     redirect: '/excel/export-excel',
     name: 'Excel',
@@ -398,6 +407,7 @@ export const asyncRouterMap = [
 
   {
     path: '/zip',
+    hidden: true,
     component: Layout,
     redirect: '/zip/download',
     alwaysShow: true,
@@ -414,6 +424,7 @@ export const asyncRouterMap = [
 
   {
     path: '/pdf',
+    hidden: true,
     component: Layout,
     redirect: '/pdf/index',
     children: [
@@ -433,6 +444,7 @@ export const asyncRouterMap = [
 
   {
     path: '/theme',
+    hidden: true,
     component: Layout,
     redirect: 'noredirect',
     children: [
@@ -447,6 +459,7 @@ export const asyncRouterMap = [
 
   {
     path: '/clipboard',
+    hidden: true,
     component: Layout,
     redirect: 'noredirect',
     children: [
@@ -461,6 +474,7 @@ export const asyncRouterMap = [
 
   {
     path: '/i18n',
+    hidden: true,
     component: Layout,
     children: [
       {
@@ -474,6 +488,7 @@ export const asyncRouterMap = [
 
   {
     path: 'external-link',
+    hidden: true,
     component: Layout,
     children: [
       {
