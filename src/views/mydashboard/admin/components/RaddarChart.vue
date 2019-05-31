@@ -91,7 +91,7 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Motor#1', 'Motor#2', 'Motor#3']
+          data: ['Motor#3', 'Motor#2', 'Motor#1']
         },
         series: [{
           type: 'radar',
@@ -107,15 +107,15 @@ export default {
           },
           data: [
             {
-              value: [this.radarChartData[2].ufeature.rms, this.radarChartData[2].vfeature.rms, this.radarChartData[2].wfeature.rms, this.radarChartData[2].symcomp.n_sequence_rms, this.radarChartData[2].symcomp.p_sequence_rms, this.radarChartData[2].uphase.frequency],
+              value: [this.radarChartData[2].urms, this.radarChartData[2].vrms, this.radarChartData[2].wrms, this.radarChartData[2].n_rms, this.radarChartData[2].p_rms, this.radarChartData[2].frequency],
               name: 'Motor#3'
             },
             {
-              value: [this.radarChartData[1].ufeature.rms, this.radarChartData[1].vfeature.rms, this.radarChartData[1].wfeature.rms, this.radarChartData[1].symcomp.n_sequence_rms, this.radarChartData[1].symcomp.p_sequence_rms, this.radarChartData[1].uphase.frequency],
+              value: [this.radarChartData[1].urms, this.radarChartData[1].vrms, this.radarChartData[1].wrms, this.radarChartData[1].n_rms, this.radarChartData[1].p_rms, this.radarChartData[1].frequency],
               name: 'Motor#2'
             },
             {
-              value: [this.radarChartData[0].ufeature.rms, this.radarChartData[0].vfeature.rms, this.radarChartData[0].wfeature.rms, this.radarChartData[0].symcomp.n_sequence_rms, this.radarChartData[0].symcomp.p_sequence_rms, this.radarChartData[0].uphase.frequency],
+              value: [this.radarChartData[0].urms, this.radarChartData[0].vrms, this.radarChartData[0].wrms, this.radarChartData[0].n_rms, this.radarChartData[0].p_rms, this.radarChartData[0].frequency],
               name: 'Motor#1'
             }
           ],

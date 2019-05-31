@@ -46,14 +46,14 @@
     </el-row>
 
     <el-row :gutter="8">
-      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
+      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;">
         <div class="chart-wrapper">
           <span class="card-title" style="text-align: center"> {{ $t('myDashboard.warningTable') }} </span>
           <el-divider style="margin: 5px 0 5px"/>
           <transaction-table :table-data="tableData"/>
         </div>
       </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
+      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;">
         <div class="chart-wrapper">
           <span class="card-title" style="text-align: center"> {{ $t('myDashboard.warningCalendar') }} </span>
           <el-divider style="margin: 5px 0 5px"/>
@@ -94,7 +94,7 @@ import BoxCard from './components/BoxCard'
 import WarningCalendar from './components/WarningCalendar'
 import TreemapChart from './components/TreemapChart'
 import MotorCard from './components/MotorCard'
-import { get_trend, get_statunum, get_radar, get_warninglog, get_indexbar, get_warningcalendar, get_tablestatu, get_treemap, get_motorCard } from '@/api/IM'
+import { get_trend, get_motor, get_warning, get_tablestatu, get_equipgroup } from '@/api/IM'
 
 export default {
   name: 'DashboardAdmin',
@@ -149,25 +149,28 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
 
-      Promise.all([get_trend(), get_statunum(), get_radar(), get_warninglog(1), get_warninglog(2),
-        get_warninglog(3), get_indexbar(), get_warninglog(), get_warningcalendar(), get_tablestatu(),
-        get_treemap(), get_motorCard()]).then(value => {
-        this.lineChartData = value[0].data
-        this.panelGroupData = value[1].data
-        this.radarChartData = value[2].data
-
-        this.pieChartData = [
-          { value: value[3].data.length, name: 'Motor#1' },
-          { value: value[4].data.length, name: 'Motor#2' },
-          { value: value[5].data.length, name: 'Motor#3' }
-        ]
-        this.barChartData = value[6].data
-        this.tableData = value[7].data.slice(0, 6)
-        this.warningCalendar = value[8].data
+      Promise.all([
+        get_trend(1, { feature: 'thd', timeafter: encodeURIComponent('2016-01-01 00:00:00'), timebefore: encodeURIComponent('2016-05-01 00:00:00') }),
+        get_trend(2, { feature: 'thd', timeafter: encodeURIComponent('2016-01-01 00:00:00'), timebefore: encodeURIComponent('2016-05-01 00:00:00') }),
+        get_trend(3, { feature: 'thd', timeafter: encodeURIComponent('2016-01-01 00:00:00'), timebefore: encodeURIComponent('2016-05-01 00:00:00') }),
+        get_motor({ group_by: 'statu' }),
+        get_trend(1, { newest: true }), get_trend(2, { newest: true }), get_trend(3, { newest: true }),
+        get_warning(null, { group_by: 'motor' }),
+        get_motor({ group_by: 'comps' }),
+        get_warning(null, { limit: 6 }),
+        get_warning(null, { group_by: 'date' }),
+        get_tablestatu(),
+        get_equipgroup({ iftree: true })]).then(value => {
+        this.lineChartData = [value[0].data, value[1].data, value[2].data]
+        this.panelGroupData = value[3].data
+        this.radarChartData = [value[4].data, value[5].data, value[6].data]
+        this.pieChartData = value[7].data
+        this.barChartData = value[8].data
+        this.tableData = value[9].data
+        this.warningCalendar = value[10].data
         this.topWarningDay = this.warningCalendar.sort(function(a, b) { return b[1] - a[1] }).slice(0, 5)
-        this.serverStatuData = value[9].data
-        this.TreeChartData = value[10].data
-        this.cardData = value[11].data
+        this.serverStatuData = value[11].data
+        this.TreeChartData = value[12].data
       })
       loading.close()
       // setTimeout(() => {

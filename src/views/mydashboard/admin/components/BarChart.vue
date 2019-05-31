@@ -90,21 +90,21 @@ export default {
           type: 'bar',
           stack: 'vistors',
           barWidth: '40%',
-          data: [this.barChartData[0].rotor, this.barChartData[1].rotor, this.barChartData[2].rotor],
+          data: [this.barChartData[0].rotors, this.barChartData[1].rotors, this.barChartData[2].rotors],
           animationDuration
         }, {
           name: 'stator',
           type: 'bar',
           stack: 'vistors',
           barWidth: '40%',
-          data: [this.barChartData[0].stator, this.barChartData[1].stator, this.barChartData[2].stator],
+          data: [this.barChartData[0].stators, this.barChartData[1].stators, this.barChartData[2].stators],
           animationDuration
         }, {
           name: 'bearing',
           type: 'bar',
           stack: 'vistors',
           barWidth: '40%',
-          data: [this.barChartData[0].bearing, this.barChartData[1].bearing, this.barChartData[2].bearing],
+          data: [this.barChartData[0].bearings, this.barChartData[1].bearings, this.barChartData[2].bearings],
           animationDuration
         }]
       })

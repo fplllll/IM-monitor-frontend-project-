@@ -85,7 +85,7 @@ export default {
           axisTick: {
             show: false
           },
-          data: this.lineChartData[0].trend.time
+          data: this.lineChartData[0].time
         },
         grid: {
           left: 10,
@@ -139,7 +139,7 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: this.lineChartData[0].trend.trend,
+          data: this.lineChartData[0].uthd,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
         },
@@ -159,7 +159,7 @@ export default {
               }
             }
           },
-          data: this.lineChartData[1].trend.trend,
+          data: this.lineChartData[1].uthd,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
         },
@@ -179,7 +179,7 @@ export default {
               }
             }
           },
-          data: this.lineChartData[2].trend.trend,
+          data: this.lineChartData[2].uthd,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
         }]

@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="tableData" style="width: 100%;padding-top: 15px;">
+  <el-table :data="tableData" style="width: 100%;padding-top: 5px;">
     <el-table-column :label="$t('myDashboard.warningTabDescription')" min-width="180">
       <template slot-scope="scope">
         {{ scope.row.description | orderNoFilter }}
@@ -7,17 +7,17 @@
     </el-table-column>
     <el-table-column :label="$t('myDashboard.warningTabMotorID')" width="100" align="center">
       <template slot-scope="scope">
-        {{ scope.row.motor.name }}
+        {{ scope.row.name }}
       </template>
     </el-table-column>
     <el-table-column :label="$t('myDashboard.warningTabTime')" width="180" align="center">
       <template slot-scope="scope">
-        {{ scope.row.c_day | dateTimeFilter }}
+        {{ scope.row.cr_time | dateTimeFilter }}
       </template>
     </el-table-column>
     <el-table-column :label="$t('myDashboard.warningTabSeverity')" width="100" align="center">
       <template slot-scope="scope">
-        <el-tag :type="scope.row.severity | tagFilter"> {{ scope.row.severity | statusFilter }}</el-tag>
+        <el-tag :type="scope.row.severity | tagFilter"> {{ scope.row.severity }}</el-tag>
       </template>
     </el-table-column>
   </el-table>
@@ -29,8 +29,8 @@ export default {
   filters: {
     tagFilter(status) {
       const statustagMap = {
-        0: 'success',
-        1: 'danger'
+        Serious: 'success',
+        Attention: 'danger'
       }
       return statustagMap[status]
     },

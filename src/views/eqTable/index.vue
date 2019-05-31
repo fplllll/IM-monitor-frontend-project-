@@ -60,14 +60,14 @@
           :label="$t('eqTable.admin')"
           align="center">
           <template slot-scope="scope">
-            <svg-icon icon-class="user"/>  {{ matchUsername(scope) }}
+            <svg-icon icon-class="user"/>  {{ scope.row.admin ? scope.row.admin.name : 'Flowing Parent' }}
           </template>
         </el-table-column>
         <el-table-column
           :label="$t('eqTable.statu')"
           align="center">
           <template slot-scope="scope">
-            <el-tag :type="scope.row.statu | statuTagFilter">{{ scope.row.statu | statuTxtFilter }}</el-tag>
+            <el-tag :type="scope.row.statu | statuTagFilter">{{ scope.row.statu }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column
@@ -90,7 +90,7 @@
     </div>
 
     <el-dialog :visible.sync="dialogFormVisible" :title="$t('eqTable.dialogTitle')">
-      <el-form :model="tempItem" label-width="100px" style="width:600px">
+      <el-form :model="tempItem" label-width="250px" style="width:600px">
         <el-form-item :label="$t('eqTable.dialogName')">
           <el-input v-model.trim="tempItem.name" placeholder="Name" />
         </el-form-item>
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { get_motors, patch_repair_time } from '@/api/IM'
+import { get_equipgroup, patch_repair_time } from '@/api/IM'
 
 export default {
   filters: {
@@ -129,11 +129,11 @@ export default {
     },
     statuTagFilter(status) {
       const statusMap = {
-        0: 'success',
-        1: '',
-        2: 'warning',
-        3: 'danger',
-        4: 'info'
+        Excellent: 'success',
+        Good: '',
+        Moderate: 'warning',
+        Poor: 'danger',
+        Offline: 'info'
       }
       return statusMap[status]
     }
@@ -173,8 +173,21 @@ export default {
   },
   methods: {
     fetchData() {
-      get_motors().then(response => {
-        this.tableData = response.data
+      get_equipgroup().then(response => {
+        const data = response.data
+        for (let i = 0; i < data.length; i++) {
+          data[i]['children'] = []
+          for (let j = 0; j < data[i]['bearings'].length; j++) {
+            data[i]['children'].push(data[i]['bearings'][j])
+          }
+          for (let j = 0; j < data[i]['rotors'].length; j++) {
+            data[i]['children'].push(data[i]['rotors'][j])
+          }
+          for (let j = 0; j < data[i]['stators'].length; j++) {
+            data[i]['children'].push(data[i]['stators'][j])
+          }
+        }
+        this.tableData = data
       })
     },
     editItem(row) {

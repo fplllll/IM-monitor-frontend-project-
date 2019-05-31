@@ -7,7 +7,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">{{ $t('myDashboard.statisticsExcellent') }}</div>
-          <count-to :start-val="0" :end-val="panelGroupData.Excellent" :duration="3000" class="card-panel-num"/>
+          <count-to :start-val="0" :end-val="panelGroupData.excellent" :duration="3000" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
@@ -18,7 +18,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">{{ $t('myDashboard.statisticsGood') }}</div>
-          <count-to :start-val="0" :end-val="panelGroupData.Good" :duration="3000" class="card-panel-num"/>
+          <count-to :start-val="0" :end-val="panelGroupData.good" :duration="3000" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
@@ -29,7 +29,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">{{ $t('myDashboard.statisticsModerate') }}</div>
-          <count-to :start-val="0" :end-val="panelGroupData.Moderate" :duration="3200" class="card-panel-num"/>
+          <count-to :start-val="0" :end-val="panelGroupData.moderate" :duration="3200" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
@@ -40,7 +40,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">{{ $t('myDashboard.statisticsPoor') }}</div>
-          <count-to :start-val="0" :end-val="panelGroupData.Poor" :duration="3600" class="card-panel-num"/>
+          <count-to :start-val="0" :end-val="panelGroupData.poor" :duration="3600" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
@@ -71,10 +71,10 @@ export default {
       required: true,
       default: function() {
         return {
-          Excellent: 0,
-          Good: 0,
-          Moderate: 0,
-          Poor: 0
+          excellent: 0,
+          good: 0,
+          moderate: 0,
+          poor: 0
         }
       }
     }

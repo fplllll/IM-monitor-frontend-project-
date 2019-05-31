@@ -1,24 +1,30 @@
 import request from '@/utils/request'
 
-export function get_statunum(query) {
+export function get_motor(query) {
   return request({
-    url: '/imstatus/',
+    url: '/motor/',
     method: 'get',
     params: query
   })
 }
 
-export function get_trend(query) {
+export function get_trend(id, query) {
   return request({
-    url: '/index-trend/',
+    url: `/motor/${id}/feature/`,
     method: 'get',
     params: query
   })
 }
 
-export function get_radar(query) {
+export function get_warning(id, query) {
+  var url
+  if (id === null) {
+    url = '/motor/warning/'
+  } else {
+    url = `/motor/${id}/warning/`
+  }
   return request({
-    url: '/index-radar/',
+    url: url,
     method: 'get',
     params: query
   })
@@ -56,15 +62,15 @@ export function get_warninglog(motorid, query) {
 
 export function get_tablestatu(query) {
   return request({
-    url: '/index-serverstatu/',
+    url: '/server/statu/',
     method: 'get',
     params: query
   })
 }
 
-export function get_treemap(query) {
+export function get_equipgroup(query) {
   return request({
-    url: '/index-treemap/',
+    url: '/equipgroup/',
     method: 'get',
     params: query
   })
