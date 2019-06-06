@@ -78,8 +78,8 @@ export default {
     },
     generate_timevector() {
       var data = []
-      for (var i = 0; i < this.three_phase_data.uphase.spec.length; i++) {
-        data.push((i * (10240 / this.three_phase_data.uphase.spec.length)).toFixed(1))
+      for (var i = 0; i < this.three_phase_data.uspec.length; i++) {
+        data.push((i * (10240 / this.three_phase_data.uspec.length)).toFixed(1))
       }
       return data
     },
@@ -195,7 +195,7 @@ export default {
               {
                 symbol: 'none',
                 sampling: 'average',
-                data: this.three_phase_data.uphase.spec,
+                data: this.three_phase_data.uspec,
                 large: true,
                 largeThreshold: 2000,
                 itemStyle: {
@@ -219,7 +219,7 @@ export default {
               {
                 symbol: 'none',
                 sampling: 'average',
-                data: this.three_phase_data.vphase.spec,
+                data: this.three_phase_data.vspec,
                 large: true,
                 largeThreshold: 2000,
                 itemStyle: {
@@ -244,7 +244,7 @@ export default {
               {
                 symbol: 'none',
                 sampling: 'average',
-                data: this.three_phase_data.wphase.spec,
+                data: this.three_phase_data.wspec,
                 largeThreshold: 2000,
                 large: true,
                 itemStyle: {

@@ -6,7 +6,7 @@
       <!--</el-col>-->
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 6}" >
         <el-row>
-          <name-plate :motor_attribute="motor_detail" :pack_attribute="{ time: result.time,sampling_rate: result.sampling_rate,id:result.id }" />
+          <name-plate :pack_attribute="motor_detail" />
         </el-row>
 
       </el-col>
@@ -15,7 +15,7 @@
           <el-card class="box-card">
             <div class="chart-wrapper">
               <h3 class="chart-title">{{ $t('realTime.threePhaseSpec') }}</h3>
-              <FFTtiemline :three_phase_data="{ uphase: {spec : result.data.ufft} ,vphase: {spec : result.data.vfft},wphase: {spec : result.data.wfft}}"/>
+              <FFTtiemline :three_phase_data="{ uspec : result.ufft ,vspec : result.vfft,wspec : result.wfft}"/>
             </div>
           </el-card>
         </el-row>
@@ -23,7 +23,7 @@
           <el-card class="box-card" style="margin-top: 10px">
             <div class="chart-wrapper">
               <h3 class="chart-title">{{ $t('harmonic.harmonicComp') }}</h3>
-              <harmonic-bar :harmonic_data="{ u: result.data.uharmonic ,v: result.data.vharmonic, w: result.data.wharmonic}"/>
+              <harmonic-bar :harmonic_data="{ u: result.uharmonics ,v: result.vharmonics, w: result.wharmonics}"/>
             </div>
           </el-card>
         </el-row>
@@ -33,7 +33,7 @@
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" >
         <el-card class="box-card" style="margin-top: 10px">
           <div class="chart-wrapper">
-            <harmonic-gauge :height="'300px'" :gauge-data="{u: result.data.uthd,v:result.data.vthd,w:result.data.wthd}" />
+            <harmonic-gauge :height="'300px'" :gauge-data="{u: result.uthd,v:result.vthd,w:result.wthd}" />
           </div>
         </el-card>
       </el-col>
@@ -43,12 +43,17 @@
         </el-card>
       </el-col>
     </el-row>
+    <el-row style="margin: 20px auto">
+      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 24}" :xl="{span: 24}">
+        <el-button type="info" icon="el-icon-back" @click="handlePrev"/>
+      </el-col>
+    </el-row>
 
   </div>
 </template>
 
 <script>
-import { get_motors } from '@/api/IM'
+import { get_pack_info } from '@/api/IM'
 import NamePlate from '../../realtime/components/Nameplate'
 import FFTtiemline from '../../realtime/components/FFTTimeline'
 import HarmonicBar from './harmonicBar'
@@ -67,27 +72,31 @@ export default {
     result: {
       required: true,
       type: Object
+    },
+    pack_id: {
+      required: true,
+      type: Number
     }
 
   },
   data() {
     return {
       id: null,
-      motor_detail: [{ name: '' }],
-      pack_detail: { rpm: 0 }
+      motor_detail: {},
+      pack_detail: {}
     }
-  },
-  beforeDestroy() {
-    // This line is very important!! Destory the interval event before the component be destoried.
   },
   mounted() {
     this.fetchData()
   },
   methods: {
     fetchData() {
-      get_motors({ id: this.motorid }).then(response => {
+      get_pack_info(this.motorid, { pack_id: this.pack_id }).then(response => {
         this.motor_detail = response.data
       })
+    },
+    handlePrev() {
+      this.$emit('handlePrev')
     }
   }
 }

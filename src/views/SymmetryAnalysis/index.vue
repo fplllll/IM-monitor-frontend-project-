@@ -3,26 +3,19 @@
     <el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 24}" :xl="{span: 24}">
         <el-steps :active="activate" finish-status="success">
-          <el-step :title="$t('symmetry.step1')"/>
-          <el-step :title="$t('symmetry.step2')"/>
-          <el-step :title="$t('symmetry.step3')"/>
+          <el-step :title="$t('symmetry.step1')" icon="el-icon-edit"/>
+          <el-step :title="$t('symmetry.step2')" icon="el-icon-tickets"/>
+          <el-step :title="$t('symmetry.step3')" icon="el-icon-s-help"/>
         </el-steps>
       </el-col>
     </el-row>
     <el-row :gutter="8" class="main-wrapper" type="flex" justify="center" align="middle">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 24}" :xl="{span: 24}" align="center">
         <transition name="el-fade-in-linear">
-          <step1selection v-if="activate === 0" v-model="motorformData" />
-          <step2pack-list-table v-if="activate === 1" ref="table" v-model="packlist" />
-          <step3result v-if="activate ===2 " :motorid="motorformData.motor" :result="result"/>
+          <step1selection v-if="activate === 0" :value="motorformData" @handleSetPackListData="handleSetPackListData"/>
+          <step2pack-list-table v-if="activate === 1" ref="table" :value="packlist" @handlePrev="prev" @handleRequestAnalyze="handleRequestAnalyze"/>
+          <step3result v-if="activate ===2 " :motorid="motorformData.motor" :result="result" :pack_id="pack_id" @handlePrev="prev"/>
         </transition>
-      </el-col>
-    </el-row>
-    <el-row type="flex" justify="center">
-      <el-col :xs="{span: 6}" :sm ="{span: 6}" :md="{span: 6}" :lg="{span: 6}" :xl="{span: 6}" align="center">
-        <el-button v-if="!(activate === 0)" type="info" @click="prev">{{ $t('symmetry.previousBtn') }}</el-button>
-        <el-button v-if="activate === 0" type="primary" @click="fetchData">{{ $t('symmetry.packlistBtn') }}</el-button>
-        <el-button v-if="activate === 1" type="primary" @click="requestAnalyzing">{{ $t('symmetry.analysisBtn') }}</el-button>
       </el-col>
     </el-row>
   </div>
@@ -31,13 +24,13 @@
 <script>
 import { get_packs, get_sympack } from '@/api/IM'
 import step1selection from './component/step1selection'
-import Step2packListTable from './component/step2packListTable'
+import step2packListTable from './component/step2packListTable'
 import step3result from './component/step3result'
 
 export default {
   name: 'SymmetryAnalysis',
   components: {
-    Step2packListTable,
+    step2packListTable,
     step1selection,
     step3result
   },
@@ -49,7 +42,8 @@ export default {
         datarange: ['2016-05-05 12:00:00', '2016-06-06 08:00:00']
       },
       packlist: [],
-      result: {}
+      result: {},
+      pack_id: 0
     }
   },
   beforeDestroy() {
@@ -59,13 +53,13 @@ export default {
     // this.fetchData()
   },
   methods: {
-    fetchData() {
+    handleSetPackListData() {
       get_packs(this.motorformData).then(response => {
         this.packlist = response.data
-        this.activate++
+        this.next()
       })
     },
-    requestAnalyzing() {
+    handleRequestAnalyze() {
       if (this.$refs.table.currentRow === null) {
         this.$alert('Please Select a Signal Pack', 'Error Request', {
           confirmButtonText: 'Get it',
@@ -77,14 +71,25 @@ export default {
           }
         })
       } else {
-        get_sympack(this.$refs.table.currentRow.id).then(response => {
+        const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        })
+        get_sympack(this.motorformData.motor, this.$refs.table.currentRow.id).then(response => {
           this.result = response.data
+          this.pack_id = this.$refs.table.currentRow.id
           this.activate++
+          loading.close()
         })
       }
     },
     prev() {
       this.activate--
+    },
+    next() {
+      this.activate++
     }
   }
 }

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { get_feature_trend } from '@/api/IM'
+import { get_trend } from '@/api/IM'
 import step1selection from './components/step1selection'
 import step2Presentation from './components/step2presentation'
 export default {
@@ -44,8 +44,7 @@ export default {
         motor: 1,
         datarange: ['2016-05-05 12:00:00', '2016-06-06 08:00:00']
       },
-      packlist: [],
-      result: [],
+      result: {},
       packID: 0
     }
   },
@@ -63,8 +62,8 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       })
-      get_feature_trend(this.motorformData).then(response => {
-        if (response.data.length === 0) {
+      get_trend(this.motorformData.motor, { feature: 'max_current,min_current,thd,rms,imbalance', timeafter: encodeURIComponent(this.motorformData.datarange[0]), timebefore: encodeURIComponent(this.motorformData.datarange[1]) }).then(response => {
+        if (Object.keys(response.data).length === 0) {
           this.$alert('There is no data in the date range', 'Request Error', {
             confirmButtonText: 'Ok'
           })

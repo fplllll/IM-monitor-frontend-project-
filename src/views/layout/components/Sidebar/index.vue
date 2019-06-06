@@ -8,6 +8,17 @@
       :active-text-color="variables.menuActiveText"
       mode="vertical"
     >
+      <div class="logo">
+        <a href="#" class="logo-mini">
+          <div class="logo-img">
+            <img src="/src/assets/motor/鹿.svg" alt="">
+          </div>
+        </a>
+        <a href="#" target="_blank" class="logo-normal">
+          Motor Platform
+        </a>
+      </div>
+      <el-divider class="divider"/>
       <sidebar-item v-for="route in permission_routers" :key="route.path" :item="route" :base-path="route.path"/>
     </el-menu>
   </el-scrollbar>

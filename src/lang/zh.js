@@ -142,7 +142,7 @@ export default {
   symmetry: {
     step1: '请选择分析电机以及时间范围',
     step2: '请选择电流信号对象',
-    step3: '对称性分析结果',
+    step3: '分析结果',
     formName: '感应电机对象',
     dateRange: '时间范围',
     helpText: '是否需要通过趋势分析来选择待分析的信号？',

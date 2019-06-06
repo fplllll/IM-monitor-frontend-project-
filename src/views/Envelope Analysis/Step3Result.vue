@@ -5,35 +5,39 @@
       <!--<todo-list/>-->
       <!--</el-col>-->
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 6}" >
-        <name-plate :motor_attribute="motor_detail" :pack_attribute="{ time: result.time,sampling_rate: result.sampling_rate,id:result.id }" />
+        <name-plate :pack_attribute="motor_detail" />
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12" :xl="18" >
         <el-row>
           <div class="chart-wrapper">
             <el-tabs type="border-card" stretch>
               <el-tab-pane :label=" 'U' + $t('envelope.figureTitle')">
-                <trendChart :trend-data="{raw: result.data.uraw, env: result.data.uenvelope}"/>
-                <spectrum-chart :chart-data="{spectrum : result.data.ufft}"/>
+                <trendChart :trend-data="{raw: result.u, env: result.uenvelope}"/>
+                <spectrum-chart :chart-data="{spectrum : result.ufft}"/>
               </el-tab-pane>
               <el-tab-pane :label=" 'V' + $t('envelope.figureTitle')">
-                <trendChart :trend-data="{raw: result.data.vraw, env: result.data.venvelope}"/>
-                <spectrum-chart :chart-data="{spectrum : result.data.vfft}"/>
+                <trendChart :trend-data="{raw: result.v, env: result.venvelope}"/>
+                <spectrum-chart :chart-data="{spectrum : result.vfft}"/>
               </el-tab-pane>
               <el-tab-pane :label=" 'W' + $t('envelope.figureTitle')">
-                <trendChart :trend-data="{raw: result.data.wraw, env: result.data.wenvelope}"/>
-                <spectrum-chart :chart-data="{spectrum : result.data.wfft}"/>
+                <trendChart :trend-data="{raw: result.w, env: result.wenvelope}"/>
+                <spectrum-chart :chart-data="{spectrum : result.wfft}"/>
               </el-tab-pane>
             </el-tabs>
           </div>
         </el-row>
       </el-col>
     </el-row>
-
+    <el-row style="margin: 20px auto">
+      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 24}" :xl="{span: 24}">
+        <el-button type="info" icon="el-icon-back" @click="handlePrev"/>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-import { get_motors } from '@/api/IM'
+import { get_pack_info } from '@/api/IM'
 import NamePlate from '../realtime/components/Nameplate'
 import trendChart from './trendChart'
 import SpectrumChart from './SpectrumChart'
@@ -52,27 +56,30 @@ export default {
     result: {
       required: true,
       type: Object
+    },
+    pack_id: {
+      required: true,
+      type: Number
     }
-
   },
   data() {
     return {
       id: null,
-      motor_detail: [{ name: '' }],
-      pack_detail: { rpm: 0 }
+      motor_detail: {},
+      pack_detail: {}
     }
-  },
-  beforeDestroy() {
-    // This line is very important!! Destory the interval event before the component be destoried.
   },
   mounted() {
     this.fetchData()
   },
   methods: {
     fetchData() {
-      get_motors({ id: this.motorid }).then(response => {
+      get_pack_info(this.motorid, { pack_id: this.pack_id }).then(response => {
         this.motor_detail = response.data
       })
+    },
+    handlePrev() {
+      this.$emit('handlePrev')
     }
   }
 }

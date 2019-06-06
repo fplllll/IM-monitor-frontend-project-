@@ -30,31 +30,9 @@ export function get_warning(id, query) {
   })
 }
 
-export function get_indexbar(query) {
+export function get_pack(id, query) {
   return request({
-    url: '/index-bar/',
-    method: 'get',
-    params: query
-  })
-}
-
-export function get_warningcalendar(query) {
-  return request({
-    url: '/index-calendar/',
-    method: 'get',
-    params: query
-  })
-}
-
-export function get_warninglog(motorid, query) {
-  var url
-  if (motorid === undefined) {
-    url = '/warningLog/'
-  } else {
-    url = '/warningLog/?motor=' + motorid
-  }
-  return request({
-    url: url,
+    url: `/motor/${id}/pack/`,
     method: 'get',
     params: query
   })
@@ -76,52 +54,104 @@ export function get_equipgroup(query) {
   })
 }
 
-export function get_motors(query) {
+export function get_pack_info(id, query) {
   return request({
-    url: `/motors/`,
+    url: `/motor/${id}/pack/`,
     method: 'get',
     params: query
   })
 }
 
-export function patch_repair_time(eqtype, id, data) {
+export function patch_repair_time(eqtype, id, query) {
+  var url
+  if (eqtype === 'motor') {
+    url = `/${eqtype}/${id}/`
+  } else {
+    url = `/motor/${id}/${eqtype}/`
+  }
   return request({
-    url: `/${eqtype}/${id}/`,
+    url: url,
     method: 'patch',
-    data
+    params: query
   })
 }
 
-export function get_motor_realtime(id) {
+export function get_info(id, eqtype) {
+  var url
+  if (eqtype === 0) {
+    url = `/motor/${id}/`
+  } else {
+    const typeMapper = { 1: 'bearing', 2: 'rotor', 3: 'stator' }
+    const type = typeMapper[eqtype]
+    url = `/${type}/${id}/`
+  }
   return request({
-    url: `/motors/realtime/${id}/`,
-    method: 'get'
+    url: url,
+    method: 'get',
+    params: { info: true }
+  })
+}
+
+export function get_related_info(id, eqtype) {
+  var url
+  if (eqtype === 0) {
+    url = `/motor/${id}/`
+  } else {
+    const typeMapper = { 1: 'bearing', 2: 'rotor', 3: 'stator' }
+    const type = typeMapper[eqtype]
+    url = `/motor/${id}/${type}/`
+  }
+  return request({
+    url: url,
+    method: 'get',
+    params: { info: true }
   })
 }
 
 export function get_packs(query) {
   return request({
-    url: `/packs/`,
+    url: `/motor/${query.motor}/packs/`,
     method: 'get',
     params: {
-      time_after: query.datarange[0],
-      time_before: query.datarange[1],
-      motor: query.motor
+      timeafter: query.datarange[0],
+      timebefore: query.datarange[1]
     }
   })
 }
 
-export function get_sympack(id) {
+export function get_sympack(id, pack_id) {
   return request({
-    url: `/packs/${id}/`,
+    url: `motor/${id}/pack/${pack_id}/sym/`,
     method: 'get'
   })
 }
 
-export function get_dqpack(id) {
+export function get_dqpack(id, pack_id) {
   return request({
-    url: `/dqpacks/${id}/`,
+    url: `motor/${id}/pack/${pack_id}/dq/`,
     method: 'get'
+  })
+}
+
+export function get_harmpack(id, pack_id) {
+  return request({
+    url: `motor/${id}/pack/${pack_id}/harmonics/`,
+    method: 'get'
+  })
+}
+
+export function get_envelope(id, pack_id) {
+  return request({
+    url: `motor/${id}/pack/${pack_id}/envelope/`,
+    method: 'get'
+  })
+}
+
+export function get_tsignal(id, query) {
+  return request({
+    url: `motor/${id}/tsignal/`,
+    method: 'get',
+    params: query
   })
 }
 
@@ -140,13 +170,6 @@ export function get_feature_trend(query) {
 export function get_harmonicpack(id) {
   return request({
     url: `/harmonics/${id}/`,
-    method: 'get'
-  })
-}
-
-export function get_envelope(id) {
-  return request({
-    url: `/envelope/${id}/`,
     method: 'get'
   })
 }

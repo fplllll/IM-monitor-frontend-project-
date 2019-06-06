@@ -108,9 +108,9 @@ export default {
               fontWeight: 'bolder'
             },
             data: [
-              { value: this.gaugeData.psf[0].toFixed(2), name: 'Frequency' },
-              { value: this.gaugeData.psf[1], name: 'x1000 r/min' },
-              { value: this.gaugeData.psf[2], name: 'x1000 r/min' }
+              { value: this.gaugeData.freq.toFixed(2), name: 'Frequency' },
+              { value: this.gaugeData.freq, name: 'x1000 r/min' },
+              { value: this.gaugeData.freq, name: 'x1000 r/min' }
             ]
           },
           {
@@ -182,7 +182,7 @@ export default {
             detail: {
               show: false
             },
-            data: [{ value: this.gaugeData.rms[0], name: '3 Phase RMS' }]
+            data: [{ value: this.gaugeData.urms, name: '3 Phase RMS' }]
           },
           {
             name: 'V phase RMS',
@@ -227,7 +227,7 @@ export default {
             detail: {
               show: false
             },
-            data: [{ value: this.gaugeData.rms[1], name: 'V-RMS' }]
+            data: [{ value: this.gaugeData.vrms, name: 'V-RMS' }]
           },
           {
             name: 'W phase RMS',
@@ -273,7 +273,7 @@ export default {
             detail: {
               show: false
             },
-            data: [{ value: this.gaugeData.rms[2], name: 'W-RMS' }]
+            data: [{ value: this.gaugeData.wrms, name: 'W-RMS' }]
           }
         ]
       })

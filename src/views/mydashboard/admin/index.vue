@@ -114,7 +114,7 @@ export default {
   data() {
     return {
       lineChartData: [],
-      panelGroupData: { Excellent: 0, Good: 0, Moderate: 0, Poor: 0 },
+      panelGroupData: { excellent: 0, good: 0, moderate: 0, poor: 0 },
       radarChartData: [],
       pieChartData: [],
       barChartData: [],

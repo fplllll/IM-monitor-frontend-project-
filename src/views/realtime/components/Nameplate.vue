@@ -17,12 +17,12 @@
     <div class="bottom clearfix">
       <md-list style="font-family:Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif">
         <md-subheader style="font-weight:bold;font-size: 25px">
-          {{ motor_attribute[0].name | stringFilter }}-{{ motor_attribute[0].sn }}
+          {{ pack_attribute.name }}-{{ pack_attribute.sn }}
         </md-subheader>
         <hr>
         <md-list-item>
           <md-icon>av_timer</md-icon>
-          <span class="md-list-item-text">{{ $t('realTime.updateTime') }} : {{ pack_attribute.time }}</span>
+          <span class="md-list-item-text">{{ $t('realTime.updateTime') }} : {{ pack_attribute.time | dateTimeFilter }}</span>
         </md-list-item>
 
         <md-list-item>
@@ -37,7 +37,7 @@
 
         <md-list-item>
           <md-icon style="color: #d66732">error</md-icon>
-          <span class="md-list-item-text" style="font-weight: bold; color: #d66732">{{ $t('realTime.statu') }} : {{ motor_attribute[0].statu | statuTxtFilter }}</span>
+          <span class="md-list-item-text" style="font-weight: bold; color: #d66732">{{ $t('realTime.statu') }} : {{ pack_attribute.statu }}</span>
         </md-list-item>
 
         <hr>
@@ -49,7 +49,7 @@
 
           <span class="md-list-item-text">{{ $t('realTime.motorDetail') }}</span>
 
-          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(1)">
+          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(0)">
             <md-icon class="md-primary">chat_bubble</md-icon>
           </md-button>
         </md-list-item>
@@ -61,7 +61,7 @@
 
           <span class="md-list-item-text">{{ $t('realTime.statorDetail') }}</span>
 
-          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(2)">
+          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(3)">
             <md-icon class="md-primary">chat_bubble</md-icon>
           </md-button>
         </md-list-item>
@@ -73,7 +73,7 @@
 
           <span class="md-list-item-text">{{ $t('realTime.rotorDetail') }}</span>
 
-          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(3)">
+          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(2)">
             <md-icon class="md-primary">chat_bubble</md-icon>
           </md-button>
         </md-list-item>
@@ -85,7 +85,7 @@
 
           <span class="md-list-item-text">{{ $t('realTime.bearingDetail') }}</span>
 
-          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(4)">
+          <md-button class="md-icon-button md-list-action" @click="retrieveDetail(1)">
             <md-icon class="md-primary">chat_bubble</md-icon>
           </md-button>
         </md-list-item>
@@ -95,12 +95,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import PanThumb from '@/components/PanThumb'
-import Mallki from '@/components/TextHoverEffect/Mallki'
-
+import { get_related_info } from '@/api/IM'
 export default {
-  components: { PanThumb, Mallki },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -114,60 +110,31 @@ export default {
     pack_attribute: {
       type: Object,
       required: true
-    },
-    motor_attribute: {
-      type: Array,
-      required: true
     }
-  },
-  data() {
-    return {
-      statisticsData: {
-        article_count: 1024,
-        pageviews_count: 1024
-      },
-      progressdata: {
-        volume: 0,
-        count: 0,
-        cpu: 0,
-        memory: 0
-      }
-    }
-  },
-  computed: {
-    ...mapGetters([
-      'name',
-      'avatar',
-      'roles'
-    ])
   },
   methods: {
     retrieveDetail(index) {
-      var detail
-      switch (index) {
-        case 1: detail = this.motor_attribute[0].detail
-          break
-        case 2: detail = this.motor_attribute[0].children[3].detail
-          break
-        case 3: detail = this.motor_attribute[0].children[2].detail
-          break
-        case 4: detail = {
-          DrivenEnd: this.motor_attribute[0].children[1].detail,
-          NonDrivenEnd: this.motor_attribute[0].children[0].detail
+      get_related_info(this.$route.params.id, index).then(res => {
+        let message
+        if (res.data instanceof Array) {
+          message = res.data.map(item => {
+            return Object.keys(item).map(key => {
+              return `<p>${key}:${item[key]}</p>`
+            }).join('')
+          }).join('')
+        } else if (res.data instanceof Object) {
+          message = Object.keys(res.data)
+            .map(i => {
+              return `<p>${i}:${res.data[i]}</p>`
+            })
+            .join('')
         }
-          break
-        default:
-      }
-      const message = Object.keys(detail)
-        .map(i => {
-          return `<p>${i}: ${JSON.stringify(detail[i])}</p>`
+        this.$notify({
+          title: 'Success',
+          dangerouslyUseHTMLString: true,
+          message: message,
+          type: 'success'
         })
-        .join('')
-      this.$notify({
-        title: 'Success',
-        dangerouslyUseHTMLString: true,
-        message: message,
-        type: 'success'
       })
     }
   }

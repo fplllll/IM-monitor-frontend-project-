@@ -27,9 +27,15 @@ export default {
     },
     three_phase_data: {
       type: Object,
-      required: true
+      required: true,
+      default: function() {
+        return {
+          usignal: [],
+          vsignal: [],
+          wsignal: []
+        }
+      }
     }
-
   },
   data() {
     return {
@@ -78,7 +84,7 @@ export default {
     },
     generate_timevector() {
       var data = []
-      for (var i = 0; i < this.three_phase_data.uphase.signal.length; i++) {
+      for (var i = 0; i < 8192; i++) {
         data.push((i / 20480).toFixed(2))
       }
       return data
@@ -139,7 +145,7 @@ export default {
           symbol: 'none',
           sampling: 'average',
           type: 'line',
-          data: this.three_phase_data.uphase.signal,
+          data: this.three_phase_data.usignal,
           animationDuration: 4000,
           animationEasing: 'quadraticIn',
           largeThreshold: 2000,
@@ -166,7 +172,7 @@ export default {
               }
             }
           },
-          data: this.three_phase_data.vphase.signal,
+          data: this.three_phase_data.vsignal,
           largeThreshold: 2000,
           animation: false,
 
@@ -191,7 +197,7 @@ export default {
               }
             }
           },
-          data: this.three_phase_data.wphase.signal,
+          data: this.three_phase_data.wsignal,
           animation: false,
           animationDuration: 4000,
           largeThreshold: 2000,

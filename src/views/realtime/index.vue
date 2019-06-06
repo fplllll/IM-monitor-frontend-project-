@@ -13,7 +13,7 @@
       <!--<todo-list/>-->
       <!--</el-col>-->
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <name-plate :motor_attribute="motor_detail" :pack_attribute="pack_detail" />
+        <name-plate :pack_attribute="pack_detail" />
       </el-col>
       <el-col :xs="24" :sm="24" :lg="18" :xl="18">
         <el-row>
@@ -28,7 +28,7 @@
             <span class="card-title"> {{ $t('realTime.threePhaseSpec') }} </span>
             <el-divider/>
             <FFTTimeline
-              :three_phase_data="threePhaseData"/>
+              :three_phase_data="threePhaseSpec"/>
           </div>
         </el-row>
       </el-col>
@@ -52,7 +52,7 @@
 <script>
 import Sticky from '@/components/Sticky' // 粘性header组件
 import ThreePhase from './components/ThreePhase'
-import { get_motor_realtime, get_motors } from '@/api/IM'
+import { get_pack, get_trend } from '@/api/IM'
 import NamePlate from './components/Nameplate'
 import FFTTimeline from './components/FFTTimeline'
 import { IsRealTime, Location, MotorID } from './components/Dropdown'
@@ -76,14 +76,15 @@ export default {
   data() {
     return {
       id: null,
-      threePhaseData: { ufft: [0] },
-      motor_detail: [{ name: '' }],
-      pack_detail: { rpm: 0 },
+      threePhaseData: {},
+      threePhaseSpec: {},
+      pack_detail: {},
       gaugeData: {},
       StickyForm: Object.assign({}, defaultSticky),
       loading: false,
       parameterData: [],
       intervalid1: null
+
     }
   },
   beforeDestroy() {
@@ -98,26 +99,24 @@ export default {
   },
   methods: {
     fetchData() {
-      get_motor_realtime(this.id).then(response => {
-        this.threePhaseData = response.data.threephase
-        this.pack_detail = response.data.pack
-        this.gaugeData = {
-          rms: [response.data.feature.ufeature.rms,
-            response.data.feature.vfeature.rms,
-            response.data.feature.wfeature.rms],
-          rpm: response.data.pack.rpm,
-          psf: [response.data.threephase.uphase.frequency,
-            response.data.threephase.vphase.frequency,
-            response.data.threephase.wphase.frequency]
-        }
-        var _t_tabledata = []
-        for (const x of [response.data.threephase.uphase, response.data.threephase.vphase, response.data.threephase.wphase]) {
-          _t_tabledata.push({ UA: x.amplitude, UW: x.frequency, UP: x.initial_phase })
-        }
-        this.parameterData = _t_tabledata
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
       })
-      get_motors({ id: this.id }).then(response => {
-        this.motor_detail = response.data
+      get_pack(this.id, { newest: true }).then(res => {
+        this.pack_detail = { rpm: res.data.rpm, name: res.data.name, sn: res.data.sn, id: this.pack_detail.id = res.data.id, time: res.data.time, statu: res.data.statu, sampling_rate: res.data.sampling_rate }
+
+        this.threePhaseData = { usignal: res.data.usignal, vsignal: res.data.vsignal, wsignal: res.data.wsignal }
+
+        this.threePhaseSpec = { uspec: res.data.ufft, vspec: res.data.vfft, wspec: res.data.wfft }
+
+        this.parameterData = [{ amp: res.data.uamp, freq: res.data.ufreq, ip: res.data.uip }, { amp: res.data.vamp, freq: res.data.vfreq, ip: res.data.vip }, { amp: res.data.wamp, freq: res.data.wfreq, ip: res.data.wip }]
+        get_trend(this.id, { newest: true }).then(res2 => {
+          this.gaugeData = { urms: res2.data.urms, vrms: res2.data.vrms, wrms: res2.data.wrms, freq: res2.data.frequency, rpm: res.data.rpm }
+        })
+        loading.close()
       })
     },
     toggleIntervalEvent(value) {

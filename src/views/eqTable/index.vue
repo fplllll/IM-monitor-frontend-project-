@@ -18,12 +18,13 @@
       <!--</div>-->
 
       <el-table
+        v-loading="loading"
         :data="tableData"
         :row-class-name="tableRowClassName"
         style="width: 100%;margin-bottom: 20px;"
         border
         row-key="name">
-        <el-table-column :label="$t('eqTable.index')" type="index" width="100" align="center"/>
+        <el-table-column :label="$t('eqTable.index')" type="index" width="60" align="center"/>
         <el-table-column type="selection" align="center" width="55" />
         <el-table-column type="expand" align="center" width="55" >
           <template slot-scope="scope">
@@ -113,7 +114,7 @@
 </template>
 
 <script>
-import { get_equipgroup, patch_repair_time } from '@/api/IM'
+import { get_equipgroup, patch_repair_time, get_info } from '@/api/IM'
 
 export default {
   filters: {
@@ -143,6 +144,7 @@ export default {
       defaultExpandAll: true,
       tableData: [],
       tempItem: {},
+      loading: true,
       dialogFormVisible: false,
       pickerOptions1: {
         shortcuts: [{
@@ -188,6 +190,7 @@ export default {
           }
         }
         this.tableData = data
+        this.loading = false
       })
     },
     editItem(row) {
@@ -196,12 +199,12 @@ export default {
     },
     async updateItem() {
       const eqtypeMap = {
-        0: 'motors',
-        1: 'bearings',
-        2: 'rotors',
-        3: 'stators'
+        0: 'motor',
+        1: 'bearing',
+        2: 'rotor',
+        3: 'stator'
       }
-      await this.$refs.TreeTable.updateTreeNode(this.tempItem)
+      // await this.$refs.TreeTable.updateTreeNode(this.tempItem)
       patch_repair_time(eqtypeMap[this.tempItem.equip_type], this.tempItem.id, { lr_time: this.tempItem.lr_time })
       this.dialogFormVisible = false
     },
@@ -217,7 +220,7 @@ export default {
       this.$refs.TreeTable.delete(row)
     },
     selectChange(val) {
-      console.log(val)
+      // console.log(val)
     },
     randomNum() {
       // return 1~100
@@ -249,16 +252,18 @@ export default {
     },
     retrieveDetail(scope) {
       const row = scope.row
-      const message = Object.keys(row.detail)
-        .map(i => {
-          return `<p>${i}: ${row.detail[i]}</p>`
+      get_info(row.id, row.equip_type).then(res => {
+        const message = Object.keys(res.data)
+          .map(i => {
+            return `<p>${i}:${res.data[i]}</p>`
+          })
+          .join('')
+        this.$notify({
+          title: 'Success',
+          dangerouslyUseHTMLString: true,
+          message: message,
+          type: 'success'
         })
-        .join('')
-      this.$notify({
-        title: 'Success',
-        dangerouslyUseHTMLString: true,
-        message: message,
-        type: 'success'
       })
     },
     tableRowClassName({ row, rowIndex }) {

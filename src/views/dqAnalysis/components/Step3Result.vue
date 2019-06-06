@@ -5,20 +5,19 @@
       <!--<todo-list/>-->
       <!--</el-col>-->
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 6}" >
-        <name-plate :motor_attribute="motor_detail" :pack_attribute="{ time: result.time,sampling_rate: result.sampling_rate,id:result.id }" />
+        <name-plate :pack_attribute="motor_detail" />
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12" :xl="18" >
         <el-card class="box-card">
           <h3 class="chart-title">{{ $t('dqanalysis.dqDQComponent') }}</h3>
-          <dqChart :dq-chart-data="{ d: result.data.d, q: result.data.q}"/>
+          <dqChart :dq-chart-data="{ d: result.d, q: result.q}"/>
         </el-card>
-
       </el-col>
     </el-row>
     <el-row>
       <el-card class="box-card" style="margin-top: 10px">
         <h3 class="chart-title">{{ $t('dqanalysis.threephase') }}</h3>
-        <three-phase :three_phase_data="{ uphase: {signal: result.data.A} , vphase: {signal: result.data.B},wphase: {signal: result.data.C}}"/>
+        <three-phase :three_phase_data="{ usignal: three_phase_data.u , vsignal: three_phase_data.v,wsignal: three_phase_data.w}"/>
       </el-card>
     </el-row>
     <el-row>
@@ -27,12 +26,16 @@
         <spectrum-chart :width="'100%'" :chart-data="{ spectrum: envelope}"/>
       </el-card>
     </el-row>
-
+    <el-row style="margin: 20px auto">
+      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 24}" :xl="{span: 24}">
+        <el-button type="info" icon="el-icon-back" @click="handlePrev"/>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-import { get_motors } from '@/api/IM'
+import { get_pack_info, get_tsignal } from '@/api/IM'
 import NamePlate from '../../realtime/components/Nameplate'
 import dqChart from './dqChart'
 import ThreePhase from '../../realtime/components/ThreePhase'
@@ -50,33 +53,41 @@ export default {
     result: {
       required: true,
       type: Object
+    },
+    pack_id: {
+      required: true,
+      type: Number
     }
-
   },
   data() {
     return {
       id: null,
-      motor_detail: [{ name: '' }],
-      pack_detail: { rpm: 0 },
+      motor_detail: {},
+      pack_detail: {},
+      three_phase_data: {},
       envelope: []
     }
-  },
-  beforeDestroy() {
-    // This line is very important!! Destory the interval event before the component be destoried.
   },
   mounted() {
     this.fetchData()
   },
   methods: {
     fetchData() {
-      get_motors({ id: this.motorid }).then(response => {
+      get_pack_info(this.motorid, { pack_id: this.pack_id }).then(response => {
         this.motor_detail = response.data
+      })
+
+      get_tsignal(this.motorid, { pack_id: this.pack_id }).then(response => {
+        this.three_phase_data = response.data
         var data = []
-        for (var i = 0; i < this.result.data.q.length; i++) {
-          data.push(Math.sqrt(Math.pow(this.result.data.d[i], 2) + Math.pow(this.result.data.q[i], 2)))
+        for (var i = 0; i < this.result.q.length; i++) {
+          data.push(Math.sqrt(Math.pow(this.result.d[i], 2) + Math.pow(this.result.q[i], 2)))
         }
         this.envelope = data
       })
+    },
+    handlePrev() {
+      this.$emit('handlePrev')
     }
   }
 }

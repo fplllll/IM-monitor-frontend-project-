@@ -5,25 +5,25 @@
       <!--<todo-list/>-->
       <!--</el-col>-->
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 6}" >
-        <name-plate :motor_attribute="motor_detail" :pack_attribute="{ time: result.time,sampling_rate: result.sampling_rate,id:result.id }" />
+        <name-plate :pack_attribute="motor_detail" />
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12" :xl="18">
         <el-row>
           <el-card class="box-card" style="margin-top: 10px">
             <h3 class="chart-title">{{ $t('symmetry.posChartTitle') }}</h3>
-            <sym-three-phase :height="'250px'" :three_phase_data="{ A: result.data.pAp_real,B: result.data.pBp_real,C: result.data.pCp_real}"/>
+            <sym-three-phase :height="'250px'" :three_phase_data="{ A: result.pAp_real,B: result.pBp_real,C: result.pCp_real}"/>
           </el-card>
         </el-row>
         <el-row>
           <el-card class="box-card" style="margin-top: 10px">
             <h3 class="chart-title">{{ $t('symmetry.negChartTitle') }}</h3>
-            <sym-three-phase :height="'250px'" :three_phase_data="{ A: result.data.pAn_real,B: result.data.pBn_real,C: result.data.pCn_real}"/>
+            <sym-three-phase :height="'250px'" :three_phase_data="{ A: result.pAn_real,B: result.pBn_real,C: result.pCn_real}"/>
           </el-card>
         </el-row>
         <el-row>
           <el-card class="box-card" style="margin-top: 10px">
             <h3 class="chart-title">{{ $t('symmetry.zeroChartTitle') }}</h3>
-            <zero-sequence :height="'250px'" :zero-sequence-data="{ real: result.data.zero_real, imag: result.data.zero_imag}"/>
+            <zero-sequence :height="'250px'" :zero-sequence-data="{ real: result.zero_real, imag: result.zero_imag}"/>
           </el-card>
         </el-row>
       </el-col>
@@ -33,40 +33,44 @@
         <el-card class="box-card" style="margin-top: 10px">
           <h3 class="chart-title">{{ $t('symmetry.uploarChartTitle') }}</h3>
           <PolarFigure
-            :ploar-chart-data="{ positive_real : result.data.pAp_real ,
-                                 negative_real: result.data.pAn_real ,
-                                 positive_imag : result.data.pAp_imag ,
-                                 negative_imag: result.data.pAn_imag ,}" />
+            :ploar-chart-data="{ positive_real : result.pAp_real ,
+                                 negative_real: result.pAn_real ,
+                                 positive_imag : result.pAp_imag ,
+                                 negative_imag: result.pAn_imag ,}" />
         </el-card>
       </el-col>
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 8}" :xl="{span: 8}">
         <el-card class="box-card" style="margin-top: 10px">
           <h3 class="chart-title">{{ $t('symmetry.vploarChartTitle') }}</h3>
           <PolarFigure
-            :ploar-chart-data="{ positive_real : result.data.pBp_real ,
-                                 negative_real: result.data.pBn_real ,
-                                 positive_imag : result.data.pBp_imag ,
-                                 negative_imag: result.data.pBn_imag ,}" />
+            :ploar-chart-data="{ positive_real : result.pBp_real ,
+                                 negative_real: result.pBn_real ,
+                                 positive_imag : result.pBp_imag ,
+                                 negative_imag: result.pBn_imag ,}" />
         </el-card>
       </el-col>
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 8}" :xl="{span: 8}">
         <el-card class="box-card" style="margin-top: 10px">
           <h3 class="chart-title">{{ $t('symmetry.wploarChartTitle') }}</h3>
           <PolarFigure
-            :ploar-chart-data="{ positive_real : result.data.pCp_real ,
-                                 negative_real: result.data.pCn_real ,
-                                 positive_imag : result.data.pCp_imag ,
-                                 negative_imag: result.data.pCn_imag ,}" />
+            :ploar-chart-data="{ positive_real : result.pCp_real ,
+                                 negative_real: result.pCn_real ,
+                                 positive_imag : result.pCp_imag ,
+                                 negative_imag: result.pCn_imag ,}" />
         </el-card>
       </el-col>
     </el-row>
-
+    <el-row style="margin: 20px auto">
+      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 24}" :xl="{span: 24}">
+        <el-button type="info" icon="el-icon-back" @click="handlePrev"/>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import SymThreePhase from './SymThreePhase'
-import { get_motors } from '@/api/IM'
+import { get_pack_info } from '@/api/IM'
 import NamePlate from '../../realtime/components/Nameplate'
 import ZeroSequence from './ZeroSequence'
 import PolarFigure from './PolarFigure'
@@ -84,13 +88,17 @@ export default {
     result: {
       required: true,
       type: Object
+    },
+    pack_id: {
+      required: true,
+      type: Number
     }
 
   },
   data() {
     return {
       id: null,
-      motor_detail: [{ name: '' }],
+      motor_detail: {},
       pack_detail: { rpm: 0 }
     }
   },
@@ -102,9 +110,12 @@ export default {
   },
   methods: {
     fetchData() {
-      get_motors({ id: this.motorid }).then(response => {
+      get_pack_info(this.motorid, { pack_id: this.pack_id }).then(response => {
         this.motor_detail = response.data
       })
+    },
+    handlePrev() {
+      this.$emit('handlePrev')
     }
   }
 }

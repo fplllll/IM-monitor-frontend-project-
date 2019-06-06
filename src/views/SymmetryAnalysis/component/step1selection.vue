@@ -27,6 +27,9 @@
     <el-form-item :label="$t('symmetry.formId')">
       <el-input v-model="value.packID" placeholder="Waiting for input"/>
     </el-form-item>
+    <el-form-item>
+      <el-button type="primary" icon="el-icon-s-grid" @click="handleSetPackListData()">{{ $t('symmetry.packlistBtn') }}</el-button>
+    </el-form-item>
   </el-form>
 </template>
 
@@ -41,7 +44,6 @@ export default {
   },
   data() {
     return {
-
       motorOption: [
         { key: 1, name: 'Motor#1' },
         { key: 2, name: 'Motor#2' },
@@ -76,14 +78,9 @@ export default {
       }
     }
   },
-  computed: {
-    motor: {
-      get() {
-        return this.value
-      },
-      set(val) {
-        this.$emit('input', val)
-      }
+  methods: {
+    handleSetPackListData() {
+      this.$emit('handleSetPackListData')
     }
   }
 }

@@ -1,8 +1,14 @@
 export default {
   route: {
-    myDashboard: 'Main Dashboard',
-    equipmentTable: 'Equipment Table',
-    motorRealTime: 'Motor Real Time',
+    myDashboard: 'Dashboard',
+    equipmentTable: 'Equipment Overview',
+    motorRealTime: 'Motor Monitoring',
+    SymmetryAnalysis: 'Symmetry Analysis',
+    DQZtransform: 'DQZ Transform',
+    TrendAnalysis: 'Trend Analysis',
+    HarmonicsAnalysis: 'Harmonics Analysis',
+    EnvelopeAnalysis: 'Envelope Analysis',
+    MotorDiagnosis: 'Motor Diagnosis',
     dashboard: 'Dashboard',
     introduction: 'Introduction',
     documentation: 'Documentation',
@@ -229,7 +235,7 @@ export default {
   symmetry: {
     step1: 'Chossing an Motor Object and Date range',
     step2: 'Chossing an Analyze Object',
-    step3: 'Symmetry Analysis Result',
+    step3: 'Analysis Result',
     formName: 'Motor Name',
     dateRange: 'Date Range',
     helpText: 'Need trend analysis to assist in the selection of signal object?',

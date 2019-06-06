@@ -5,20 +5,20 @@
       <!--<todo-list/>-->
       <!--</el-col>-->
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 6}" >
-        <name-plate :motor_attribute="motor_detail" :pack_attribute="{ time: result.time[-1],sampling_rate: result.sampling_rate,id:result.id }" />
+        <name-plate :pack_attribute="motor_detail" />
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12" :xl="18" >
         <el-row>
           <div class="chart-wrapper">
             <el-tabs type="border-card" stretch>
               <el-tab-pane :label="$t('trend.UtabTitle')">
-                <trendChart :trend-data="{rms: result.ufeature_rms, max: result.ufeature_max_current,min: result.ufeature_min_current, x: result.time}"/>
+                <trendChart :trend-data="{rms: result.urms, max: result.umax_current,min: result.umin_current, x: result.time}"/>
               </el-tab-pane>
               <el-tab-pane :label="$t('trend.VtabTitle')">
-                <trendChart :trend-data="{rms: result.vfeature_rms, max: result.vfeature_max_current,min: result.vfeature_min_current, x: result.time}"/>
+                <trendChart :trend-data="{rms: result.vrms, max: result.vmax_current,min: result.vmin_current, x: result.time}"/>
               </el-tab-pane>
               <el-tab-pane :label="$t('trend.WtabTitle')">
-                <trendChart :trend-data="{rms: result.wfeature_rms, max: result.wfeature_max_current,min: result.wfeature_min_current, x: result.time}"/>
+                <trendChart :trend-data="{rms: result.wrms, max: result.wmax_current,min: result.wmin_current, x: result.time}"/>
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -27,10 +27,10 @@
           <div class="chart-wrapper">
             <el-tabs type="border-card" stretch >
               <el-tab-pane :label="$t('trend.THDTitle')">
-                <THDtrendChart :trend-data="{rms: result.ufeature_thd, max: result.vfeature_thd,min: result.wfeature_thd, x: result.time}"/>
+                <THDtrendChart :trend-data="{rms: result.uthd, max: result.vthd,min: result.wthd, x: result.time}"/>
               </el-tab-pane>
               <el-tab-pane :label="$t('trend.ImbalanceTitle')">
-                <ImbalancetrendChart :trend-data="{y: result.symcomp_imbalance, x: result.time}"/>
+                <ImbalancetrendChart :trend-data="{y: result.imbalance, x: result.time}"/>
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { get_motors } from '@/api/IM'
+import { get_pack_info } from '@/api/IM'
 import NamePlate from '../../realtime/components/Nameplate'
 import trendChart from './trendChart'
 import THDtrendChart from './THDtrendChart'
@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       id: null,
-      motor_detail: [{ name: '' }],
+      motor_detail: {},
       pack_detail: { rpm: 0 }
     }
   },
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     fetchData() {
-      get_motors({ id: this.motorid }).then(response => {
+      get_pack_info(this.motorid, { pack_id: 1000 }).then(response => {
         this.motor_detail = response.data
       })
     }

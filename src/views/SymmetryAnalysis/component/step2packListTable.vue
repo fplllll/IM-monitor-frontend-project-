@@ -1,45 +1,52 @@
 <template>
   <div class="table-container">
-    <el-table
-      ref="singleTable"
-      :data="value.slice((currpage - 1) * pagesize, currpage * pagesize)"
-      highlight-current-row
-      border
-      stripe
-      @current-change="handleCurrentChange">
+    <el-form>
+      <el-form-item>
+        <el-table
+          ref="singleTable"
+          :data="value.slice((currpage - 1) * pagesize, currpage * pagesize)"
+          highlight-current-row
+          border
+          stripe
+          @current-change="handleCurrentChange">
 
-      <el-table-column
-        sortable
-        type="index"/>
+          <el-table-column
+            sortable
+            type="index"/>
 
-      <el-table-column
-        :label="$t('symmetry.timeColumn')"
-        property="time"
-        sortable
-      />
+          <el-table-column :label="$t('symmetry.timeColumn')" sortable>
+            <template slot-scope="scope">
+              {{ scope.row.time | dateTimeFilter }}
+            </template>
+          </el-table-column>
 
-      <el-table-column
-        :label="$t('symmetry.rpmColumn')"
-        property="rpm"
-        sortable/>
-      <el-table-column
-        :label="$t('symmetry.dbindexColumn')"
-        property="id"/>
+          <el-table-column
+            :label="$t('symmetry.rpmColumn')"
+            property="rpm"
+            sortable/>
+          <el-table-column
+            :label="$t('symmetry.dbindexColumn')"
+            property="id"/>
 
-    </el-table>
-
-    <el-pagination
-      :page-size="pagesize"
-      :total="value.length"
-      background
-      style="margin-top: 20px"
-      layout="prev, pager, next, sizes, total, jumper"
-      @current-change="handlepgCurrentChange"
-      @size-change="handleSizeChange"
-    />
-    <div style="margin-top: 20px">
-      <el-button @click="setCurrent()">取消选择</el-button>
-    </div>
+        </el-table>
+      </el-form-item>
+      <el-form-item>
+        <el-pagination
+          :page-size="pagesize"
+          :total="value.length"
+          background
+          style="margin-top: 20px"
+          layout="prev, pager, next, sizes, total, jumper"
+          @current-change="handlepgCurrentChange"
+          @size-change="handleSizeChange"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="info" icon="el-icon-back" @click="handlePrev"/>
+        <el-button type="primary" icon="el-icon-data-analysis" @click="handleRequestAnalyze">{{ $t('symmetry.analysisBtn') }}</el-button>
+        <!--<el-button @click="setCurrent()">取消选择</el-button>-->
+      </el-form-item>
+    </el-form>
   </div>
 
 </template>
@@ -83,8 +90,13 @@ export default {
     },
     handleSizeChange(psize) {
       this.pagesize = psize
+    },
+    handleRequestAnalyze() {
+      this.$emit('handleRequestAnalyze')
+    },
+    handlePrev() {
+      this.$emit('handlePrev')
     }
-
   }
 }
 </script>

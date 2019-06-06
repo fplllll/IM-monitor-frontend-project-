@@ -13,13 +13,13 @@
 
       <el-table-column :label="$t('realTime.amplitude')" align="center" >
         <template slot-scope="scope">
-          <span>{{ scope.row.UA.toFixed(2) + 'A' }}</span>
+          <span>{{ scope.row.amp.toFixed(2) + 'A' }}</span>
         </template>
       </el-table-column>
 
       <el-table-column :label="$t('realTime.frequency')" align="center" >
         <template slot-scope="scope">
-          <span>{{ scope.row.UW.toFixed(2) +'Hz' }}</span>
+          <span>{{ scope.row.freq.toFixed(2) +'Hz' }}</span>
         </template>
       </el-table-column>
 
@@ -61,8 +61,8 @@ export default {
       return statusMap[status]
     },
     initalPhaseFormatter(row) {
-      const value = row.UP
-      if (row.UA < 0) {
+      const value = row.ip
+      if (row.amp < 0) {
         return ((((value) / (2 * Math.PI) - Math.floor((value) / (2 * Math.PI))) * 360) - 180).toFixed(2) + '°'
       } else { return ((value / (2 * Math.PI) - Math.floor(value / (2 * Math.PI))) * 360).toFixed(2) + '°' }
     }
