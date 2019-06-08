@@ -27,7 +27,7 @@
 
         <md-list-item>
           <md-icon>shutter_speed</md-icon>
-          <span class="md-list-item-text">{{ $t('realTime.samplingRate') }} : {{ pack_attribute.sampling_rate }}</span>
+          <span class="md-list-item-text">{{ $t('realTime.samplingRate') }} : 20480 </span>
         </md-list-item>
 
         <md-list-item>

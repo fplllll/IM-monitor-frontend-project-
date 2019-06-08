@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     fetchData() {
-      get_pack_info(this.motorid, { pack_id: 1000 }).then(response => {
+      get_pack_info(this.motorid, { pack_id: 158 }).then(response => {
         this.motor_detail = response.data
       })
     }
