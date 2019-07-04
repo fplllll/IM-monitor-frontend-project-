@@ -11,10 +11,18 @@
   <!--</el-card>-->
   <el-card class="box-card-component" >
     <div slot="header" class="box-card-header">
+      <!--<model-obj-->
+      <!--v-loading="model_loading"-->
+      <!--:light="light"-->
+      <!--:rotation="rotation"-->
+      <!--:height="300"-->
+      <!--src="static/Winch.obj"-->
+      <!--@on-load="onLoad"-->
+      <!--/>-->
       <img style="margin-top: 20px  " src="../../../assets/motor/ABB MOTOR.jpg">
     </div>
 
-    <div class="bottom clearfix">
+    <div class="bottom clearfix" >
       <md-list style="font-family:Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif">
         <md-subheader style="font-weight:bold;font-size: 25px">
           {{ pack_attribute.name }}-{{ pack_attribute.sn }}
@@ -97,6 +105,13 @@
 <script>
 import { get_related_info } from '@/api/IM'
 export default {
+  // components: {
+  //   ModelObj: resolve => {
+  //     setTimeout(function() {
+  //       require(['@/components/three/model-obj.vue'], resolve)
+  //     }, 1500)
+  //   } // lazy loading
+  // },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -110,6 +125,20 @@ export default {
     pack_attribute: {
       type: Object,
       required: true
+    }
+  },
+  data() {
+    return {
+      model_loading: true,
+      light: [{
+        type: 'AmbientLight',
+        color: 0xffffff,
+        intensity: 100000 }],
+      rotation: {
+        x: 0,
+        y: 0,
+        z: 0
+      }
     }
   },
   methods: {
@@ -136,6 +165,14 @@ export default {
           type: 'success'
         })
       })
+    },
+    onLoad() {
+      this.rotate()
+      this.model_loading = false
+    },
+    rotate() {
+      this.rotation.y += 0.01
+      requestAnimationFrame(this.rotate)
     }
   }
 }
@@ -153,7 +190,7 @@ export default {
   .box-card-component {
   .box-card-header {
     position: relative;
-    height: 100%;
+    height: 300px;
     img {
       width: 100%;
       height: 100%;

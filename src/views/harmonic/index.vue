@@ -12,7 +12,7 @@ export default {
     step1selection,
     step3result
   },
-  extends: SymmetryAnalysis,
+  extends: SymmetryAnalysis, // inherit from SymmetryAnalysis Component, need to rewrite analysis request method as bellow, as well as the page of step 3 to present result
   methods: {
     handleRequestAnalyze() {
       if (this.$refs.table.currentRow === null) {

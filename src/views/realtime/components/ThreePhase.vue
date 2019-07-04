@@ -84,8 +84,8 @@ export default {
     },
     generate_timevector() {
       var data = []
-      for (var i = 0; i < 8192; i++) {
-        data.push((i / 20480).toFixed(2))
+      for (var i = 0; i < 4096; i++) {
+        data.push((i / 10240).toFixed(2))
       }
       return data
     },

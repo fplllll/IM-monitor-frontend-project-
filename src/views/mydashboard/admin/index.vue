@@ -3,19 +3,20 @@
     <github-corner style="position: absolute; top: 0px; border: 0; right: 0;"/>
 
     <panel-group :panel-group-data="panelGroupData"/>
-    <el-row :gutter="64">
-      <el-col :xs="12" :sm="12" :lg="8">
-        <motor-card :card-data="cardData[0]" />
-      </el-col>
-      <el-col :xs="12" :sm="12" :lg="8">
-        <motor-card :card-data="cardData[1]"/>
-      </el-col>
-      <el-col :xs="12" :sm="12" :lg="8">
-        <motor-card :card-data="cardData[2]"/>
-      </el-col>
-    </el-row>
 
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;margin-top:32px">
+    <el-carousel :interval="4000" type="card">
+      <el-carousel-item>
+        <motor-card :card-data="radarChartData[0]" />
+      </el-carousel-item>
+      <el-carousel-item>
+        <motor-card :card-data="radarChartData[1]" />
+      </el-carousel-item>
+      <el-carousel-item>
+        <motor-card :card-data="radarChartData[2]" />
+      </el-carousel-item>
+    </el-carousel>
+
+    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;margin-top:0px">
       <span class="card-title"> {{ $t('myDashboard.trend') }} </span>
       <el-divider style="margin: 5px 0 5px"/>
       <line-chart :line-chart-data="lineChartData"/>
@@ -150,11 +151,13 @@ export default {
       })
 
       Promise.all([
-        get_trend(1, { feature: 'thd', timeafter: encodeURIComponent('2016-01-01 00:00:00'), timebefore: encodeURIComponent('2016-05-01 00:00:00') }),
-        get_trend(2, { feature: 'thd', timeafter: encodeURIComponent('2016-01-01 00:00:00'), timebefore: encodeURIComponent('2016-05-01 00:00:00') }),
-        get_trend(3, { feature: 'thd', timeafter: encodeURIComponent('2016-01-01 00:00:00'), timebefore: encodeURIComponent('2016-05-01 00:00:00') }),
+        get_trend(1, { feature: 'uthd', timeafter: encodeURIComponent('2016-01-01 00:00:00'), timebefore: encodeURIComponent('2016-05-01 00:00:00') }),
+        get_trend(2, { feature: 'uthd', timeafter: encodeURIComponent('2016-01-01 00:00:00'), timebefore: encodeURIComponent('2016-05-01 00:00:00') }),
+        get_trend(3, { feature: 'uthd', timeafter: encodeURIComponent('2016-01-01 00:00:00'), timebefore: encodeURIComponent('2016-05-01 00:00:00') }),
         get_motor({ group_by: 'statu' }),
-        get_trend(1, { newest: true }), get_trend(2, { newest: true }), get_trend(3, { newest: true }),
+        get_trend(1, { feature: 'urms,vrms,wrms,n_rms,p_rms,ufrequency,uthd,imbalance,uamplitude', newest: true }),
+        get_trend(2, { feature: 'urms,vrms,wrms,n_rms,p_rms,ufrequency,uthd,imbalance,uamplitude', newest: true }),
+        get_trend(3, { feature: 'urms,vrms,wrms,n_rms,p_rms,ufrequency,uthd,imbalance,uamplitude', newest: true }),
         get_warning(null, { group_by: 'motor' }),
         get_motor({ group_by: 'comps' }),
         get_warning(null, { limit: 6 }),
@@ -173,28 +176,6 @@ export default {
         this.TreeChartData = value[12].data
       })
       loading.close()
-      // setTimeout(() => {
-      //   get_indexbar().then(response => {
-      //     this.barChartData = response.data
-      //   })
-      // }, 1500)
-      // setTimeout(() => {
-      //   get_warninglog().then(response => {
-      //     this.tableData = response.data.slice(0, 6)
-      //   })
-      //   get_warningcalendar().then(response => {
-      //     this.warningCalendar = response.data
-      //     this.topWarningDay = this.warningCalendar.sort(function(a, b) { return b[1] - a[1] }).slice(0, 5)
-      //   })
-      // }, 2500)
-      // setTimeout(() => {
-      //   get_tablestatu().then(response => {
-      //     this.serverStatuData = response.data
-      //   })
-      //   get_treemap().then(response => {
-      //     this.TreeChartData = response.data
-      //   })
-      // }, 3000)
     }
   }
 }
@@ -211,6 +192,9 @@ export default {
     }
     .el-divider--horizontal {
       margin: 5px 0 5px 0;
+    }
+    .el-carousel__indicator {
+      background-color: #2d2f33;
     }
   }
   .card-divider {

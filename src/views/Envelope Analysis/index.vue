@@ -1,6 +1,6 @@
 <script>
 import { get_envelope } from '@/api/IM'
-import step3result from './Step3Result'
+import step3result from './components/Step3Result'
 import step1selection from '../SymmetryAnalysis/component/step1selection'
 import step2packListTable from '../SymmetryAnalysis/component/step2packListTable'
 import SymmetryAnalysis from '../SymmetryAnalysis/index'

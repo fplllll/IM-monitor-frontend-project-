@@ -12,26 +12,26 @@
           <div class="progress-group">
             <div class="progress-item">
               <span class="indice-text">{{ $t('myDashboard.healthIndicator') }}</span>
-              <el-progress :text-inside="false" :stroke-width="18" :percentage="cardData.health_indicator" style="font-size: 8px"/>
+              <el-progress :text-inside="false" :stroke-width="18" :percentage="Number((cardData.health_indicator).toFixed(2))" style="font-size: 8px"/>
             </div>
             <div class="progress-item">
               <span class="indice-text">{{ $t('myDashboard.thd') }}</span>
-              <el-progress :text-inside="false" :stroke-width="18" :percentage="Number((cardData.latest_ufeature_thd*100).toFixed(2))"/>
+              <el-progress :text-inside="false" :stroke-width="18" :percentage="Number((cardData.uthd*100).toFixed(2))"/>
             </div>
             <div class="progress-item">
               <span class="indice-text">{{ $t('myDashboard.imbalance') }}</span>
-              <el-progress :text-inside="false" :stroke-width="18" :percentage="Number((cardData.latest_symcomp_imbalance*100).toFixed(2))" color="rgba(142, 113, 199, 0.7)" />
+              <el-progress :text-inside="false" :stroke-width="18" :percentage="Number((cardData.imbalance*100).toFixed(2))" color="rgba(142, 113, 199, 0.7)" />
             </div>
             <div class="progress-item">
               <span class="indice-text">{{ $t('myDashboard.frequency') }}</span>
-              <el-tooltip :content="(cardData.latest_uphase_frequency).toFixed(2) + 'Hz' " class="item" effect="light" placement="right">
-                <el-progress :text-inside="false" :stroke-width="18" :percentage="Number((cardData.latest_uphase_frequency).toFixed(2))" color="#67C23A" />
+              <el-tooltip :content="(cardData.ufrequency).toFixed(2) + 'Hz' " class="item" effect="light" placement="right">
+                <el-progress :text-inside="false" :stroke-width="18" :percentage="Number((cardData.ufrequency).toFixed(2))" color="#67C23A" />
               </el-tooltip>
             </div>
             <div class="progress-item">
               <span class="indice-text">{{ $t('myDashboard.amplitude') }}</span>
-              <el-tooltip :content="(cardData.latest_uphase_amplitude).toFixed(2) + 'A' " class="item" effect="light" placement="right">
-                <el-progress :text-inside="false" :stroke-width="18" :percentage="Number(Math.abs((cardData.latest_uphase_amplitude/0.5*100)).toFixed(2))" color="#F56C6C" style="margin-bottom: 10px"/>
+              <el-tooltip :content="(cardData.uamplitude).toFixed(2) + 'A' " class="item" effect="light" placement="right">
+                <el-progress :text-inside="false" :stroke-width="18" :percentage="Number(Math.abs((cardData.uamplitude/0.5*100)).toFixed(2))" color="#F56C6C" style="margin-bottom: 10px"/>
               </el-tooltip>
             </div>
           </div>
@@ -50,13 +50,13 @@ export default {
       required: true,
       default() {
         return (
-          { 'name': 'Motor#1',
-            'sn': 'JGAfAeBk',
-            'health_indicator': 84,
-            'latest_ufeature_thd': 0.01846835387954589,
-            'latest_symcomp_imbalance': 0.032257708216787764,
-            'latest_uphase_amplitude': 0.23261093108734887,
-            'latest_uphase_frequency': 30.722810475719424 }
+          { 'name': 'Motor#',
+            'sn': '',
+            'health_indicator': 0,
+            'uthd': 0,
+            'imbalance': 0,
+            'uamplitude': 0,
+            'ufrequency': 0 }
         )
       }
     }
@@ -77,7 +77,7 @@ export default {
     }
 
     .image {
-      width: 100%;
+      width: 80%;
       display: block;
       padding: 10px;  }
     .progress-group {

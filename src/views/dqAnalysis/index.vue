@@ -12,6 +12,7 @@ export default {
     step1selection,
     step3result
   },
+
   extends: SymmetryAnalysis,
   methods: {
     handleRequestAnalyze() {

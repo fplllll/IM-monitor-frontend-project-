@@ -113,8 +113,8 @@ export default {
         this.threePhaseSpec = { uspec: res.data.ufft, vspec: res.data.vfft, wspec: res.data.wfft }
 
         this.parameterData = [{ amp: res.data.uamp, freq: res.data.ufreq, ip: res.data.uip }, { amp: res.data.vamp, freq: res.data.vfreq, ip: res.data.vip }, { amp: res.data.wamp, freq: res.data.wfreq, ip: res.data.wip }]
-        get_trend(this.id, { newest: true }).then(res2 => {
-          this.gaugeData = { urms: res2.data.urms, vrms: res2.data.vrms, wrms: res2.data.wrms, freq: res2.data.frequency, rpm: res.data.rpm }
+        get_trend(this.id, { newest: true, feature: 'urms,vrms,wrms,ufrequency' }).then(res2 => {
+          this.gaugeData = { urms: res2.data.urms, vrms: res2.data.vrms, wrms: res2.data.wrms, freq: res2.data.ufrequency, rpm: (res2.data.ufrequency * 60).toFixed(2) }
         })
         loading.close()
       })

@@ -39,7 +39,7 @@ import { get_pack_info, get_tsignal } from '@/api/IM'
 import NamePlate from '../../realtime/components/Nameplate'
 import dqChart from './dqChart'
 import ThreePhase from '../../realtime/components/ThreePhase'
-import SpectrumChart from '../../Envelope Analysis/SpectrumChart'
+import SpectrumChart from '../../Envelope Analysis/components/SpectrumChart'
 export default {
   name: 'SymmetryResult',
   components: {

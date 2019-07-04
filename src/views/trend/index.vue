@@ -62,7 +62,10 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       })
-      get_trend(this.motorformData.motor, { feature: 'max_current,min_current,thd,rms,imbalance', timeafter: encodeURIComponent(this.motorformData.datarange[0]), timebefore: encodeURIComponent(this.motorformData.datarange[1]) }).then(response => {
+      get_trend(this.motorformData.motor,
+        { feature: 'umax_current,umin_current,uthd,urms,vmax_current,vmin_current,vthd,vrms,wmax_current,wmin_current,wthd,wrms,imbalance',
+          timeafter: encodeURIComponent(this.motorformData.datarange[0]),
+          timebefore: encodeURIComponent(this.motorformData.datarange[1]) }).then(response => {
         if (Object.keys(response.data).length === 0) {
           this.$alert('There is no data in the date range', 'Request Error', {
             confirmButtonText: 'Ok'

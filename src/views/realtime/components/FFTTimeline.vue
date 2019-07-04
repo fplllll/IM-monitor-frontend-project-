@@ -79,7 +79,7 @@ export default {
     generate_timevector() {
       var data = []
       for (var i = 0; i < this.three_phase_data.uspec.length; i++) {
-        data.push((i * (10240 / this.three_phase_data.uspec.length)).toFixed(1))
+        data.push((i * (10240 / 4096)).toFixed(1))
       }
       return data
     },
@@ -169,7 +169,7 @@ export default {
               show: true,
               xAxisIndex: [0],
               start: 15,
-              end: 25
+              end: 50
             }
           ],
           grid: {
