@@ -2,48 +2,59 @@
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
-        <div class="card-panel-icon-wrapper icon-people">
-          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+        <div class="card-panel-icon-wrapper icon-1">
+          <svg-icon icon-class="star" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">New Visits</div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num"/>
+          <div class="card-panel-text">{{ $t('myDashboard.statisticsExcellent') }}</div>
+          <count-to :start-val="0" :end-val="panelGroupData.excellent" :duration="3000" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('messages')">
-        <div class="card-panel-icon-wrapper icon-message">
-          <svg-icon icon-class="message" class-name="card-panel-icon" />
+        <div class="card-panel-icon-wrapper icon-2">
+          <svg-icon icon-class="component" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Messages</div>
-          <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num"/>
+          <div class="card-panel-text">{{ $t('myDashboard.statisticsGood') }}</div>
+          <count-to :start-val="0" :end-val="panelGroupData.good" :duration="3000" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('purchases')">
-        <div class="card-panel-icon-wrapper icon-money">
-          <svg-icon icon-class="money" class-name="card-panel-icon" />
+        <div class="card-panel-icon-wrapper icon-3">
+          <svg-icon icon-class="example" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Purchases</div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num"/>
+          <div class="card-panel-text">{{ $t('myDashboard.statisticsModerate') }}</div>
+          <count-to :start-val="0" :end-val="panelGroupData.moderate" :duration="3200" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('shoppings')">
-        <div class="card-panel-icon-wrapper icon-shopping">
-          <svg-icon icon-class="shopping" class-name="card-panel-icon" />
+        <div class="card-panel-icon-wrapper icon-4">
+          <svg-icon icon-class="attention" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Shoppings</div>
-          <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num"/>
+          <div class="card-panel-text">{{ $t('myDashboard.statisticsPoor') }}</div>
+          <count-to :start-val="0" :end-val="panelGroupData.poor" :duration="3600" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
+    <!--<el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">-->
+    <!--<div class="card-panel" @click="handleSetLineChartData('shoppings')">-->
+    <!--<div class="card-panel-icon-wrapper icon-shopping">-->
+    <!--<svg-icon icon-class="shopping" class-name="card-panel-icon" />-->
+    <!--</div>-->
+    <!--<div class="card-panel-description">-->
+    <!--<div class="card-panel-text">Offline motor</div>-->
+    <!--<count-to :start-val="0" :end-val="statu_num['Offline']" :duration="3600" class="card-panel-num"/>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</el-col>-->
   </el-row>
 </template>
 
@@ -54,11 +65,26 @@ export default {
   components: {
     CountTo
   },
+  props: {
+    panelGroupData: {
+      type: Object,
+      required: true,
+      default: function() {
+        return {
+          excellent: 0,
+          good: 0,
+          moderate: 0,
+          poor: 0
+        }
+      }
+    }
+  },
   methods: {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
     }
   }
+
 }
 </script>
 
@@ -82,30 +108,30 @@ export default {
       .card-panel-icon-wrapper {
         color: #fff;
       }
-      .icon-people {
-         background: #40c9c6;
+      .icon-1 {
+         background: #20c91d;
       }
-      .icon-message {
+      .icon-2 {
         background: #36a3f7;
       }
-      .icon-money {
-        background: #f4516c;
+      .icon-3 {
+        background: #f4ae3a;
       }
-      .icon-shopping {
-        background: #34bfa3
+      .icon-4 {
+        background: #bf1f1d
       }
     }
-    .icon-people {
-      color: #40c9c6;
+    .icon-1 {
+      color: #20c91d;
     }
-    .icon-message {
+    .icon-2 {
       color: #36a3f7;
     }
-    .icon-money {
-      color: #f4516c;
+    .icon-3 {
+      color: #f4ae3a;
     }
-    .icon-shopping {
-      color: #34bfa3
+    .icon-4 {
+      color: #bf1f1d
     }
     .card-panel-icon-wrapper {
       float: left;

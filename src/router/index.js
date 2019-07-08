@@ -4,7 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 /* Layout */
-import Layout from '@/views/layout/Layout'
+import Layout from '@/layout/Layout'
 
 /* Router Modules */
 // import componentsRouter from './modules/components'
@@ -67,13 +67,13 @@ export const constantRouterMap = [
   {
     path: '',
     component: Layout,
-    redirect: 'mydashboard',
+    redirect: '/dashboard',
     children: [
       {
-        path: 'mydashboard',
-        component: () => import('@/views/mydashboard/index'),
-        name: 'Mydashboard',
-        meta: { title: 'myDashboard', icon: 'dashboard', noCache: true, affix: true }
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        name: 'Dashboard',
+        meta: { title: 'Dashboard', icon: 'dashboard', noCache: true, affix: true }
       }
     ]
   },
@@ -84,23 +84,23 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/eqtable/index'),
-        name: 'EquipmentTable',
-        meta: { title: 'equipmentTable', icon: 'table', noCache: true }
+        component: () => import('@/views/equip-table/index'),
+        name: 'Equipment Table',
+        meta: { title: 'Equipment Table', icon: 'table', noCache: true }
       }
     ]
   },
   {
     path: '/motor',
     component: Layout,
-    redirect: '/motor/realtime/1',
+    redirect: '/motor/realtime-monitor/1',
     meta: { title: 'motorRealTime', icon: 'real-time', noCache: true },
     children: [
       {
-        path: 'realtime/:id(\\d+)',
-        component: () => import('@/views/realtime/index'),
-        name: 'MotorRealTime',
-        meta: { title: 'motorRealTime', icon: 'real-time', noCache: true },
+        path: 'realtime-monitor/:id(\\d+)',
+        component: () => import('@/views/realtime-monitor/index'),
+        name: 'Realtime-monitor',
+        meta: { title: 'Motor Realtime', icon: 'real-time', noCache: true },
         hidden: true
       }
     ]
@@ -112,9 +112,9 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/SymmetryAnalysis/index'),
+        component: () => import('@/views/sym-analysis/index'),
         name: 'Symmetry Analysis',
-        meta: { title: 'SymmetryAnalysis', icon: 'symmentry', noCache: true }
+        meta: { title: 'Symmetry Analysis', icon: 'symmentry', noCache: true }
       }
     ]
   },
@@ -125,22 +125,22 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/dqAnalysis/index'),
+        component: () => import('@/views/dq-analysis/index'),
         name: 'DQZ transform',
-        meta: { title: 'DQZtransform', icon: 'dq', noCache: true }
+        meta: { title: 'DQZ Transform', icon: 'dq', noCache: true }
       }
     ]
   },
   {
-    path: '/trend',
+    path: '/trend-analysis',
     component: Layout,
-    redirect: '/trend/index/',
+    redirect: '/trend-analysis/index/',
     children: [
       {
         path: 'index',
-        component: () => import('@/views/trend/index'),
+        component: () => import('@/views/trend-analysis/index'),
         name: 'Trend Analysis',
-        meta: { title: 'TrendAnalysis', icon: 'trend', noCache: true }
+        meta: { title: 'Trend Analysis', icon: 'trend', noCache: true }
       }
     ]
   },
@@ -151,9 +151,9 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/harmonic/index'),
+        component: () => import('@/views/harmonic-analysis/index'),
         name: 'Harmonics Analysis',
-        meta: { title: 'HarmonicsAnalysis', icon: 'harmonics', noCache: true }
+        meta: { title: 'Harmonics Analysis', icon: 'harmonics', noCache: true }
       }
     ]
   },
@@ -164,9 +164,9 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/Envelope Analysis/index'),
+        component: () => import('@/views/env-analysis/index'),
         name: 'Envelope Analysis',
-        meta: { title: 'EnvelopeAnalysis', icon: 'envelope', noCache: true }
+        meta: { title: 'Envelope Analysis', icon: 'envelope', noCache: true }
       }
     ]
   },
@@ -179,7 +179,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/diagnosis/index'),
         name: 'Motor Diagnosis',
-        meta: { title: 'MotorDiagnosis', icon: 'diag', noCache: true }
+        meta: { title: 'Motor Diagnosis', icon: 'diag', noCache: true }
       }
     ]
   },
@@ -192,145 +192,24 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
-        meta: { title: 'documentation', icon: 'documentation', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/dashboard',
-    component: Layout,
-    redirect: 'dashboard',
-    hidden: true,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/guide',
-    component: Layout,
-    redirect: '/guide/index',
-    hidden: true,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/guide/index'),
-        name: 'Guide',
-        meta: { title: 'guide', icon: 'guide', noCache: true }
+        meta: { title: 'Documentation', icon: 'documentation', affix: true }
       }
     ]
   }
 ]
 
-export default new Router({
+const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
 
 export const asyncRouterMap = [
-  {
-    path: '/permission',
-    hidden: true,
-    component: Layout,
-    redirect: '/permission/index',
-    alwaysShow: true, // will always show the root menu
-    meta: {
-      title: 'permission',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: 'pagePermission',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
-        meta: {
-          title: 'directivePermission'
-          // if do not set roles, means: this page does not require permission
-        }
-      }
-    ]
-  },
-
-  {
-    path: '/icon',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/svg-icons/index'),
-        name: 'Icons',
-        meta: { title: 'icons', icon: 'icon', noCache: true }
-      }
-    ]
-  },
-
   /** When your routing table is too long, you can split it into small modules**/
   // componentsRouter,
   // chartsRouter,
   // nestedRouter,
   // tableRouter,
-
-  {
-    path: '/example',
-    hidden: true,
-    component: Layout,
-    redirect: '/example/list',
-    name: 'Example',
-    meta: {
-      title: 'example',
-      icon: 'example'
-    },
-    children: [
-      {
-        path: 'create',
-        component: () => import('@/views/example/create'),
-        name: 'CreateArticle',
-        meta: { title: 'createArticle', icon: 'edit' }
-      },
-      {
-        path: 'edit/:id(\\d+)',
-        component: () => import('@/views/example/edit'),
-        name: 'EditArticle',
-        meta: { title: 'editArticle', noCache: true },
-        hidden: true
-      },
-      {
-        path: 'list',
-        component: () => import('@/views/example/list'),
-        name: 'ArticleList',
-        meta: { title: 'articleList', icon: 'list' }
-      }
-    ]
-  },
-  {
-    path: '/tab',
-    hidden: true,
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/tab/index'),
-        name: 'Tab',
-        meta: { title: 'tab', icon: 'tab' }
-      }
-    ]
-  },
 
   {
     path: '/error',
@@ -358,145 +237,14 @@ export const asyncRouterMap = [
     ]
   },
 
-  {
-    path: '/error-log',
-    hidden: true,
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'log',
-        component: () => import('@/views/errorLog/index'),
-        name: 'ErrorLog',
-        meta: { title: 'errorLog', icon: 'bug' }
-      }
-    ]
-  },
-
-  {
-    path: '/excel',
-    hidden: true,
-    component: Layout,
-    redirect: '/excel/export-excel',
-    name: 'Excel',
-    meta: {
-      title: 'excel',
-      icon: 'excel'
-    },
-    children: [
-      {
-        path: 'export-excel',
-        component: () => import('@/views/excel/exportExcel'),
-        name: 'ExportExcel',
-        meta: { title: 'exportExcel' }
-      },
-      {
-        path: 'export-selected-excel',
-        component: () => import('@/views/excel/selectExcel'),
-        name: 'SelectExcel',
-        meta: { title: 'selectExcel' }
-      },
-      {
-        path: 'upload-excel',
-        component: () => import('@/views/excel/uploadExcel'),
-        name: 'UploadExcel',
-        meta: { title: 'uploadExcel' }
-      }
-    ]
-  },
-
-  {
-    path: '/zip',
-    hidden: true,
-    component: Layout,
-    redirect: '/zip/download',
-    alwaysShow: true,
-    meta: { title: 'zip', icon: 'zip' },
-    children: [
-      {
-        path: 'download',
-        component: () => import('@/views/zip/index'),
-        name: 'ExportZip',
-        meta: { title: 'exportZip' }
-      }
-    ]
-  },
-
-  {
-    path: '/pdf',
-    hidden: true,
-    component: Layout,
-    redirect: '/pdf/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/pdf/index'),
-        name: 'PDF',
-        meta: { title: 'pdf', icon: 'pdf' }
-      }
-    ]
-  },
-  {
-    path: '/pdf/download',
-    component: () => import('@/views/pdf/download'),
-    hidden: true
-  },
-
-  {
-    path: '/theme',
-    hidden: true,
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/theme/index'),
-        name: 'Theme',
-        meta: { title: 'theme', icon: 'theme' }
-      }
-    ]
-  },
-
-  {
-    path: '/clipboard',
-    hidden: true,
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/clipboard/index'),
-        name: 'ClipboardDemo',
-        meta: { title: 'clipboardDemo', icon: 'clipboard' }
-      }
-    ]
-  },
-
-  {
-    path: '/i18n',
-    hidden: true,
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/i18n-demo/index'),
-        name: 'I18n',
-        meta: { title: 'i18n', icon: 'international' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    hidden: true,
-    component: Layout,
-    children: [
-      {
-        path: 'https://github.com/PanJiaChen/vue-element-admin',
-        meta: { title: 'externalLink', icon: 'link' }
-      }
-    ]
-  },
-
   { path: '*', redirect: '/404', hidden: true }
 ]
+
+const router = createRouter()
+
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
+}
+
+export default router

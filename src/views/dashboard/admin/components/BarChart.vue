@@ -7,7 +7,7 @@ import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
 
-const animationDuration = 6000
+const animationDuration = 8000
 
 export default {
   props: {
@@ -22,6 +22,10 @@ export default {
     height: {
       type: String,
       default: '300px'
+    },
+    barChartData: {
+      type: Array,
+      required: true
     }
   },
   data() {
@@ -29,8 +33,13 @@ export default {
       chart: null
     }
   },
+  watch: {
+    'barChartData'() {
+      this.setChart()
+    }
+  },
   mounted() {
-    this.initChart()
+    this.chart = echarts.init(this.$el, 'macarons')
     this.__resizeHandler = debounce(() => {
       if (this.chart) {
         this.chart.resize()
@@ -47,9 +56,7 @@ export default {
     this.chart = null
   },
   methods: {
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-
+    setChart() {
       this.chart.setOption({
         tooltip: {
           trigger: 'axis',
@@ -58,7 +65,7 @@ export default {
           }
         },
         grid: {
-          top: 10,
+          top: 30,
           left: '2%',
           right: '2%',
           bottom: '3%',
@@ -66,7 +73,7 @@ export default {
         },
         xAxis: [{
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: ['Motor#1', 'Motor#2', 'Motor#3'],
           axisTick: {
             alignWithLabel: true
           }
@@ -75,28 +82,29 @@ export default {
           type: 'value',
           axisTick: {
             show: false
-          }
+          },
+          max: '10'
         }],
         series: [{
-          name: 'pageA',
+          name: 'rotor',
           type: 'bar',
           stack: 'vistors',
-          barWidth: '60%',
-          data: [79, 52, 200, 334, 390, 330, 220],
+          barWidth: '40%',
+          data: [this.barChartData[0].rotors, this.barChartData[1].rotors, this.barChartData[2].rotors],
           animationDuration
         }, {
-          name: 'pageB',
+          name: 'stator',
           type: 'bar',
           stack: 'vistors',
-          barWidth: '60%',
-          data: [80, 52, 200, 334, 390, 330, 220],
+          barWidth: '40%',
+          data: [this.barChartData[0].stators, this.barChartData[1].stators, this.barChartData[2].stators],
           animationDuration
         }, {
-          name: 'pageC',
+          name: 'bearing',
           type: 'bar',
           stack: 'vistors',
-          barWidth: '60%',
-          data: [30, 52, 200, 334, 390, 330, 220],
+          barWidth: '40%',
+          data: [this.barChartData[0].bearings, this.barChartData[1].bearings, this.barChartData[2].bearings],
           animationDuration
         }]
       })

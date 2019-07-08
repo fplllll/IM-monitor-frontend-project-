@@ -123,7 +123,7 @@ a:not(.md-button) {
 }
 
 a:not(.md-button):hover {
-  text-decoration: underline
+  text-decoration: none
 }
 
 button:focus {

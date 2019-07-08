@@ -21,6 +21,10 @@
   @include colorBtn($light-blue)
 }
 
+.white {
+  @include colorBtn($white)
+}
+
 .red-btn {
   @include colorBtn($red)
 }

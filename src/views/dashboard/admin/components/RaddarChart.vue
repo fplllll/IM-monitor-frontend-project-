@@ -7,7 +7,7 @@ import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
 
-const animationDuration = 3000
+const animationDuration = 12000
 
 export default {
   props: {
@@ -22,6 +22,10 @@ export default {
     height: {
       type: String,
       default: '300px'
+    },
+    radarChartData: {
+      type: Array,
+      required: true
     }
   },
   data() {
@@ -29,8 +33,13 @@ export default {
       chart: null
     }
   },
+  watch: {
+    'radarChartData'() {
+      this.setChart()
+    }
+  },
   mounted() {
-    this.initChart()
+    this.chart = echarts.init(this.$el, 'macarons')
     this.__resizeHandler = debounce(() => {
       if (this.chart) {
         this.chart.resize()
@@ -47,14 +56,13 @@ export default {
     this.chart = null
   },
   methods: {
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-
+    setChart() {
       this.chart.setOption({
         tooltip: {
-          trigger: 'axis',
+          trigger: 'item',
+          position: 'inside',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+            type: 'line' // 默认为直线，可选为：'line' | 'shadow'
           }
         },
         radar: {
@@ -72,18 +80,18 @@ export default {
             }
           },
           indicator: [
-            { name: 'Sales', max: 10000 },
-            { name: 'Administration', max: 20000 },
-            { name: 'Information Techology', max: 20000 },
-            { name: 'Customer Support', max: 20000 },
-            { name: 'Development', max: 20000 },
-            { name: 'Marketing', max: 20000 }
+            { name: 'U-RMS', max: 0.2 },
+            { name: 'V-RMS', max: 0.2 },
+            { name: 'W-RMS', max: 0.2 },
+            { name: 'Negative sequence', max: 0.1 },
+            { name: 'Positice\nsequence', max: 0.2 },
+            { name: 'Power\nfrequency', max: 70 }
           ]
         },
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Allocated Budget', 'Expected Spending', 'Actual Spending']
+          data: ['Motor#3', 'Motor#2', 'Motor#1']
         },
         series: [{
           type: 'radar',
@@ -99,16 +107,16 @@ export default {
           },
           data: [
             {
-              value: [5000, 7000, 12000, 11000, 15000, 14000],
-              name: 'Allocated Budget'
+              value: [this.radarChartData[2].urms, this.radarChartData[2].vrms, this.radarChartData[2].wrms, this.radarChartData[2].n_rms, this.radarChartData[2].p_rms, this.radarChartData[2].frequency],
+              name: 'Motor#3'
             },
             {
-              value: [4000, 9000, 15000, 15000, 13000, 11000],
-              name: 'Expected Spending'
+              value: [this.radarChartData[1].urms, this.radarChartData[1].vrms, this.radarChartData[1].wrms, this.radarChartData[1].n_rms, this.radarChartData[1].p_rms, this.radarChartData[1].frequency],
+              name: 'Motor#2'
             },
             {
-              value: [5500, 11000, 12000, 15000, 12000, 12000],
-              name: 'Actual Spending'
+              value: [this.radarChartData[0].urms, this.radarChartData[0].vrms, this.radarChartData[0].wrms, this.radarChartData[0].n_rms, this.radarChartData[0].p_rms, this.radarChartData[0].frequency],
+              name: 'Motor#1'
             }
           ],
           animationDuration: animationDuration

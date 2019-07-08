@@ -82,7 +82,7 @@ export default {
     size: 'Global Size'
   },
   login: {
-    title: 'Login Form',
+    title: 'Motor Platform Login',
     logIn: 'Log in',
     username: 'Username',
     password: 'Password',
@@ -238,7 +238,7 @@ export default {
     step3: 'Analysis Result',
     formName: 'Motor Name',
     dateRange: 'Date Range',
-    helpText: 'Need trend analysis to assist in the selection of signal object?',
+    helpText: 'Need trend-analysis analysis to assist in the selection of signal object?',
     formId: 'Signal ID(Optional)',
     previousBtn: 'Back to previous Step',
     packlistBtn: 'Get Signal List',

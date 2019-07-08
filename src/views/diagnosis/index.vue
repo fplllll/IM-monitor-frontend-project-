@@ -1,8 +1,8 @@
 <script>
 import { get_diagResult } from '@/api/IM'
-import SymmetryAnalysis from '../SymmetryAnalysis/index'
-import step1selection from '../SymmetryAnalysis/component/step1selection'
-import step2packListTable from '../SymmetryAnalysis/component/step2packListTable'
+import SymmetryAnalysis from '../sym-analysis/index'
+import step1selection from '../sym-analysis/component/step1selection'
+import step2packListTable from '../sym-analysis/component/step2packListTable'
 
 const boxMapper = {
   0: 'warning',

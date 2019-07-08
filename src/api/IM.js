@@ -157,7 +157,7 @@ export function get_tsignal(id, query) {
 
 export function get_feature_trend(query) {
   return request({
-    url: '/feature-trend/',
+    url: '/feature-trend-analysis/',
     method: 'get',
     params: {
       time_after: query.datarange[0],

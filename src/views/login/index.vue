@@ -1,5 +1,6 @@
 <template>
-  <div class="login-container">
+  <div id= "large-header" class="login-container">
+    <background/>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
       <div class="title-container">
         <h3 class="title">
@@ -37,10 +38,9 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
+      <button :loading="loading" style="width:100%;margin-bottom:30px;" class="pan-btn light-blue-btn" @click="handleLogin">
         {{ $t('login.logIn') }}
-      </el-button>
+      </button>
 
       <div style="position:relative">
         <div class="tips">
@@ -54,12 +54,11 @@
           <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
         </div>
 
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
+        <el-button class="thirdparty-button pan-btn blue-btn" @click="showDialog=true">
           {{ $t('login.thirdparty') }}
         </el-button>
       </div>
     </el-form>
-
     <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
       {{ $t('login.thirdpartyTips') }}
       <br>
@@ -74,10 +73,10 @@
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './socialsignin'
-
+import Background from './background'
 export default {
   name: 'Login',
-  components: { LangSelect, SocialSign },
+  components: { LangSelect, SocialSign, Background },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -134,7 +133,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+          this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.loading = false
             this.$router.push({ path: this.redirect || '/' })
           }).catch(() => {
@@ -223,15 +222,25 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
   overflow: hidden;
+  position: relative;
+  background: #333;
+  background-size: cover;
+  background-position: center center;
+  z-index: 1;
+  background-image: url('4YKZ0M.jpg');
+
   .login-form {
-    position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+    height: 500px;
+    color: #EEE;
+    position: absolute;
+    left: 37%;
+    top: 29%;
+
   }
   .tips {
     font-size: 14px;

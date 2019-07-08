@@ -1,26 +1,26 @@
 <template>
   <el-card class="box-card-component" style="margin-left:8px;">
     <div slot="header" class="box-card-header">
-      <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">
+      <img src="https://fpimages.withfloats.com/actual/5c1e2114c2bb000001beb5e9.jpg">
     </div>
     <div style="position:relative;">
       <pan-thumb :image="avatar" class="panThumb"/>
-      <mallki class-name="mallki-text" text="vue-element-admin"/>
+      <mallki :text="$t('myDashboard.statuCardTitle')" class-name="mallki-text"/>
       <div style="padding-top:35px;" class="progress-item">
-        <span>Vue</span>
-        <el-progress :percentage="70"/>
+        <span>{{ $t('myDashboard.dbTableCount') }}</span>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="normalized_count"/>
       </div>
       <div class="progress-item">
-        <span>JavaScript</span>
-        <el-progress :percentage="18"/>
+        <span>{{ $t('myDashboard.dbTableVolume') }}</span>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="normalized_volume" color="rgba(142, 113, 199, 0.7)"/>
       </div>
       <div class="progress-item">
-        <span>Css</span>
-        <el-progress :percentage="12"/>
+        <span>{{ $t('myDashboard.cpuUsage') }}</span>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="serverStatuData.cpu_statu" status="success"/>
       </div>
       <div class="progress-item">
-        <span>ESLint</span>
-        <el-progress :percentage="100" status="success"/>
+        <span>{{ $t('myDashboard.memoryUsage') }}</span>
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="serverStatuData.memory_statu" status="exception"/>
       </div>
     </div>
   </el-card>
@@ -33,7 +33,6 @@ import Mallki from '@/components/TextHoverEffect/Mallki'
 
 export default {
   components: { PanThumb, Mallki },
-
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -43,12 +42,10 @@ export default {
       return statusMap[status]
     }
   },
-  data() {
-    return {
-      statisticsData: {
-        article_count: 1024,
-        pageviews_count: 1024
-      }
+  props: {
+    serverStatuData: {
+      type: Object,
+      required: true
     }
   },
   computed: {
@@ -56,7 +53,23 @@ export default {
       'name',
       'avatar',
       'roles'
-    ])
+    ]),
+    normalized_count: function() {
+      // `this` 指向 vm 实例
+      if (this.serverStatuData.table_count) {
+        return Number((this.serverStatuData.table_count / 4096 * 100).toFixed(1))
+      } else {
+        return 0
+      }
+    },
+    normalized_volume: function() {
+      // `this` 指向 vm 实例
+      if (this.serverStatuData.table_volume) {
+        return Number((Number(this.serverStatuData.table_volume.replace(/MB/, '')) / 2048 * 100).toFixed(1))
+      } else {
+        return 0
+      }
+    }
   }
 }
 </script>

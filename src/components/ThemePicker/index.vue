@@ -1,6 +1,7 @@
 <template>
   <el-color-picker
     v-model="theme"
+    style="  z-index: 50000;"
     class="theme-picker"
     popper-class="theme-picker-dropdown"/>
 </template>
@@ -143,13 +144,13 @@ export default {
 
 <style>
 .theme-picker .el-color-picker__trigger {
-  margin-top: 12px;
+  margin-top: 0px;
   height: 26px!important;
   width: 26px!important;
   padding: 2px;
 }
 
 .theme-picker-dropdown .el-color-dropdown__link-btn {
-  display: none;
+  display: flow;
 }
 </style>

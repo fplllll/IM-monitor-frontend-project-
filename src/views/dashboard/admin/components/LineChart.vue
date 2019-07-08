@@ -25,10 +25,11 @@ export default {
       type: Boolean,
       default: true
     },
-    chartData: {
-      type: Object,
+    lineChartData: {
+      type: Array,
       required: true
     }
+
   },
   data() {
     return {
@@ -37,15 +38,12 @@ export default {
     }
   },
   watch: {
-    chartData: {
-      deep: true,
-      handler(val) {
-        this.setOptions(val)
-      }
+    'lineChartData'() {
+      this.setChart()
     }
   },
   mounted() {
-    this.initChart()
+    this.chart = echarts.init(this.$el, 'macarons')
     if (this.autoResize) {
       this.__resizeHandler = debounce(() => {
         if (this.chart) {
@@ -78,14 +76,16 @@ export default {
         this.__resizeHandler()
       }
     },
-    setOptions({ expectedData, actualData } = {}) {
+    setChart() {
       this.chart.setOption({
+
         xAxis: {
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
           boundaryGap: false,
           axisTick: {
             show: false
-          }
+          },
+          data: this.lineChartData[0].time
         },
         grid: {
           left: 10,
@@ -101,16 +101,34 @@ export default {
           },
           padding: [5, 10]
         },
+        toolbox: {
+          show: true,
+          feature: {
+            magicType: { show: true, type: ['line', 'bar'] },
+            restore: { show: true },
+            saveAsImage: { show: true }
+          }
+        },
+        dataZoom: [
+          {
+            type: 'slider',
+            show: true,
+            xAxisIndex: [0],
+            start: 80,
+            end: 100
+          }
+        ],
+
         yAxis: {
           axisTick: {
             show: false
           }
         },
         legend: {
-          data: ['expected', 'actual']
+          data: ['Motor#1', 'Motor#2', 'Motor#3']
         },
         series: [{
-          name: 'expected', itemStyle: {
+          name: 'Motor#1', itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -121,12 +139,12 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: expectedData,
+          data: this.lineChartData[0].uthd,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
         },
         {
-          name: 'actual',
+          name: 'Motor#2',
           smooth: true,
           type: 'line',
           itemStyle: {
@@ -141,15 +159,31 @@ export default {
               }
             }
           },
-          data: actualData,
+          data: this.lineChartData[1].uthd,
+          animationDuration: 2800,
+          animationEasing: 'quadraticOut'
+        },
+        {
+          name: 'Motor#3',
+          smooth: true,
+          type: 'line',
+          itemStyle: {
+            normal: {
+              color: '#26fa24',
+              lineStyle: {
+                color: '#26fa24',
+                width: 2
+              },
+              areaStyle: {
+                color: '#f3f8ff'
+              }
+            }
+          },
+          data: this.lineChartData[2].uthd,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
         }]
       })
-    },
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-      this.setOptions(this.chartData)
     }
   }
 }
