@@ -86,7 +86,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/equip-table/index'),
         name: 'Equipment Table',
-        meta: { title: 'Equipment Table', icon: 'table', noCache: true }
+        meta: { title: 'EquipmentTable', icon: 'table', noCache: true }
       }
     ]
   },
@@ -100,7 +100,7 @@ export const constantRouterMap = [
         path: 'realtime-monitor/:id(\\d+)',
         component: () => import('@/views/realtime-monitor/index'),
         name: 'Realtime-monitor',
-        meta: { title: 'Motor Realtime', icon: 'real-time', noCache: true },
+        meta: { title: 'MotorRealTime', icon: 'real-time', noCache: true },
         hidden: true
       }
     ]
@@ -114,7 +114,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/sym-analysis/index'),
         name: 'Symmetry Analysis',
-        meta: { title: 'Symmetry Analysis', icon: 'symmentry', noCache: true }
+        meta: { title: 'SymmetryAnalysis', icon: 'symmentry', noCache: true }
       }
     ]
   },
@@ -127,7 +127,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/dq-analysis/index'),
         name: 'DQZ transform',
-        meta: { title: 'DQZ Transform', icon: 'dq', noCache: true }
+        meta: { title: 'DQZtransform', icon: 'dq', noCache: true }
       }
     ]
   },
@@ -140,7 +140,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/trend-analysis/index'),
         name: 'Trend Analysis',
-        meta: { title: 'Trend Analysis', icon: 'trend', noCache: true }
+        meta: { title: 'TrendAnalysis', icon: 'trend', noCache: true }
       }
     ]
   },
@@ -153,7 +153,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/harmonic-analysis/index'),
         name: 'Harmonics Analysis',
-        meta: { title: 'Harmonics Analysis', icon: 'harmonics', noCache: true }
+        meta: { title: 'HarmonicsAnalysis', icon: 'harmonics', noCache: true }
       }
     ]
   },
@@ -166,7 +166,20 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/env-analysis/index'),
         name: 'Envelope Analysis',
-        meta: { title: 'Envelope Analysis', icon: 'envelope', noCache: true }
+        meta: { title: 'EnvelopeAnalysis', icon: 'envelope', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/standard',
+    component: Layout,
+    redirect: '/standard/index/',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/diag-standard/index'),
+        name: 'Diagnosis Standard',
+        meta: { title: 'DiagnosisStandard', icon: 'threshold', noCache: true }
       }
     ]
   },
@@ -179,7 +192,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/diagnosis/index'),
         name: 'Motor Diagnosis',
-        meta: { title: 'Motor Diagnosis', icon: 'diag', noCache: true }
+        meta: { title: 'MotorDiagnosis', icon: 'diag', noCache: true }
       }
     ]
   },
@@ -192,7 +205,7 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
-        meta: { title: 'Documentation', icon: 'documentation', affix: true }
+        meta: { title: 'documentation', icon: 'documentation', affix: true }
       }
     ]
   }

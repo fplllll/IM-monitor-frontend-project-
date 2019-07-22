@@ -1,7 +1,8 @@
 export default {
   route: {
-    myDashboard: '首页',
-    equipmentTable: '设备概览',
+    Dashboard: '首页',
+    EquipmentTable: '设备概览',
+    MotorRealTime: '电机监测',
     motorRealTime: '电机监测',
     SymmetryAnalysis: '电流对称分析',
     DQZtransform: 'DQ矢量分析',
@@ -12,6 +13,7 @@ export default {
     dashboard: '首页',
     introduction: '简述',
     documentation: '文档',
+    DiagnosisStandard: '阈值配置',
     guide: '引导页',
     permission: '权限测试页',
     pagePermission: '页面权限',
@@ -218,7 +220,7 @@ export default {
     logIn: '登录',
     username: '账号',
     password: '密码',
-    any: '随便填',
+    any: 'any',
     thirdparty: '第三方登录',
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
   },

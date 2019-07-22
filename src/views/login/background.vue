@@ -81,7 +81,7 @@ export default {
 
       // assign a circle to each point
       for (var g in this.points) {
-        var c = new this.Circle(this.points[g], 2 + Math.random() * 2, 'rgba(255,255,255,0.3)', this.ctx)
+        var c = new this.Circle(this.points[g], 2 + Math.random() * 2, 'rgba(226,226,226,0.8)', this.ctx)
         this.points[g].circle = c
       }
     },
@@ -176,7 +176,7 @@ export default {
         this.ctx.beginPath()
         this.ctx.moveTo(p.x, p.y)
         this.ctx.lineTo(p.closest[i].x, p.closest[i].y)
-        this.ctx.strokeStyle = 'rgba(156,217,249,' + p.active + ')'
+        this.ctx.strokeStyle = 'rgba(226,226,226,' + p.active + ')'
         this.ctx.stroke()
       }
     },
@@ -195,7 +195,7 @@ export default {
         if (!_this.active) return
         ctx.beginPath()
         ctx.arc(_this.pos.x, _this.pos.y, _this.radius, 0, 2 * Math.PI, false)
-        ctx.fillStyle = 'rgba(156,217,249,' + _this.active + ')'
+        ctx.fillStyle = 'rgba(225,225,225,' + _this.active + ')'
         ctx.fill()
       }
     },

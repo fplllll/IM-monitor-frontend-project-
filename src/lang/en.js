@@ -1,7 +1,8 @@
 export default {
   route: {
     myDashboard: 'Dashboard',
-    equipmentTable: 'Equipment Overview',
+    EquipmentTable: 'Equipment Overview',
+    MotorRealTime: 'Motor Monitoring',
     motorRealTime: 'Motor Monitoring',
     SymmetryAnalysis: 'Symmetry Analysis',
     DQZtransform: 'DQZ Transform',
@@ -13,6 +14,7 @@ export default {
     introduction: 'Introduction',
     documentation: 'Documentation',
     guide: 'Guide',
+    DiagnosisStandard: 'Diagnosis Standard',
     permission: 'Permission',
     pagePermission: 'Page Permission',
     directivePermission: 'Directive Permission',
