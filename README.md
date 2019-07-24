@@ -52,7 +52,3 @@ npm run build:prod
 ## Browsers support
 
 Modern browsers and Internet Explorer 10+.
-
-## Browsers support
-
-Modern browsers and Internet Explorer 10+.
