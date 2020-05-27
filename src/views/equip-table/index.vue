@@ -204,6 +204,7 @@ export default {
         2: 'rotor',
         3: 'stator'
       }
+
       // await this.$refs.TreeTable.updateTreeNode(this.tempItem)
       patch_repair_time(eqtypeMap[this.tempItem.equip_type], this.tempItem.id, { lr_time: this.tempItem.lr_time })
       this.dialogFormVisible = false

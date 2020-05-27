@@ -173,6 +173,7 @@ export function toggleClass(element, className) {
     return
   }
   let classString = element.className
+  console.log(classString)
   const nameIndex = classString.indexOf(className)
   if (nameIndex === -1) {
     classString += '' + className
@@ -182,6 +183,7 @@ export function toggleClass(element, className) {
       classString.substr(nameIndex + className.length)
   }
   element.className = classString
+  console.log(element.className)
 }
 
 export const pickerOptions = [

@@ -4,10 +4,10 @@
       <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">-->
       <!--<todo-list/>-->
       <!--</el-col>-->
-      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 6}" >
+      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 6}" :lg="{span: 6}" :xl="{span: 6}" >
         <name-plate :pack_attribute="motor_detail" />
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="12" :xl="18" >
+      <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="18" >
         <el-card class="box-card">
           <h3 class="chart-title">{{ $t('dqanalysis.dqDQComponent') }}</h3>
           <dqChart :dq-chart-data="{ d: result.d, q: result.q}"/>
@@ -17,7 +17,7 @@
     <el-row>
       <el-card class="box-card" style="margin-top: 10px">
         <h3 class="chart-title">{{ $t('dqanalysis.threephase') }}</h3>
-        <three-phase :three_phase_data="{ usignal: three_phase_data.u , vsignal: three_phase_data.v,wsignal: three_phase_data.w}"/>
+        <three-phase :three_phase_data="three_phase_data"/>
       </el-card>
     </el-row>
     <el-row>
@@ -78,7 +78,7 @@ export default {
       })
 
       get_tsignal(this.motorid, { pack_id: this.pack_id }).then(response => {
-        this.three_phase_data = response.data
+        this.three_phase_data = { usignal: response.data.u, vsignal: response.data.v, wsignal: response.data.w }
         var data = []
         for (var i = 0; i < this.result.q.length; i++) {
           data.push(Math.sqrt(Math.pow(this.result.d[i], 2) + Math.pow(this.result.q[i], 2)))

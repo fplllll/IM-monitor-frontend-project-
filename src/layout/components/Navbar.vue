@@ -17,6 +17,7 @@
         </el-tooltip>
 
         <lang-select class="right-menu-item hover-effect"/>
+        <!--        <el-switch v-model="theme" class="drawer-switch" />-->
 
       </template>
 
@@ -54,6 +55,8 @@ import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import LangSelect from '@/components/LangSelect'
 import Search from '@/components/HeaderSearch'
+import { toggleClass } from '@/utils'
+import '@/assets/custom-theme/index.css' // the theme changed version element-ui css
 
 export default {
   components: {
@@ -65,6 +68,11 @@ export default {
     LangSelect,
     Search
   },
+  data() {
+    return {
+      theme: false
+    }
+  },
   computed: {
     ...mapGetters([
       'sidebar',
@@ -72,6 +80,11 @@ export default {
       'avatar',
       'device'
     ])
+  },
+  watch: {
+    theme() {
+      toggleClass(document.body, 'custom-theme')
+    }
   },
   methods: {
     toggleSideBar() {

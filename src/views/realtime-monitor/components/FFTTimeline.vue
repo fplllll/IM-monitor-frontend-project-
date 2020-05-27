@@ -89,7 +89,6 @@ export default {
     },
     setChart() {
       const basic_markline = this.compute_harmonic()
-      console.log(basic_markline)
       this.chart.setOption({
         xAxis: {
           // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],

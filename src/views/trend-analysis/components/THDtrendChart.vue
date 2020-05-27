@@ -168,7 +168,6 @@ export default {
           markPoint: {
             label: {
               formatter: function(value) {
-                console.log(value)
                 return (value.value * 100).toFixed(2) + '%'
               }
             },
@@ -193,7 +192,6 @@ export default {
           markPoint: {
             label: {
               formatter: function(value) {
-                console.log(value)
                 return (value.value * 100).toFixed(2) + '%'
               }
             },

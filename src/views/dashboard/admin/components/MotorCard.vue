@@ -6,7 +6,7 @@
       </div>
       <el-row :gutter="5">
         <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}">
-          <img src="/src/assets/motor/ABB MOTOR.jpg" class="image">
+          <img src="../../../../assets/motor/ABB MOTOR.jpg" class="image">
         </el-col>
         <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="position: relative">
           <div class="progress-group">

@@ -88,6 +88,7 @@ export default {
       return data
     },
     setChart() {
+      const polar_data = this.generateChartData()
       var max = 1.2 * Math.max.apply(null, this.dqChartData.d).toFixed(2)
       var min = 1.2 * Math.min.apply(null, this.dqChartData.d).toFixed(2)
       this.chart.setOption({
@@ -138,7 +139,7 @@ export default {
           symbol: 'none',
           sampling: 'average',
           symbolSize: 3,
-          data: this.generateChartData(),
+          data: polar_data,
           type: 'line',
           large: true
         }]

@@ -27,14 +27,7 @@ export default {
     },
     three_phase_data: {
       type: Object,
-      required: true,
-      default: function() {
-        return {
-          usignal: [],
-          vsignal: [],
-          wsignal: []
-        }
-      }
+      required: true
     }
   },
   data() {
